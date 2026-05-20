@@ -550,11 +550,12 @@ section {
 
 /* Typewriter & Hero greeting */
 .hero-greeting {
-  font-size: 1.1rem;
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 0.8rem;
-  letter-spacing: 0.05em;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .typewriter-text {

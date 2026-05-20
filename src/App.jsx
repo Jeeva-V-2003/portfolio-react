@@ -53,7 +53,6 @@ function App() {
     'AI-Native Data Engineer',
     'Data Pipeline Architect',
     'AI Systems Builder',
-    'Cloud Data Engineer',
   ]);
 
   return (
@@ -99,7 +98,7 @@ function App() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <p className="hero-greeting">👋 Hello, I'm Jeeva Vincent</p>
+            <p className="hero-greeting">Jeeva Vincent</p>
             <h1>
               <span className="typewriter-text">{typedText}</span>
               <span className="cursor">|</span>
