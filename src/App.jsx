@@ -574,27 +574,42 @@ function App() {
           <div className="timeline-item">
             <div className="timeline-dot"></div>
             <div className="timeline-content">
-              <h3>MBA in Human Resource Management</h3>
-              <p className="institution">Bharathidasan University, Tiruchirappalli</p>
-              <p className="duration">2025 – 2027 (Pursuing)</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <div>
+                  <h3>MBA in Human Resource Management</h3>
+                  <p className="institution">Bharathidasan University, Tiruchirappalli</p>
+                  <p className="duration">Pursuing</p>
+                </div>
+                <span style={{ fontSize: '0.78rem', color: '#6366f1', fontWeight: '700', background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.25)', padding: '0.3rem 0.8rem', borderRadius: '6px', whiteSpace: 'nowrap' }}>2025 – 2027</span>
+              </div>
             </div>
           </div>
 
           <div className="timeline-item">
             <div className="timeline-dot"></div>
             <div className="timeline-content">
-              <h3>Bachelor of Computer Applications (BCA)</h3>
-              <p className="institution">Providence College for Women, Coonoor</p>
-              <p className="duration">2022 – 2025 · GPA: 8.47 / 10.00</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <div>
+                  <h3>Bachelor of Computer Applications (BCA)</h3>
+                  <p className="institution">Providence College for Women, Coonoor</p>
+                  <p className="duration">GPA: 8.47 / 10.00</p>
+                </div>
+                <span style={{ fontSize: '0.78rem', color: '#10b981', fontWeight: '700', background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)', padding: '0.3rem 0.8rem', borderRadius: '6px', whiteSpace: 'nowrap' }}>2022 – 2025</span>
+              </div>
             </div>
           </div>
 
           <div className="timeline-item">
             <div className="timeline-dot"></div>
             <div className="timeline-content">
-              <h3>Diploma in Cyber Security (DCS)</h3>
-              <p className="institution">Bharathiar University, Coimbatore</p>
-              <p className="duration">2022 – 2025</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <div>
+                  <h3>Diploma in Cyber Security (DCS)</h3>
+                  <p className="institution">Bharathiar University, Coimbatore</p>
+                  <p className="duration">Completed</p>
+                </div>
+                <span style={{ fontSize: '0.78rem', color: '#f59e0b', fontWeight: '700', background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.25)', padding: '0.3rem 0.8rem', borderRadius: '6px', whiteSpace: 'nowrap' }}>2022 – 2025</span>
+              </div>
             </div>
           </div>
         </motion.div>
