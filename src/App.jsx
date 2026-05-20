@@ -124,67 +124,94 @@ function App() {
 
           <motion.div
             className="hero-image"
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.9, delay: 0.2 }}
           >
             <div className="profile-container">
-              <div className="profile-glow"></div>
-              <img src={profileImg} alt="Jeeva Vincent" className="profile-img" />
 
-              {/* Floating badge — top left */}
-              <motion.div
-                className="float-badge badge-exp"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1, duration: 0.5 }}
+              {/* Rotating gradient ring */}
+              <div className="profile-ring-outer"></div>
+              <div className="profile-ring-inner"></div>
+
+              {/* Glow layers */}
+              <div className="profile-glow profile-glow-1"></div>
+              <div className="profile-glow profile-glow-2"></div>
+
+              {/* Photo */}
+              <div className="profile-img-wrap">
+                <img src={profileImg} alt="Jeeva Vincent" className="profile-img" />
+              </div>
+
+              {/* Badge — top left */}
+              <motion.div className="float-badge badge-exp"
+                initial={{ opacity: 0, x: -30, y: 10 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ delay: 1.1, duration: 0.5, type: 'spring' }}
               >
-                <span className="badge-dot"></span>
+                <div className="badge-icon-wrap badge-icon-indigo">
+                  <span style={{ fontSize: '1rem' }}>⏱️</span>
+                </div>
                 <div>
                   <p className="badge-label">Experience</p>
                   <p className="badge-value">1+ Year</p>
                 </div>
               </motion.div>
 
-              {/* Floating badge — top right */}
-              <motion.div
-                className="float-badge badge-role"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.2, duration: 0.5 }}
+              {/* Badge — top right */}
+              <motion.div className="float-badge badge-role"
+                initial={{ opacity: 0, x: 30, y: 10 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ delay: 1.3, duration: 0.5, type: 'spring' }}
               >
-                <span style={{ fontSize: '1.2rem' }}>🤖</span>
+                <div className="badge-icon-wrap badge-icon-amber">
+                  <span style={{ fontSize: '1rem' }}>🤖</span>
+                </div>
                 <div>
                   <p className="badge-label">Current Role</p>
                   <p className="badge-value">AI-Native DE</p>
                 </div>
               </motion.div>
 
-              {/* Floating badge — bottom left */}
-              <motion.div
-                className="float-badge badge-available"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.4, duration: 0.5 }}
+              {/* Badge — bottom left */}
+              <motion.div className="float-badge badge-available"
+                initial={{ opacity: 0, x: -30, y: -10 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ delay: 1.5, duration: 0.5, type: 'spring' }}
               >
                 <span className="avail-dot"></span>
-                <p className="badge-value" style={{ color: '#10b981' }}>Open to Opportunities</p>
-              </motion.div>
-
-              {/* Floating badge — bottom right */}
-              <motion.div
-                className="float-badge badge-tech"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.6, duration: 0.5 }}
-              >
-                <p className="badge-label" style={{ marginBottom: '0.4rem' }}>Core Stack</p>
-                <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
-                  {['Python', 'GCP', 'AWS', 'dbt'].map(t => (
-                    <span key={t} className="stack-pill">{t}</span>
-                  ))}
+                <div>
+                  <p className="badge-label">Status</p>
+                  <p className="badge-value" style={{ color: '#10b981' }}>Open to Work</p>
                 </div>
               </motion.div>
+
+              {/* Badge — bottom right */}
+              <motion.div className="float-badge badge-tech"
+                initial={{ opacity: 0, x: 30, y: -10 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ delay: 1.7, duration: 0.5, type: 'spring' }}
+              >
+                <div>
+                  <p className="badge-label" style={{ marginBottom: '0.45rem' }}>Core Stack</p>
+                  <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                    {['Python', 'GCP', 'AWS', 'dbt'].map(t => (
+                      <span key={t} className="stack-pill">{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* iCustomer tag at bottom center */}
+              <motion.div className="float-badge badge-company"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.9, duration: 0.5, type: 'spring' }}
+              >
+                <span style={{ fontSize: '0.9rem' }}>🏢</span>
+                <p className="badge-value" style={{ fontSize: '0.8rem' }}>@ iCustomer</p>
+              </motion.div>
+
             </div>
           </motion.div>
         </div>
