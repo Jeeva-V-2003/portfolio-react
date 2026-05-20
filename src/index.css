@@ -276,15 +276,17 @@ body {
 .hero-image {
   position: relative;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
-  padding: 80px 200px;
+  gap: 2.5rem;
+  justify-content: center;
 }
 
 .profile-container {
   position: relative;
-  width: 340px;
-  height: 340px;
+  width: 320px;
+  height: 320px;
+  flex-shrink: 0;
 }
 
 /* Outer rotating gradient ring */
@@ -388,60 +390,44 @@ body {
 }
 
 /* ── Floating Badges ── */
+.badge-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .float-badge {
-  position: absolute;
   background: rgba(10, 10, 18, 0.88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
-  padding: 0.75rem 1.1rem;
+  padding: 0.85rem 1.2rem;
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  z-index: 10;
   box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07);
   white-space: nowrap;
 }
 
-.badge-exp {
-  top: 50%;
-  left: -175px;
-  transform: translateY(-50%);
+.badge-side:nth-child(1) {
   border-color: rgba(99,102,241,0.35);
-  animation: floatYLeft 4s ease-in-out infinite 0s;
+  animation: floatY 4s ease-in-out infinite 0s;
 }
 
-.badge-role {
-  top: 50%;
-  right: -175px;
-  transform: translateY(-50%);
-  border-color: rgba(245,158,11,0.35);
-  animation: floatYLeft 4s ease-in-out infinite 1s;
-}
-
-.badge-status-top {
-  top: -65px;
-  left: 50%;
-  transform: translateX(-50%);
+.badge-side:nth-child(2) {
   border-color: rgba(16,185,129,0.35);
-  animation: floatYCenter 4s ease-in-out infinite 0.5s;
-  gap: 0.6rem;
+  animation: floatY 4s ease-in-out infinite 0.7s;
+}
+
+.badge-side:nth-child(3) {
+  border-color: rgba(245,158,11,0.35);
+  animation: floatY 4s ease-in-out infinite 1.4s;
 }
 
 @keyframes floatY {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-7px); }
-}
-
-@keyframes floatYLeft {
-  0%, 100% { transform: translateY(-50%); }
-  50% { transform: translateY(calc(-50% - 7px)); }
-}
-
-/* badge-company needs different transform for floatY since it uses translateX */
-.badge-company {
-  animation: floatYCenter 4s ease-in-out infinite 2s;
 }
 
 @keyframes floatYCenter {

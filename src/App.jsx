@@ -128,24 +128,21 @@ function App() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, delay: 0.2 }}
           >
+            {/* Photo */}
             <div className="profile-container">
-
-              {/* Rotating gradient ring */}
               <div className="profile-ring-outer"></div>
               <div className="profile-ring-inner"></div>
-
-              {/* Glow layers */}
               <div className="profile-glow profile-glow-1"></div>
               <div className="profile-glow profile-glow-2"></div>
-
-              {/* Photo */}
               <div className="profile-img-wrap">
                 <img src={profileImg} alt="Jeeva Vincent" className="profile-img" />
               </div>
+            </div>
 
-              {/* Badge — left side */}
-              <motion.div className="float-badge badge-exp"
-                initial={{ opacity: 0, x: -40 }}
+            {/* Badge column — right side, clear of photo */}
+            <div className="badge-column">
+              <motion.div className="float-badge badge-side"
+                initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.1, duration: 0.5, type: 'spring' }}
               >
@@ -158,11 +155,10 @@ function App() {
                 </div>
               </motion.div>
 
-              {/* Badge — top center */}
-              <motion.div className="float-badge badge-status-top"
-                initial={{ opacity: 0, y: -40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2, duration: 0.5, type: 'spring' }}
+              <motion.div className="float-badge badge-side"
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.3, duration: 0.5, type: 'spring' }}
               >
                 <span className="avail-dot"></span>
                 <div>
@@ -171,11 +167,10 @@ function App() {
                 </div>
               </motion.div>
 
-              {/* Badge — right side */}
-              <motion.div className="float-badge badge-role"
-                initial={{ opacity: 0, x: 40 }}
+              <motion.div className="float-badge badge-side"
+                initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.3, duration: 0.5, type: 'spring' }}
+                transition={{ delay: 1.5, duration: 0.5, type: 'spring' }}
               >
                 <div className="badge-icon-wrap badge-icon-amber">
                   <span style={{ fontSize: '1rem' }}>🤖</span>
@@ -185,8 +180,8 @@ function App() {
                   <p className="badge-value">AI-Native DE</p>
                 </div>
               </motion.div>
-
             </div>
+
           </motion.div>
         </div>
       </section>
