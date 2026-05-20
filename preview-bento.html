@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeeva Vincent — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:          #0a0a0a;
+      --card-bg:     #1a1a1a;
+      --border:      rgba(255, 255, 255, 0.08);
+      --border-hover:rgba(255, 255, 255, 0.18);
+      --white:       #ffffff;
+      --gray-400:    #9ca3af;
+      --gray-500:    #6b7280;
+      --gray-600:    #4b5563;
+      --accent:      #3b82f6;
+      --accent-soft: rgba(59, 130, 246, 0.12);
+      --green:       #22c55e;
+      --green-soft:  rgba(34, 197, 94, 0.12);
+      --purple:      #a855f7;
+      --purple-soft: rgba(168, 85, 247, 0.12);
+      --radius:      16px;
+      --gap:         14px;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-color: var(--bg);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Grid Layout ─────────────────────────────────────────────── */
+    .bento {
+      display: grid;
+      width: 100%;
+      max-width: 960px;
+      gap: var(--gap);
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto;
+      grid-template-areas:
+        "photo  hero   hero   hero"
+        "photo  role   stats1 stats2"
+        "skills skills role2  stats3"
+        "skills skills cta    cta";
+    }
+
+    /* ─── Card Base ───────────────────────────────────────────────── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition:
+        transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+        border-color 0.22s ease,
+        box-shadow 0.28s ease;
+      will-change: transform;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius);
+      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.03), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card:hover {
+      transform: scale(1.025) translateY(-2px);
+      border-color: var(--border-hover);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    /* ─── Grid Assignments ────────────────────────────────────────── */
+    .card--photo  { grid-area: photo;  min-height: 340px; padding: 0; }
+    .card--hero   { grid-area: hero; }
+    .card--role   { grid-area: role; }
+    .card--stats1 { grid-area: stats1; }
+    .card--stats2 { grid-area: stats2; }
+    .card--skills { grid-area: skills; }
+    .card--role2  { grid-area: role2; }
+    .card--stats3 { grid-area: stats3; }
+    .card--cta    { grid-area: cta; }
+
+    /* ─── Entrance Animations ─────────────────────────────────────── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .card {
+      opacity: 0;
+      animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .card--photo  { animation-delay: 0.05s; }
+    .card--hero   { animation-delay: 0.12s; }
+    .card--role   { animation-delay: 0.19s; }
+    .card--stats1 { animation-delay: 0.25s; }
+    .card--stats2 { animation-delay: 0.31s; }
+    .card--skills { animation-delay: 0.38s; }
+    .card--role2  { animation-delay: 0.44s; }
+    .card--stats3 { animation-delay: 0.50s; }
+    .card--cta    { animation-delay: 0.56s; }
+
+    /* ─── Photo Card ──────────────────────────────────────────────── */
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #2a2a2a 0%, #1e1e1e 50%, #242424 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius);
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photo-placeholder::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.04), transparent 70%);
+    }
+
+    .photo-avatar-ring {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3a3a3a, #252525);
+      border: 2px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .photo-avatar-icon {
+      width: 44px;
+      height: 44px;
+      opacity: 0.35;
+    }
+
+    .photo-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--gray-500);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── Hero Card ───────────────────────────────────────────────── */
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .hero-name {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 400;
+      color: var(--gray-400);
+      letter-spacing: -0.01em;
+      line-height: 1.5;
+    }
+
+    .hero-title span {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    /* ─── Role Card ───────────────────────────────────────────────── */
+    .role-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-500);
+      margin-bottom: 12px;
+    }
+
+    .role-company {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .role-position {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--gray-400);
+      line-height: 1.5;
+    }
+
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 14px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      background: var(--green-soft);
+      border: 1px solid rgba(34,197,94,0.2);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.04em;
+    }
+
+    .role-badge::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    /* ─── Stat Cards ──────────────────────────────────────────────── */
+    .stat-number {
+      font-size: clamp(30px, 4vw, 40px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-number .plus {
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--gray-400);
+      line-height: 1.4;
+    }
+
+    .stat-icon {
+      font-size: 22px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* ─── Skills Card ─────────────────────────────────────────────── */
+    .skills-header {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-500);
+      margin-bottom: 20px;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .skill-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 10px 8px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--white);
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      cursor: default;
+    }
+
+    .skill-pill:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+
+    .skill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ─── Role2 Card (icustomer variation) ────────────────────────── */
+    .role2-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: var(--purple-soft);
+      border: 1px solid rgba(168,85,247,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      font-size: 20px;
+    }
+
+    .role2-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 5px;
+    }
+
+    .role2-sub {
+      font-size: 12px;
+      color: var(--gray-500);
+      line-height: 1.5;
+    }
+
+    /* ─── CTA Card ────────────────────────────────────────────────── */
+    .cta-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      background: linear-gradient(120deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      border-color: rgba(59,130,246,0.2);
+    }
+
+    .cta-text h3 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 5px;
+    }
+
+    .cta-text p {
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+
+    .cta-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 20px;
+      border-radius: 24px;
+      background: var(--white);
+      color: #0a0a0a;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .cta-btn:hover {
+      background: #e5e7eb;
+      transform: scale(1.04);
+    }
+
+    /* ─── Divider line ─────────────────────────────────────────────── */
+    .divider {
+      width: 32px;
+      height: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      margin: 16px 0;
+    }
+
+    /* ─── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 700px) {
+      .bento {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+          "photo  hero"
+          "photo  hero"
+          "role   role"
+          "stats1 stats2"
+          "skills skills"
+          "role2  stats3"
+          "cta    cta";
+      }
+      .card--photo { min-height: 220px; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .cta-card { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 440px) {
+      body { padding: 16px 12px; }
+      :root { --gap: 10px; }
+      .bento {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "photo"
+          "hero"
+          "role"
+          "stats1"
+          "stats2"
+          "stats3"
+          "skills"
+          "role2"
+          "cta";
+      }
+      .card--photo { min-height: 200px; }
+      .skills-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="bento" role="main" aria-label="Jeeva Vincent Portfolio Bento Grid">
+
+    <!-- ── Photo ──────────────────────────────────────────────────── -->
+    <div class="card card--photo" aria-label="Profile photo placeholder">
+      <div class="photo-placeholder">
+        <div class="photo-avatar-ring">
+          <!-- Person silhouette SVG -->
+          <svg class="photo-avatar-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="22" r="12" fill="white"/>
+            <path d="M8 56c0-13.255 10.745-24 24-24s24 10.745 24 24" fill="white"/>
+          </svg>
+        </div>
+        <span class="photo-label">Jeeva Vincent</span>
+      </div>
+    </div>
+
+    <!-- ── Hero ───────────────────────────────────────────────────── -->
+    <div class="card card--hero">
+      <p class="hero-eyebrow">Available for Opportunities</p>
+      <h1 class="hero-name">Jeeva<br/>Vincent</h1>
+      <p class="hero-title">
+        <span>AI-Native</span> Data Engineer —<br/>
+        building production-grade data systems<br/>
+        powered by modern AI tooling.
+      </p>
+    </div>
+
+    <!-- ── Current Role ────────────────────────────────────────────── -->
+    <div class="card card--role">
+      <p class="role-label">Current Role</p>
+      <p class="role-company">iCustomer</p>
+      <p class="role-position">Data Engineer<br/>& AI Specialist</p>
+      <div class="role-badge">Active</div>
+    </div>
+
+    <!-- ── Stat 1 ──────────────────────────────────────────────────── -->
+    <div class="card card--stats1" aria-label="1+ Year Experience">
+      <span class="stat-icon">⏱</span>
+      <div class="stat-number">1<span class="plus">+</span></div>
+      <div class="stat-label">Year<br/>Experience</div>
+    </div>
+
+    <!-- ── Stat 2 ──────────────────────────────────────────────────── -->
+    <div class="card card--stats2" aria-label="50+ Technologies">
+      <span class="stat-icon">🧩</span>
+      <div class="stat-number">50<span class="plus">+</span></div>
+      <div class="stat-label">Technologies<br/>Mastered</div>
+    </div>
+
+    <!-- ── Skills ─────────────────────────────────────────────────── -->
+    <div class="card card--skills">
+      <p class="skills-header">Core Stack</p>
+      <div class="skills-grid">
+
+        <div class="skill-pill">
+          <span class="skill-dot" style="background:#3776ab;"></span>
+          Python
+        </div>
+
+        <div class="skill-pill">
+          <span class="skill-dot" style="background:#00add8;"></span>
+          Go
+        </div>
+
+        <div class="skill-pill">
+          <span class="skill-dot" style="background:#4285f4;"></span>
+          GCP
+        </div>
+
+        <div class="skill-pill">
+          <span class="skill-dot" style="background:#ff9900;"></span>
+          AWS
+        </div>
+
+        <div class="skill-pill">
+          <span class="skill-dot" style="background:#ff694a;"></span>
+          dbt
+        </div>
+
+        <div class="skill-pill">
+          <span class="skill-dot" style="background:#c97bff;"></span>
+          Claude
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── iCustomer Detail ────────────────────────────────────────── -->
+    <div class="card card--role2">
+      <div class="role2-icon">⚡</div>
+      <div class="role2-title">iCustomer</div>
+      <div class="role2-sub">
+        Enterprise AI &amp;<br/>Data Platform
+      </div>
+    </div>
+
+    <!-- ── Stat 3 ──────────────────────────────────────────────────── -->
+    <div class="card card--stats3" aria-label="20+ Production Services">
+      <span class="stat-icon">🚀</span>
+      <div class="stat-number">20<span class="plus">+</span></div>
+      <div class="stat-label">Production<br/>Services</div>
+    </div>
+
+    <!-- ── CTA ────────────────────────────────────────────────────── -->
+    <div class="card card--cta cta-card">
+      <div class="cta-text">
+        <h3>Let's build something great.</h3>
+        <p>Open to data engineering &amp; AI-native product roles.</p>
+      </div>
+      <a href="mailto:jeeva@example.com" class="cta-btn">
+        Get in Touch
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+  </main>
+
+</body>
+</html>

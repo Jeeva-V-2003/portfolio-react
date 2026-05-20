@@ -94,7 +94,7 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 1.2rem 5%;
+  padding: 1.2rem 4%;
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   background: rgba(5, 5, 8, 0.85);
@@ -103,8 +103,7 @@ body {
 }
 
 .nav-content {
-  max-width: 1400px;
-  margin: 0 auto;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -146,12 +145,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 5%;
+  padding: 0 4%;
   position: relative;
 }
 
 .hero-content {
-  max-width: 1400px;
   width: 100%;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -527,9 +525,8 @@ body {
 
 /* ── Section Styles ── */
 section {
-  padding: 6rem 5%;
-  max-width: 1400px;
-  margin: 0 auto;
+  padding: 6rem 4%;
+  width: 100%;
 }
 
 .section-title {
@@ -731,8 +728,7 @@ section {
 /* ── Timeline ── */
 .timeline {
   position: relative;
-  max-width: 860px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .timeline::before {
@@ -820,8 +816,7 @@ section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
-  max-width: 860px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .contact-card {

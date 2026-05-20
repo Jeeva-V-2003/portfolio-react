@@ -189,7 +189,7 @@ function App() {
       {/* Stats Section */}
       <section id="stats" style={{ padding: '4rem 5%', background: 'rgba(99,102,241,0.03)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <motion.div
-          style={{ maxWidth: '1400px', margin: '0 auto' }}
+          style={{ width: '100%' }}
           variants={staggerContainer}
           initial="initial"
           whileInView="animate"

@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JEEVA VINCENT — Data Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --lime: #b5ff47;
+      --pink: #ff2d78;
+      --lime-dim: rgba(181, 255, 71, 0.12);
+      --pink-dim: rgba(255, 45, 120, 0.12);
+      --lime-border: rgba(181, 255, 71, 0.6);
+      --pink-border: rgba(255, 45, 120, 0.6);
+      --ghost: rgba(255, 255, 255, 0.04);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--lime); }
+
+    /* ── TOP TICKER ── */
+    .ticker-wrap {
+      background: var(--lime);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 8px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 28s linear infinite;
+    }
+    .ticker-inner span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 15px;
+      letter-spacing: 0.15em;
+      color: var(--black);
+      padding: 0 2rem;
+    }
+    .ticker-inner span.sep {
+      color: var(--pink);
+    }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4vw;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.2em;
+      color: var(--white);
+    }
+    .nav-logo span { color: var(--lime); }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--lime); }
+    .nav-issue {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--pink);
+      border: 1px solid var(--pink);
+      padding: 4px 12px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 96vh;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 0;
+      padding: 0 4vw;
+      overflow: hidden;
+      align-items: center;
+    }
+
+    .hero-bg-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(160px, 22vw, 360px);
+      color: rgba(255,255,255,0.025);
+      white-space: nowrap;
+      letter-spacing: -0.02em;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    .hero-left {
+      position: relative;
+      z-index: 2;
+      padding: 6rem 0;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 1.5rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 2px;
+      background: var(--pink);
+    }
+
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(72px, 10vw, 140px);
+      line-height: 0.92;
+      letter-spacing: 0.01em;
+      margin-bottom: 2.5rem;
+      display: block;
+    }
+    .hero-name .word {
+      display: block;
+    }
+    .hero-name .letter-lime {
+      color: var(--lime);
+    }
+    .hero-name .letter-pink {
+      color: var(--pink);
+    }
+
+    .hero-role {
+      font-size: clamp(15px, 1.6vw, 18px);
+      font-weight: 700;
+      line-height: 1.65;
+      max-width: 520px;
+      color: rgba(255,255,255,0.78);
+      margin-bottom: 2.5rem;
+    }
+    .hero-role .hl-lime {
+      background: var(--lime);
+      color: var(--black);
+      padding: 1px 7px;
+      display: inline-block;
+    }
+    .hero-role .hl-pink {
+      background: var(--pink);
+      color: var(--white);
+      padding: 1px 7px;
+      display: inline-block;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+    }
+    .btn-lime {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 17px;
+      letter-spacing: 0.18em;
+      background: var(--lime);
+      color: var(--black);
+      border: none;
+      padding: 14px 36px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-lime:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 6px 6px 0 var(--pink);
+    }
+    .btn-outline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 17px;
+      letter-spacing: 0.18em;
+      background: transparent;
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.35);
+      padding: 12px 34px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover {
+      border-color: var(--lime);
+      color: var(--lime);
+    }
+
+    /* ── PHOTO FRAME ── */
+    .hero-right {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 0 4rem 2rem;
+    }
+    .photo-frame-wrap {
+      position: relative;
+    }
+    .photo-frame {
+      width: 340px;
+      height: 440px;
+      border: 3px solid var(--pink);
+      position: relative;
+      overflow: hidden;
+      background: #111;
+    }
+    .photo-frame::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(181,255,71,0.3);
+      z-index: 2;
+      pointer-events: none;
+    }
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: linear-gradient(160deg, #111 0%, #0d0d0d 40%, #0a0a12 100%);
+      position: relative;
+    }
+    .photo-placeholder::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 3px,
+          rgba(181,255,71,0.025) 3px,
+          rgba(181,255,71,0.025) 4px
+        );
+    }
+    .photo-initials {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 100px;
+      line-height: 1;
+      color: rgba(255,255,255,0.08);
+      letter-spacing: 0.05em;
+      z-index: 1;
+    }
+    .photo-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      z-index: 1;
+    }
+    /* Corner accents */
+    .corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+    }
+    .corner-tl { top: -3px; left: -3px; border-top: 4px solid var(--lime); border-left: 4px solid var(--lime); }
+    .corner-tr { top: -3px; right: -3px; border-top: 4px solid var(--lime); border-right: 4px solid var(--lime); }
+    .corner-bl { bottom: -3px; left: -3px; border-bottom: 4px solid var(--lime); border-left: 4px solid var(--lime); }
+    .corner-br { bottom: -3px; right: -3px; border-bottom: 4px solid var(--lime); border-right: 4px solid var(--lime); }
+
+    .frame-label {
+      position: absolute;
+      bottom: -40px;
+      right: 0;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--pink);
+    }
+    .frame-label::before {
+      content: '— ';
+    }
+    .frame-edition {
+      position: absolute;
+      top: 20px;
+      right: -56px;
+      writing-mode: vertical-rl;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--lime) 30%, var(--pink) 70%, transparent);
+      opacity: 0.4;
+      margin: 0 4vw;
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      padding: 0 4vw;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .stats-bar::-webkit-scrollbar { display: none; }
+
+    .stat-block {
+      flex: 1;
+      min-width: 160px;
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-right: none;
+      position: relative;
+      transition: background 0.2s;
+    }
+    .stat-block:last-child { border-right: 1px solid rgba(255,255,255,0.07); }
+    .stat-block:hover { background: var(--ghost); }
+    .stat-block.accent-lime { border-top: 3px solid var(--lime); }
+    .stat-block.accent-pink { border-top: 3px solid var(--pink); }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      display: block;
+    }
+    .stat-block.accent-lime .stat-num { color: var(--lime); }
+    .stat-block.accent-pink .stat-num { color: var(--pink); }
+    .stat-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ── SECTION WRAPPER ── */
+    .section {
+      padding: 7rem 4vw;
+      position: relative;
+    }
+
+    .section-header {
+      position: relative;
+      margin-bottom: 4rem;
+    }
+    .ghost-num {
+      position: absolute;
+      top: 50%;
+      left: -2vw;
+      transform: translateY(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(120px, 14vw, 200px);
+      color: rgba(255,255,255,0.03);
+      letter-spacing: -0.02em;
+      user-select: none;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(44px, 6vw, 76px);
+      letter-spacing: 0.04em;
+      line-height: 0.95;
+      position: relative;
+      z-index: 1;
+    }
+    .section-title .accent-lime { color: var(--lime); }
+    .section-title .accent-pink { color: var(--pink); }
+    .section-sub {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-top: 0.7rem;
+      display: block;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-body {
+      font-size: 16px;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.68);
+    }
+    .about-body p + p { margin-top: 1.2rem; }
+    .about-body strong { color: var(--white); font-weight: 700; }
+    .about-body .lime { color: var(--lime); font-weight: 700; }
+    .about-body .pink { color: var(--pink); font-weight: 700; }
+
+    .manifesto-block {
+      border-left: 4px solid var(--lime);
+      padding: 2rem 2.5rem;
+      background: rgba(181,255,71,0.04);
+    }
+    .manifesto-quote {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(26px, 3.5vw, 40px);
+      line-height: 1.15;
+      letter-spacing: 0.03em;
+      color: var(--white);
+    }
+    .manifesto-quote em { color: var(--lime); font-style: normal; }
+    .manifesto-attr {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-top: 1.2rem;
+      display: block;
+    }
+    .manifesto-attr::before { content: '— '; }
+
+    /* ── SKILLS ── */
+    .skills-intro {
+      font-size: 15px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+    }
+
+    .skills-category + .skills-category {
+      margin-top: 2.5rem;
+    }
+    .skills-cat-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .skills-cat-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    .tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .tag {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border: 1.5px solid;
+      cursor: default;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .tag.lime {
+      border-color: var(--lime);
+      color: var(--lime);
+    }
+    .tag.lime:hover {
+      background: var(--lime);
+      color: var(--black);
+    }
+    .tag.pink {
+      border-color: var(--pink);
+      color: var(--pink);
+    }
+    .tag.pink:hover {
+      background: var(--pink);
+      color: var(--white);
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .exp-card {
+      border-left: 4px solid transparent;
+      padding: 2.5rem 2.5rem 2.5rem 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      transition: background 0.2s;
+    }
+    .exp-card:hover {
+      background: rgba(255,255,255,0.02);
+    }
+    .exp-card.lime-left { border-left-color: var(--lime); }
+    .exp-card.pink-left { border-left-color: var(--pink); }
+
+    .exp-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .exp-company {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 0.06em;
+      color: var(--white);
+    }
+    .exp-period {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      white-space: nowrap;
+    }
+    .exp-role-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.4rem;
+      margin-bottom: 1rem;
+    }
+    .exp-card.lime-left .exp-role-badge { color: var(--lime); }
+    .exp-card.pink-left .exp-role-badge { color: var(--pink); }
+
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .exp-bullets li {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      padding-left: 1.4rem;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--lime);
+      font-size: 12px;
+    }
+    .exp-card.pink-left .exp-bullets li::before { color: var(--pink); }
+
+    .exp-tech-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1.2rem;
+    }
+    .exp-tech {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.45);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ── PROJECTS GRID ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5px;
+      background: rgba(255,255,255,0.05);
+    }
+    .project-card {
+      background: var(--black);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+    }
+    .project-card.lime-top::before { background: var(--lime); }
+    .project-card.pink-top::before { background: var(--pink); }
+    .project-card:hover { background: #101010; }
+
+    .project-idx {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.2);
+      margin-bottom: 1rem;
+    }
+    .project-card.lime-top .project-idx { color: rgba(181,255,71,0.45); }
+    .project-card.pink-top .project-idx { color: rgba(255,45,120,0.45); }
+
+    .project-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 30px;
+      letter-spacing: 0.04em;
+      line-height: 1.05;
+      margin-bottom: 0.8rem;
+      color: var(--white);
+    }
+    .project-desc {
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.52);
+      margin-bottom: 1.5rem;
+    }
+    .project-metrics {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .metric {
+      display: flex;
+      flex-direction: column;
+    }
+    .metric-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      line-height: 1;
+    }
+    .project-card.lime-top .metric-val { color: var(--lime); }
+    .project-card.pink-top .metric-val { color: var(--pink); }
+    .metric-key {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ── EDUCATION ── */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: rgba(255,255,255,0.05);
+    }
+    .edu-card {
+      background: var(--black);
+      padding: 2.5rem;
+      position: relative;
+      border-bottom: 3px solid transparent;
+    }
+    .edu-card.lime-btm { border-bottom-color: var(--lime); }
+    .edu-card.pink-btm { border-bottom-color: var(--pink); }
+
+    .edu-degree {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      letter-spacing: 0.05em;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      color: var(--white);
+    }
+    .edu-school {
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 0.3rem;
+    }
+    .edu-card.lime-btm .edu-school { color: var(--lime); }
+    .edu-card.pink-btm .edu-school { color: var(--pink); }
+    .edu-detail {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── CONTACT / FOOTER ── */
+    .contact-section {
+      padding: 8rem 4vw 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 30% 50%, rgba(181,255,71,0.05) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 70% 50%, rgba(255,45,120,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .contact-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(52px, 8vw, 110px);
+      letter-spacing: 0.04em;
+      line-height: 0.95;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .contact-headline span { color: var(--lime); }
+    .contact-headline em { color: var(--pink); font-style: normal; }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 4rem;
+    }
+    .contact-link {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      padding: 1.2rem 2rem;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-right: none;
+      transition: color 0.2s, background 0.2s;
+    }
+    .contact-link:last-child { border-right: 1px solid rgba(255,255,255,0.07); }
+    .contact-link:hover { color: var(--black); background: var(--lime); border-color: var(--lime); }
+    .contact-link.pink-hover:hover { color: var(--white); background: var(--pink); border-color: var(--pink); }
+
+    .footer-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 4vw;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.25);
+    }
+    .footer-copy span { color: var(--lime); }
+    .footer-tagline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.15);
+    }
+
+    /* ── MARQUEE STRIP ── */
+    .marquee-strip {
+      background: var(--pink);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 10px 0;
+    }
+    .marquee-inner {
+      display: inline-block;
+      animation: ticker 20s linear infinite reverse;
+    }
+    .marquee-inner span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      color: var(--white);
+      padding: 0 2rem;
+    }
+    .marquee-inner span.sep {
+      color: var(--black);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: left;
+      }
+      .hero-right {
+        display: none;
+      }
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .edu-grid {
+        grid-template-columns: 1fr;
+      }
+      .stats-bar {
+        flex-wrap: nowrap;
+      }
+      .nav-links { display: none; }
+    }
+
+    /* ── GLOW PULSE on hover items ── */
+    .glow-lime:hover { text-shadow: 0 0 20px rgba(181,255,71,0.6); }
+    .glow-pink:hover { text-shadow: 0 0 20px rgba(255,45,120,0.6); }
+
+  </style>
+</head>
+<body>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-inner">
+      <span>DATA ENGINEER</span><span class="sep"> ✦ </span>
+      <span>PIPELINE ARCHITECT</span><span class="sep"> ✦ </span>
+      <span>CLOUD NATIVE</span><span class="sep"> ✦ </span>
+      <span>REAL-TIME STREAMING</span><span class="sep"> ✦ </span>
+      <span>ML OPS</span><span class="sep"> ✦ </span>
+      <span>SPARK / KAFKA / dbt</span><span class="sep"> ✦ </span>
+      <span>JEEVA VINCENT</span><span class="sep"> ✦ </span>
+      <span>DATA ENGINEER</span><span class="sep"> ✦ </span>
+      <span>PIPELINE ARCHITECT</span><span class="sep"> ✦ </span>
+      <span>CLOUD NATIVE</span><span class="sep"> ✦ </span>
+      <span>REAL-TIME STREAMING</span><span class="sep"> ✦ </span>
+      <span>ML OPS</span><span class="sep"> ✦ </span>
+      <span>SPARK / KAFKA / dbt</span><span class="sep"> ✦ </span>
+      <span>JEEVA VINCENT</span><span class="sep"> ✦ </span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">J<span>.</span>V</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Stack</a></li>
+      <li><a href="#experience">Work</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-issue">Issue No. 04</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-text">DATA</div>
+
+    <div class="hero-left">
+      <div class="hero-eyebrow">Portfolio · 2024 Edition</div>
+
+      <h1 class="hero-name">
+        <span class="word">
+          J<span class="letter-lime">E</span>EV<span class="letter-pink">A</span>
+        </span>
+        <span class="word">
+          VIN<span class="letter-lime">C</span>EN<span class="letter-pink">T</span>
+        </span>
+      </h1>
+
+      <p class="hero-role">
+        <span class="hl-lime">Senior Data Engineer</span> building
+        scalable <strong>data platforms</strong> and real-time pipelines
+        that move at the speed of <span class="hl-pink">business</span>.
+        Turning raw chaos into <strong>actionable intelligence</strong>
+        since 2018.
+      </p>
+
+      <div class="hero-cta-row">
+        <a href="#experience" class="btn-lime">View My Work</a>
+        <a href="#contact" class="btn-outline">Get In Touch</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="photo-frame-wrap">
+        <div class="photo-frame">
+          <div class="photo-placeholder">
+            <div class="photo-initials">JV</div>
+            <div class="photo-label">Add your photo here</div>
+          </div>
+          <div class="corner corner-tl"></div>
+          <div class="corner corner-tr"></div>
+          <div class="corner corner-bl"></div>
+          <div class="corner corner-br"></div>
+        </div>
+        <div class="frame-label">Jeeva Vincent · DE</div>
+        <div class="frame-edition">NEON EDITORIAL · VOL 04</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="divider"></div>
+  <div class="stats-bar">
+    <div class="stat-block accent-lime">
+      <span class="stat-num">6+</span>
+      <span class="stat-label">Years Experience</span>
+    </div>
+    <div class="stat-block accent-pink">
+      <span class="stat-num">50+</span>
+      <span class="stat-label">Pipelines Built</span>
+    </div>
+    <div class="stat-block accent-lime">
+      <span class="stat-num">10TB</span>
+      <span class="stat-label">Daily Data Processed</span>
+    </div>
+    <div class="stat-block accent-pink">
+      <span class="stat-num">99.9%</span>
+      <span class="stat-label">Pipeline Uptime SLA</span>
+    </div>
+    <div class="stat-block accent-lime">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Cloud Platforms</span>
+    </div>
+    <div class="stat-block accent-pink">
+      <span class="stat-num">12+</span>
+      <span class="stat-label">Projects Delivered</span>
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="section-header">
+      <div class="ghost-num">01</div>
+      <h2 class="section-title"><span class="accent-lime">WHO</span> I AM</h2>
+      <span class="section-sub">Background · Philosophy · Approach</span>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-body">
+        <p>
+          I'm <strong>Jeeva Vincent</strong>, a data engineer obsessed with building
+          infrastructure that <span class="lime">actually works at scale</span>.
+          Not just pipelines — entire data ecosystems that breathe, adapt, and
+          deliver insight without drama.
+        </p>
+        <p>
+          My work sits at the intersection of <strong>software engineering precision</strong>
+          and <strong>data architecture strategy</strong>. I don't just move data from
+          A to B — I design the systems that make sure that data is
+          <span class="pink">clean, trusted, and fast</span> when the business needs it.
+        </p>
+        <p>
+          From real-time Kafka streams to petabyte-scale Spark jobs to dbt
+          transformation layers — I've built it, broken it, and rebuilt it better.
+          <strong>Repeatability and observability</strong> are non-negotiable.
+        </p>
+        <p>
+          Based in the intersection of <strong>cloud infrastructure</strong> and
+          <strong>modern data stack</strong>, I bring a product mindset to every
+          pipeline: who uses this, what do they need, how do we make it
+          <span class="lime">impossible to get wrong</span>?
+        </p>
+      </div>
+
+      <div class="manifesto-block">
+        <div class="manifesto-quote">
+          "Data that arrives late is just <em>noise</em>.
+          Data that arrives wrong is <em>worse than nothing</em>.
+          I build systems where <em>neither happens</em>."
+        </div>
+        <span class="manifesto-attr">Engineering Philosophy</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE STRIP -->
+  <div class="marquee-strip">
+    <div class="marquee-inner">
+      <span>Apache Spark</span><span class="sep"> · </span>
+      <span>Kafka</span><span class="sep"> · </span>
+      <span>dbt</span><span class="sep"> · </span>
+      <span>Airflow</span><span class="sep"> · </span>
+      <span>Snowflake</span><span class="sep"> · </span>
+      <span>BigQuery</span><span class="sep"> · </span>
+      <span>Databricks</span><span class="sep"> · </span>
+      <span>AWS / GCP / Azure</span><span class="sep"> · </span>
+      <span>Python</span><span class="sep"> · </span>
+      <span>Terraform</span><span class="sep"> · </span>
+      <span>Docker / K8s</span><span class="sep"> · </span>
+      <span>Apache Spark</span><span class="sep"> · </span>
+      <span>Kafka</span><span class="sep"> · </span>
+      <span>dbt</span><span class="sep"> · </span>
+      <span>Airflow</span><span class="sep"> · </span>
+      <span>Snowflake</span><span class="sep"> · </span>
+      <span>BigQuery</span><span class="sep"> · </span>
+      <span>Databricks</span><span class="sep"> · </span>
+      <span>AWS / GCP / Azure</span><span class="sep"> · </span>
+      <span>Python</span><span class="sep"> · </span>
+      <span>Terraform</span><span class="sep"> · </span>
+      <span>Docker / K8s</span><span class="sep"> · </span>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <section class="section" id="skills">
+    <div class="section-header">
+      <div class="ghost-num">02</div>
+      <h2 class="section-title">THE <span class="accent-pink">STACK</span></h2>
+      <span class="section-sub">Tools · Technologies · Platforms</span>
+    </div>
+
+    <p class="skills-intro">Every tool chosen deliberately. Every technology battle-tested in production.</p>
+
+    <div class="skills-category">
+      <div class="skills-cat-label">Data Processing & Orchestration</div>
+      <div class="tags-row">
+        <span class="tag lime">Apache Spark</span>
+        <span class="tag pink">Apache Kafka</span>
+        <span class="tag lime">Apache Airflow</span>
+        <span class="tag pink">Flink</span>
+        <span class="tag lime">dbt</span>
+        <span class="tag pink">Prefect</span>
+        <span class="tag lime">Luigi</span>
+        <span class="tag pink">Dagster</span>
+      </div>
+    </div>
+
+    <div class="skills-category">
+      <div class="skills-cat-label">Cloud Platforms & Warehouses</div>
+      <div class="tags-row">
+        <span class="tag pink">AWS (S3, Glue, EMR, Redshift)</span>
+        <span class="tag lime">GCP (BigQuery, Dataflow, Pub/Sub)</span>
+        <span class="tag pink">Azure (ADF, Synapse, ADLS)</span>
+        <span class="tag lime">Snowflake</span>
+        <span class="tag pink">Databricks</span>
+        <span class="tag lime">Delta Lake</span>
+      </div>
+    </div>
+
+    <div class="skills-category">
+      <div class="skills-cat-label">Programming & Scripting</div>
+      <div class="tags-row">
+        <span class="tag lime">Python</span>
+        <span class="tag pink">SQL</span>
+        <span class="tag lime">Scala</span>
+        <span class="tag pink">Bash / Shell</span>
+        <span class="tag lime">PySpark</span>
+        <span class="tag pink">Java</span>
+        <span class="tag lime">Go</span>
+      </div>
+    </div>
+
+    <div class="skills-category">
+      <div class="skills-cat-label">Infrastructure & DevOps</div>
+      <div class="tags-row">
+        <span class="tag pink">Terraform</span>
+        <span class="tag lime">Docker</span>
+        <span class="tag pink">Kubernetes</span>
+        <span class="tag lime">GitHub Actions</span>
+        <span class="tag pink">Helm</span>
+        <span class="tag lime">Prometheus / Grafana</span>
+        <span class="tag pink">Datadog</span>
+      </div>
+    </div>
+
+    <div class="skills-category">
+      <div class="skills-cat-label">Databases & Storage</div>
+      <div class="tags-row">
+        <span class="tag lime">PostgreSQL</span>
+        <span class="tag pink">MySQL</span>
+        <span class="tag lime">MongoDB</span>
+        <span class="tag pink">Redis</span>
+        <span class="tag lime">Cassandra</span>
+        <span class="tag pink">Elasticsearch</span>
+        <span class="tag lime">HBase</span>
+        <span class="tag pink">Parquet / ORC / Avro</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="section" id="experience">
+    <div class="section-header">
+      <div class="ghost-num">03</div>
+      <h2 class="section-title"><span class="accent-lime">WORK</span> HISTORY</h2>
+      <span class="section-sub">Experience · Impact · Deliverables</span>
+    </div>
+
+    <div class="exp-list">
+
+      <div class="exp-card lime-left">
+        <div class="exp-head">
+          <div>
+            <div class="exp-company">Company Name · Current Role</div>
+            <div class="exp-role-badge">Senior Data Engineer</div>
+          </div>
+          <div class="exp-period">2022 — Present</div>
+        </div>
+        <ul class="exp-bullets">
+          <li>Architected a real-time event streaming platform processing 2M+ events/sec using Kafka and Flink, reducing analytics latency from hours to sub-second.</li>
+          <li>Led migration of legacy ETL jobs to a modern dbt + Airflow stack, cutting pipeline failures by 78% and improving data freshness SLAs.</li>
+          <li>Designed and implemented a multi-cloud data lakehouse on AWS S3 + Delta Lake serving 200+ internal users with 99.99% uptime.</li>
+          <li>Mentored a team of 4 junior engineers, establishing engineering best practices including CI/CD for data pipelines and automated data quality checks.</li>
+          <li>Reduced infrastructure costs by 40% through intelligent Spark cluster auto-scaling and query optimization strategies.</li>
+        </ul>
+        <div class="exp-tech-row">
+          <span class="exp-tech">Kafka</span>
+          <span class="exp-tech">Flink</span>
+          <span class="exp-tech">dbt</span>
+          <span class="exp-tech">Airflow</span>
+          <span class="exp-tech">Delta Lake</span>
+          <span class="exp-tech">AWS</span>
+          <span class="exp-tech">Terraform</span>
+          <span class="exp-tech">Python</span>
+        </div>
+      </div>
+
+      <div class="exp-card pink-left">
+        <div class="exp-head">
+          <div>
+            <div class="exp-company">Previous Company · Mid-level Role</div>
+            <div class="exp-role-badge">Data Engineer</div>
+          </div>
+          <div class="exp-period">2020 — 2022</div>
+        </div>
+        <ul class="exp-bullets">
+          <li>Built end-to-end data pipelines ingesting from 50+ heterogeneous sources into a centralized Snowflake warehouse, enabling company-wide self-service analytics.</li>
+          <li>Developed a real-time fraud detection data feed using Spark Streaming + Kafka, feeding an ML model that saved $2M+ in fraudulent transactions annually.</li>
+          <li>Created automated data quality framework using Great Expectations integrated into CI/CD pipeline, catching 95% of data anomalies before production.</li>
+          <li>Designed a metadata catalog and data lineage system, reducing debugging time for data issues by 60% across all engineering teams.</li>
+        </ul>
+        <div class="exp-tech-row">
+          <span class="exp-tech">Snowflake</span>
+          <span class="exp-tech">Spark</span>
+          <span class="exp-tech">Kafka</span>
+          <span class="exp-tech">Python</span>
+          <span class="exp-tech">GCP</span>
+          <span class="exp-tech">BigQuery</span>
+          <span class="exp-tech">Kubernetes</span>
+        </div>
+      </div>
+
+      <div class="exp-card lime-left">
+        <div class="exp-head">
+          <div>
+            <div class="exp-company">Early Career Company</div>
+            <div class="exp-role-badge">Junior Data Engineer / Analyst</div>
+          </div>
+          <div class="exp-period">2018 — 2020</div>
+        </div>
+        <ul class="exp-bullets">
+          <li>Developed and maintained 30+ SQL-based ETL pipelines transforming raw transactional data into business-ready reporting datasets.</li>
+          <li>Automated manual reporting workflows using Python scripts and Apache Airflow DAGs, saving 20+ analyst-hours per week.</li>
+          <li>Built interactive dashboards using Tableau and Power BI, consumed by C-suite for monthly business reviews.</li>
+        </ul>
+        <div class="exp-tech-row">
+          <span class="exp-tech">SQL</span>
+          <span class="exp-tech">Python</span>
+          <span class="exp-tech">Airflow</span>
+          <span class="exp-tech">Tableau</span>
+          <span class="exp-tech">PostgreSQL</span>
+          <span class="exp-tech">Redshift</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="section-header">
+      <div class="ghost-num">04</div>
+      <h2 class="section-title">KEY <span class="accent-pink">PROJECTS</span></h2>
+      <span class="section-sub">Featured Work · Metrics · Impact</span>
+    </div>
+
+    <div class="projects-grid">
+
+      <div class="project-card lime-top">
+        <div class="project-idx">PROJECT / 01</div>
+        <div class="project-title">Real-Time Analytics Platform</div>
+        <div class="project-desc">
+          End-to-end streaming infrastructure built on Kafka + Flink + ClickHouse.
+          Replaced nightly batch jobs, delivering live business dashboards with
+          sub-second latency across 15 product lines.
+        </div>
+        <div class="project-metrics">
+          <div class="metric">
+            <span class="metric-val">&lt;1s</span>
+            <span class="metric-key">Latency</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">2M+</span>
+            <span class="metric-key">Events / Sec</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">$1.2M</span>
+            <span class="metric-key">Cost Saved</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card pink-top">
+        <div class="project-idx">PROJECT / 02</div>
+        <div class="project-title">Data Lakehouse Migration</div>
+        <div class="project-desc">
+          Migrated a legacy on-prem Hadoop cluster to a cloud-native Delta Lake
+          architecture. Rebuilt 120+ pipelines using dbt + Spark with full
+          data lineage, quality gates, and automated testing.
+        </div>
+        <div class="project-metrics">
+          <div class="metric">
+            <span class="metric-val">120+</span>
+            <span class="metric-key">Pipelines</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">40%</span>
+            <span class="metric-key">Cost Reduction</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">10TB</span>
+            <span class="metric-key">Daily Volume</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card pink-top">
+        <div class="project-idx">PROJECT / 03</div>
+        <div class="project-title">ML Feature Store</div>
+        <div class="project-desc">
+          Designed and built a centralized feature store serving 12 ML models
+          with consistent, versioned feature definitions. Reduced feature
+          engineering duplication by 70% across teams.
+        </div>
+        <div class="project-metrics">
+          <div class="metric">
+            <span class="metric-val">12</span>
+            <span class="metric-key">ML Models</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">500+</span>
+            <span class="metric-key">Features</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">70%</span>
+            <span class="metric-key">Less Duplication</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card lime-top">
+        <div class="project-idx">PROJECT / 04</div>
+        <div class="project-title">Data Quality Framework</div>
+        <div class="project-desc">
+          Open-source-inspired internal framework using Great Expectations +
+          dbt tests + Slack alerting. Shifted data quality left — catching
+          issues in staging before they ever hit production consumers.
+        </div>
+        <div class="project-metrics">
+          <div class="metric">
+            <span class="metric-val">95%</span>
+            <span class="metric-key">Issues Caught</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">60%</span>
+            <span class="metric-key">Faster Debug</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">0</span>
+            <span class="metric-key">SLA Breaches</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="section" id="education">
+    <div class="section-header">
+      <div class="ghost-num">05</div>
+      <h2 class="section-title"><span class="accent-lime">EDU</span>CATION</h2>
+      <span class="section-sub">Academic Foundation · Credentials</span>
+    </div>
+
+    <div class="edu-grid">
+      <div class="edu-card lime-btm">
+        <div class="edu-degree">B.E. / B.Tech in Computer Science<br>or Related Field</div>
+        <div class="edu-school">University Name Here</div>
+        <div class="edu-detail">Graduation Year · GPA / Distinction if applicable</div>
+      </div>
+      <div class="edu-card pink-btm">
+        <div class="edu-degree">Certifications &amp; Continuing Ed</div>
+        <div class="edu-school">AWS / GCP / Databricks Certified</div>
+        <div class="edu-detail">
+          AWS Certified Data Analytics – Specialty<br>
+          GCP Professional Data Engineer<br>
+          Databricks Certified Associate Developer
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contact">
+    <div class="contact-bg"></div>
+    <div class="contact-headline">
+      LET'S <span>BUILD</span><br>
+      SOMETHING <em>WILD</em>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:jeeva@email.com" class="contact-link">Email Me</a>
+      <a href="https://linkedin.com/in/jeeva-vincent" class="contact-link pink-hover" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/jeeva-vincent" class="contact-link" target="_blank" rel="noopener">GitHub</a>
+      <a href="#" class="contact-link pink-hover">Download CV</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer-bar">
+    <div class="footer-copy">© 2024 <span>Jeeva Vincent</span> · All Rights Reserved</div>
+    <div class="footer-tagline">NEON EDITORIAL · DATA ENGINEERING · VOL 04</div>
+    <div class="footer-copy">Built with obsessive attention to detail</div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JEEVA VINCENT — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --black: #000000;
+      --white: #ffffff;
+      --yellow: #FFE600;
+      --border: 4px solid #000;
+      --shadow: 6px 6px 0 #000;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      line-height: 1.4;
+      overflow-x: hidden;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      background: var(--black);
+      color: var(--yellow);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 10px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ── HEADER / HERO ── */
+    .hero {
+      border-bottom: var(--border);
+      padding: 48px 40px 40px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .hero-left {}
+
+    .issue-label {
+      display: inline-block;
+      background: var(--yellow);
+      border: var(--border);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      margin-bottom: 24px;
+      box-shadow: 3px 3px 0 #000;
+    }
+
+    h1.name {
+      font-size: clamp(56px, 10vw, 96px);
+      font-weight: 700;
+      line-height: 0.9;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    h1.name span {
+      display: block;
+    }
+
+    .role-line {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-left: 8px solid var(--yellow);
+      padding-left: 16px;
+      margin-bottom: 32px;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px 24px;
+      border: var(--border);
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.08s, box-shadow 0.08s;
+    }
+
+    .btn-primary {
+      background: var(--yellow);
+      color: var(--black);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 8px 8px 0 #000;
+    }
+
+    .btn-secondary {
+      background: var(--white);
+      color: var(--black);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-secondary:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 8px 8px 0 #000;
+    }
+
+    /* Photo block */
+    .photo-block {
+      width: 220px;
+      height: 220px;
+      background: var(--yellow);
+      border: var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photo-block img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .photo-placeholder .icon {
+      width: 64px;
+      height: 64px;
+      border: var(--border);
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .photo-placeholder .label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: var(--border);
+    }
+
+    .stat-box {
+      padding: 28px 24px;
+      border-right: var(--border);
+    }
+
+    .stat-box:last-child {
+      border-right: none;
+    }
+
+    .stat-num {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .stat-num .accent {
+      color: var(--black);
+      background: var(--yellow);
+      padding: 0 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    /* ── TWO COLUMN LAYOUT ── */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      border-bottom: var(--border);
+    }
+
+    .main-content {
+      border-right: var(--border);
+      padding: 40px;
+    }
+
+    .sidebar {
+      padding: 40px 32px;
+    }
+
+    /* Section headers */
+    .section-tag {
+      display: inline-block;
+      background: var(--black);
+      color: var(--yellow);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+
+    /* About text */
+    .about-text {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 600px;
+    }
+
+    .about-text strong {
+      font-weight: 700;
+      background: var(--yellow);
+      padding: 0 3px;
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      border: var(--border);
+      border-left: 8px solid var(--yellow);
+      box-shadow: var(--shadow);
+      padding: 20px 24px;
+      margin: 32px 0;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    /* Projects */
+    .project-card {
+      border: var(--border);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      transition: transform 0.08s, box-shadow 0.08s;
+    }
+
+    .project-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 8px 8px 0 #000;
+    }
+
+    .project-header {
+      background: var(--black);
+      color: var(--white);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .project-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--yellow);
+    }
+
+    .project-type {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+
+    .project-body {
+      padding: 16px;
+    }
+
+    .project-name {
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+
+    .project-desc {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag-small {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 2px solid var(--black);
+      padding: 2px 8px;
+      background: var(--white);
+    }
+
+    /* Sidebar skills */
+    .skill-category {
+      margin-bottom: 28px;
+    }
+
+    .skill-cat-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      background: var(--yellow);
+      border: var(--border);
+      display: inline-block;
+      padding: 3px 10px;
+      margin-bottom: 12px;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tag {
+      font-size: 13px;
+      font-weight: 700;
+      border: var(--border);
+      box-shadow: 3px 3px 0 #000;
+      padding: 5px 12px;
+      background: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transition: transform 0.08s, box-shadow 0.08s, background 0.08s;
+      cursor: default;
+    }
+
+    .skill-tag:hover {
+      background: var(--yellow);
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0 #000;
+    }
+
+    /* Experience */
+    .exp-item {
+      border: var(--border);
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      padding: 16px;
+    }
+
+    .exp-company {
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+
+    .exp-role {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .exp-period {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      background: var(--black);
+      color: var(--yellow);
+      padding: 2px 8px;
+      margin-bottom: 10px;
+    }
+
+    .exp-desc {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    /* Contact section */
+    .contact-section {
+      border-top: var(--border);
+      background: var(--yellow);
+      padding: 48px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .contact-left h2 {
+      font-size: 48px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .contact-link {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      color: var(--black);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .contact-link .link-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border: var(--border);
+      background: var(--white);
+      font-size: 14px;
+    }
+
+    .contact-link:hover .link-icon {
+      background: var(--black);
+      color: var(--yellow);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--black);
+      color: var(--white);
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    footer span {
+      color: var(--yellow);
+    }
+
+    /* Decorative elements */
+    .marquee-bar {
+      background: var(--yellow);
+      border-top: var(--border);
+      border-bottom: var(--border);
+      padding: 10px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee-inner {
+      display: inline-block;
+      animation: marquee 18s linear infinite;
+    }
+
+    .marquee-inner span {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 0 32px;
+    }
+
+    .marquee-inner span::after {
+      content: ' ★ ';
+      margin-left: 32px;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* Big number decoration */
+    .bg-num {
+      font-size: 200px;
+      font-weight: 700;
+      color: transparent;
+      -webkit-text-stroke: 3px #000;
+      line-height: 1;
+      opacity: 0.06;
+      position: absolute;
+      right: -20px;
+      top: -20px;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .section-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 32px 24px;
+      }
+      .photo-block {
+        width: 160px;
+        height: 160px;
+      }
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .stat-box:nth-child(2) {
+        border-right: none;
+      }
+      .stat-box:nth-child(3) {
+        border-top: var(--border);
+      }
+      .stat-box:nth-child(4) {
+        border-top: var(--border);
+      }
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+      .main-content {
+        border-right: none;
+        border-bottom: var(--border);
+        padding: 24px;
+      }
+      .sidebar {
+        padding: 24px;
+      }
+      .top-bar, footer {
+        padding: 10px 24px;
+      }
+      .contact-section {
+        padding: 32px 24px;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <span>PORTFOLIO 2024</span>
+    <span>FULL-STACK DEVELOPER ★ DESIGNER ★ BUILDER</span>
+    <span>EST. MMXXIV</span>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-left">
+      <div class="issue-label">ISSUE NO. 01 — PERSONAL PORTFOLIO</div>
+      <h1 class="name">
+        <span>JEEVA</span>
+        <span>VINCENT</span>
+      </h1>
+      <div class="role-line">Full-Stack Developer &amp; Creative Technologist</div>
+      <div class="hero-cta-row">
+        <a href="#projects" class="btn btn-primary">VIEW WORK</a>
+        <a href="#contact" class="btn btn-secondary">GET IN TOUCH</a>
+        <a href="#" class="btn btn-secondary">DOWNLOAD CV</a>
+      </div>
+    </div>
+    <div class="photo-block">
+      <div class="photo-placeholder">
+        <div class="icon">JV</div>
+        <div class="label">Photo</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MARQUEE -->
+  <div class="marquee-bar" aria-hidden="true">
+    <div class="marquee-inner">
+      <span>React</span><span>Node.js</span><span>TypeScript</span>
+      <span>Python</span><span>PostgreSQL</span><span>Docker</span>
+      <span>AWS</span><span>Figma</span><span>Next.js</span>
+      <span>GraphQL</span><span>Tailwind CSS</span><span>MongoDB</span>
+      <span>React</span><span>Node.js</span><span>TypeScript</span>
+      <span>Python</span><span>PostgreSQL</span><span>Docker</span>
+      <span>AWS</span><span>Figma</span><span>Next.js</span>
+      <span>GraphQL</span><span>Tailwind CSS</span><span>MongoDB</span>
+    </div>
+  </div>
+
+  <!-- STATS ROW -->
+  <section class="stats-row">
+    <div class="stat-box">
+      <div class="stat-num"><span class="accent">4+</span></div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">20+</div>
+      <div class="stat-label">Projects Shipped</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num"><span class="accent">15+</span></div>
+      <div class="stat-label">Tech Stack Items</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Problems Solved</div>
+    </div>
+  </section>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- LEFT: Main Content -->
+    <div class="main-content">
+
+      <!-- ABOUT -->
+      <section class="section-wrapper" style="margin-bottom: 48px;">
+        <div class="section-tag">ABOUT</div>
+        <h2 class="section-title">WHO I AM</h2>
+        <p class="about-text">
+          I'm a <strong>full-stack developer</strong> who builds fast, functional, and 
+          well-crafted digital products. I bridge the gap between design and engineering — 
+          turning complex problems into <strong>clean, scalable code</strong> and 
+          <strong>intuitive interfaces</strong>.
+        </p>
+        <p class="about-text">
+          With a foundation in both front-end craft and back-end architecture, 
+          I thrive in environments where I can own a product from 
+          <strong>concept to deployment</strong>. I'm obsessed with performance, 
+          accessibility, and the details that make software feel good to use.
+        </p>
+        <div class="pull-quote">
+          "Good code is not just correct — it's honest, readable, and built to last."
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects">
+        <div class="section-tag">SELECTED WORK</div>
+        <h2 class="section-title">PROJECTS</h2>
+
+        <div class="project-card">
+          <div class="project-header">
+            <span class="project-num">PROJECT — 001</span>
+            <span class="project-type">Web App</span>
+          </div>
+          <div class="project-body">
+            <div class="project-name">Project Alpha</div>
+            <p class="project-desc">
+              A full-stack SaaS platform with real-time collaboration, 
+              role-based access, and a custom analytics dashboard. 
+              Scaled to handle 10k+ concurrent users.
+            </p>
+            <div class="project-tags">
+              <span class="tag-small">React</span>
+              <span class="tag-small">Node.js</span>
+              <span class="tag-small">PostgreSQL</span>
+              <span class="tag-small">Redis</span>
+              <span class="tag-small">AWS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <span class="project-num">PROJECT — 002</span>
+            <span class="project-type">Mobile / Web</span>
+          </div>
+          <div class="project-body">
+            <div class="project-name">Project Beta</div>
+            <p class="project-desc">
+              Cross-platform mobile app with offline-first architecture 
+              and end-to-end encrypted messaging. 50k+ downloads in 
+              first 3 months.
+            </p>
+            <div class="project-tags">
+              <span class="tag-small">React Native</span>
+              <span class="tag-small">TypeScript</span>
+              <span class="tag-small">GraphQL</span>
+              <span class="tag-small">SQLite</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <span class="project-num">PROJECT — 003</span>
+            <span class="project-type">AI / ML</span>
+          </div>
+          <div class="project-body">
+            <div class="project-name">Project Gamma</div>
+            <p class="project-desc">
+              AI-powered content pipeline with custom fine-tuned model, 
+              automated tagging, and a clean editorial interface built 
+              for non-technical teams.
+            </p>
+            <div class="project-tags">
+              <span class="tag-small">Python</span>
+              <span class="tag-small">FastAPI</span>
+              <span class="tag-small">PyTorch</span>
+              <span class="tag-small">Next.js</span>
+              <span class="tag-small">Docker</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section style="margin-top: 48px;" id="experience">
+        <div class="section-tag">WORK HISTORY</div>
+        <h2 class="section-title">EXPERIENCE</h2>
+
+        <div class="exp-item">
+          <div class="exp-company">Company Name</div>
+          <div class="exp-role">Senior Frontend Developer</div>
+          <div class="exp-period">2022 — PRESENT</div>
+          <p class="exp-desc">
+            Led development of core product features, mentored junior engineers, 
+            drove adoption of TypeScript and component library standards across 
+            the engineering org.
+          </p>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-company">Startup Co.</div>
+          <div class="exp-role">Full-Stack Developer</div>
+          <div class="exp-period">2020 — 2022</div>
+          <p class="exp-desc">
+            Built entire product backend from scratch, integrated third-party 
+            APIs, shipped 12 product iterations in 18 months with a two-person 
+            engineering team.
+          </p>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-company">Freelance</div>
+          <div class="exp-role">Web Developer &amp; Consultant</div>
+          <div class="exp-period">2018 — 2020</div>
+          <p class="exp-desc">
+            Delivered 20+ client projects across e-commerce, portfolio, 
+            and SaaS domains. Full ownership of design, development, 
+            and deployment.
+          </p>
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- RIGHT: Sidebar -->
+    <div class="sidebar">
+      <div class="section-tag">SKILLS</div>
+
+      <div class="skill-category">
+        <div class="skill-cat-label">FRONTEND</div>
+        <div class="skills-grid">
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">Next.js</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">Vue</span>
+          <span class="skill-tag">HTML</span>
+          <span class="skill-tag">CSS</span>
+          <span class="skill-tag">Tailwind</span>
+          <span class="skill-tag">Framer</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-cat-label">BACKEND</div>
+        <div class="skills-grid">
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Express</span>
+          <span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">GraphQL</span>
+          <span class="skill-tag">REST</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-cat-label">DATABASE</div>
+        <div class="skills-grid">
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">Redis</span>
+          <span class="skill-tag">SQLite</span>
+          <span class="skill-tag">Prisma</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-cat-label">DEVOPS</div>
+        <div class="skills-grid">
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">AWS</span>
+          <span class="skill-tag">CI/CD</span>
+          <span class="skill-tag">Linux</span>
+          <span class="skill-tag">Nginx</span>
+          <span class="skill-tag">Git</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-cat-label">DESIGN</div>
+        <div class="skills-grid">
+          <span class="skill-tag">Figma</span>
+          <span class="skill-tag">UI/UX</span>
+          <span class="skill-tag">Motion</span>
+          <span class="skill-tag">Branding</span>
+        </div>
+      </div>
+
+      <!-- Sidebar extra: Education block -->
+      <div style="margin-top: 40px;">
+        <div class="section-tag">EDUCATION</div>
+        <div class="exp-item" style="margin-top: 16px;">
+          <div class="exp-company">University Name</div>
+          <div class="exp-role">B.Tech — Computer Science</div>
+          <div class="exp-period">2016 — 2020</div>
+        </div>
+      </div>
+
+      <!-- Sidebar extra: availability block -->
+      <div style="margin-top: 32px; border: var(--border); box-shadow: var(--shadow); background: var(--yellow); padding: 20px;">
+        <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px;">STATUS</div>
+        <div style="font-size: 22px; font-weight: 700; text-transform: uppercase; line-height: 1.2;">
+          OPEN TO<br/>WORK
+        </div>
+        <div style="width: 12px; height: 12px; background: #00c800; border: 2px solid #000; display: inline-block; margin-top: 10px; margin-right: 6px; vertical-align: middle;"></div>
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; vertical-align: middle;">Available Now</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contact">
+    <div class="contact-left">
+      <h2>LET'S<br/>BUILD.</h2>
+      <p style="font-size: 15px; font-weight: 600; max-width: 360px; line-height: 1.6;">
+        Have a project, a question, or just want to connect?
+        My inbox is always open. Let's make something worth shipping.
+      </p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:hello@jeevavincent.dev" class="contact-link">
+        <span class="link-icon">@</span>
+        hello@jeevavincent.dev
+      </a>
+      <a href="https://github.com/jeeva-vincent" class="contact-link">
+        <span class="link-icon">GH</span>
+        github.com/jeeva-vincent
+      </a>
+      <a href="https://linkedin.com/in/jeeva-vincent" class="contact-link">
+        <span class="link-icon">in</span>
+        linkedin.com/in/jeeva-vincent
+      </a>
+      <a href="https://twitter.com/jeeva_vincent" class="contact-link">
+        <span class="link-icon">X</span>
+        @jeeva_vincent
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>© 2024 <span>JEEVA VINCENT</span></div>
+    <div>ALL RIGHTS RESERVED</div>
+    <div>BUILT WITH <span>♥</span> + RAW HTML</div>
+  </footer>
+
+</body>
+</html>
