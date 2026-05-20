@@ -561,12 +561,6 @@ function App() {
           </motion.div>
 
           <motion.div className="contact-card" variants={fadeIn}>
-            <div className="contact-icon"><FaPhone /></div>
-            <h4>Phone</h4>
-            <a href="tel:+919962126629">+91 9962126629</a>
-          </motion.div>
-
-          <motion.div className="contact-card" variants={fadeIn}>
             <div className="contact-icon"><FaLinkedin /></div>
             <h4>LinkedIn</h4>
             <a href="https://www.linkedin.com/in/jeeva280503/" target="_blank" rel="noopener noreferrer">
