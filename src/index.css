@@ -278,7 +278,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 60px;
+  padding: 80px 200px;
 }
 
 .profile-container {
@@ -405,54 +405,38 @@ body {
 }
 
 .badge-exp {
-  top: -24px;
-  left: -60px;
+  top: 50%;
+  left: -175px;
+  transform: translateY(-50%);
   border-color: rgba(99,102,241,0.35);
-  animation: floatY 4s ease-in-out infinite 0s;
+  animation: floatYLeft 4s ease-in-out infinite 0s;
 }
 
 .badge-role {
-  top: -24px;
-  right: -60px;
+  top: 50%;
+  right: -175px;
+  transform: translateY(-50%);
   border-color: rgba(245,158,11,0.35);
-  animation: floatY 4s ease-in-out infinite 1s;
-}
-
-.badge-available {
-  bottom: -24px;
-  left: -60px;
-  border-color: rgba(16,185,129,0.35);
-  animation: floatY 4s ease-in-out infinite 0.5s;
-}
-
-.badge-tech {
-  bottom: -24px;
-  right: -60px;
-  border-color: rgba(139,92,246,0.35);
-  animation: floatY 4s ease-in-out infinite 1.5s;
-}
-
-.badge-company {
-  bottom: -62px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-color: rgba(99,102,241,0.25);
-  animation: floatY 4s ease-in-out infinite 2s;
-  gap: 0.5rem;
+  animation: floatYLeft 4s ease-in-out infinite 1s;
 }
 
 .badge-status-top {
-  top: -24px;
+  top: -65px;
   left: 50%;
   transform: translateX(-50%);
   border-color: rgba(16,185,129,0.35);
-  animation: floatYCenter 4s ease-in-out infinite 0.3s;
+  animation: floatYCenter 4s ease-in-out infinite 0.5s;
   gap: 0.6rem;
 }
 
 @keyframes floatY {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-7px); }
+}
+
+@keyframes floatYLeft {
+  0%, 100% { transform: translateY(-50%); }
+  50% { transform: translateY(calc(-50% - 7px)); }
 }
 
 /* badge-company needs different transform for floatY since it uses translateX */

@@ -143,10 +143,10 @@ function App() {
                 <img src={profileImg} alt="Jeeva Vincent" className="profile-img" />
               </div>
 
-              {/* Badge — top left */}
+              {/* Badge — left side */}
               <motion.div className="float-badge badge-exp"
-                initial={{ opacity: 0, x: -30, y: 10 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
+                initial={{ opacity: 0, x: -40 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.1, duration: 0.5, type: 'spring' }}
               >
                 <div className="badge-icon-wrap badge-icon-indigo">
@@ -160,7 +160,7 @@ function App() {
 
               {/* Badge — top center */}
               <motion.div className="float-badge badge-status-top"
-                initial={{ opacity: 0, y: -20 }}
+                initial={{ opacity: 0, y: -40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.2, duration: 0.5, type: 'spring' }}
               >
@@ -171,10 +171,10 @@ function App() {
                 </div>
               </motion.div>
 
-              {/* Badge — top right */}
+              {/* Badge — right side */}
               <motion.div className="float-badge badge-role"
-                initial={{ opacity: 0, x: 30, y: 10 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.3, duration: 0.5, type: 'spring' }}
               >
                 <div className="badge-icon-wrap badge-icon-amber">
@@ -184,16 +184,6 @@ function App() {
                   <p className="badge-label">Current Role</p>
                   <p className="badge-value">AI-Native DE</p>
                 </div>
-              </motion.div>
-
-              {/* iCustomer tag at bottom center */}
-              <motion.div className="float-badge badge-company"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.5, duration: 0.5, type: 'spring' }}
-              >
-                <span style={{ fontSize: '0.9rem' }}>🏢</span>
-                <p className="badge-value" style={{ fontSize: '0.8rem' }}>@ iCustomer</p>
               </motion.div>
 
             </div>
