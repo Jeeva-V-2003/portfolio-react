@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope, FaPhone, FaDatabase, FaCloud, FaCode, FaBrain, FaServer, FaChartLine, FaRocket, FaTools } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaPhone, FaDatabase, FaCloud, FaCode, FaBrain, FaServer, FaChartLine, FaRocket, FaTools, FaDownload, FaFileAlt } from 'react-icons/fa';
 import { SiApachekafka, SiApachespark, SiApacheairflow, SiSnowflake, SiPostgresql, SiMongodb, SiRedis, SiElasticsearch, SiDocker, SiKubernetes, SiTerraform, SiPython, SiJavascript, SiReact, SiFastapi, SiDbt, SiAmazons3, SiGooglecloud } from 'react-icons/si';
 import profileImg from './assets/profile.jpg';
 
@@ -36,13 +36,18 @@ function App() {
       >
         <div className="nav-content">
           <div className="logo">Jeeva Vincent</div>
-          <ul className="nav-links">
+            <ul className="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#experience">Experience</a></li>
             <li><a href="#skills">Skills</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#education">Education</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li>
+              <a href="/Jeeva_Vincent_Resume.pdf" download className="nav-resume-btn">
+                <FaDownload /> Resume
+              </a>
+            </li>
           </ul>
         </div>
       </motion.nav>
@@ -59,18 +64,21 @@ function App() {
             <h1>Data Engineer & AI Developer</h1>
             <p className="tagline">Building Scalable Data Pipelines & Intelligent Systems</p>
             <p className="description">
-              Data Engineer at iCustomer with 8+ months of experience building enterprise-scale data infrastructure. 
+              Data Engineer at iCustomer with 1+ year of experience building enterprise-scale data infrastructure. 
               Specialized in real-time ETL, cloud data warehousing, and AI-powered solutions. 
               Currently pursuing MBA in HRM while working on cutting-edge data engineering projects.
             </p>
             <div className="cta-buttons">
-              <a href="#projects" className="btn btn-primary">
-                <FaRocket /> View Projects
-              </a>
-              <a href="#contact" className="btn btn-secondary">
-                <FaEnvelope /> Get In Touch
-              </a>
-            </div>
+                <a href="#projects" className="btn btn-primary">
+                  <FaRocket /> View Projects
+                </a>
+                <a href="/Jeeva_Vincent_Resume.pdf" download className="btn btn-resume">
+                  <FaDownload /> Download Resume
+                </a>
+                <a href="#contact" className="btn btn-secondary">
+                  <FaEnvelope /> Get In Touch
+                </a>
+              </div>
           </motion.div>
 
           <motion.div 
@@ -99,8 +107,8 @@ function App() {
           <motion.h2 className="section-title" {...fadeIn}>Impact & Achievements</motion.h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', textAlign: 'center' }}>
             <motion.div variants={fadeIn} style={{ padding: '2rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: '15px', border: '1px solid rgba(0, 245, 255, 0.2)' }}>
-              <h3 style={{ fontSize: '3rem', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>8+</h3>
-              <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Months Experience</p>
+              <h3 style={{ fontSize: '3rem', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>1+</h3>
+              <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Year Experience</p>
             </motion.div>
             <motion.div variants={fadeIn} style={{ padding: '2rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: '15px', border: '1px solid rgba(255, 0, 255, 0.2)' }}>
               <h3 style={{ fontSize: '3rem', background: 'linear-gradient(135deg, var(--secondary), var(--accent))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>50+</h3>
@@ -152,7 +160,7 @@ function App() {
               </div>
               <div style={{ background: 'linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(255, 0, 255, 0.2))', padding: '1rem 2rem', borderRadius: '25px', border: '2px solid var(--primary)', boxShadow: '0 0 30px rgba(0, 245, 255, 0.3)' }}>
                 <p style={{ color: '#fff', fontWeight: '700', fontSize: '1.1rem' }}>June 2025 - Present</p>
-                <p style={{ color: 'var(--accent)', fontSize: '0.9rem', marginTop: '0.3rem' }}>8+ Months</p>
+                <p style={{ color: 'var(--accent)', fontSize: '0.9rem', marginTop: '0.3rem' }}>1+ Year</p>
               </div>
             </div>
             
@@ -578,7 +586,7 @@ function App() {
 
       {/* Footer */}
       <footer className="footer">
-        <p>&copy; 2025 Jeeva Vincent. All rights reserved.</p>
+        <p>&copy; 2026 Jeeva Vincent &mdash; Data Engineer & AI Developer. All rights reserved.</p>
       </footer>
     </div>
   );

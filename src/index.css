@@ -188,7 +188,8 @@ body {
 
 .cta-buttons {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.2rem;
+  flex-wrap: wrap;
 }
 
 .btn {
@@ -221,6 +222,38 @@ body {
 .btn-secondary:hover {
   background: var(--primary);
   color: #000;
+}
+
+.btn-resume {
+  background: linear-gradient(135deg, var(--accent), #00cc66);
+  color: #000;
+  box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3);
+}
+
+.btn-resume:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 50px rgba(0, 255, 136, 0.5);
+}
+
+/* Nav resume button */
+.nav-resume-btn {
+  background: linear-gradient(135deg, var(--accent), var(--primary)) !important;
+  color: #000 !important;
+  padding: 0.4rem 1rem !important;
+  border-radius: 20px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+}
+
+.nav-resume-btn::after {
+  display: none !important;
+}
+
+.nav-resume-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4) !important;
 }
 
 .hero-image {
