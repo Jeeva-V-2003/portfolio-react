@@ -131,6 +131,60 @@ function App() {
             <div className="profile-container">
               <div className="profile-glow"></div>
               <img src={profileImg} alt="Jeeva Vincent" className="profile-img" />
+
+              {/* Floating badge — top left */}
+              <motion.div
+                className="float-badge badge-exp"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1, duration: 0.5 }}
+              >
+                <span className="badge-dot"></span>
+                <div>
+                  <p className="badge-label">Experience</p>
+                  <p className="badge-value">1+ Year</p>
+                </div>
+              </motion.div>
+
+              {/* Floating badge — top right */}
+              <motion.div
+                className="float-badge badge-role"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.2, duration: 0.5 }}
+              >
+                <span style={{ fontSize: '1.2rem' }}>🤖</span>
+                <div>
+                  <p className="badge-label">Current Role</p>
+                  <p className="badge-value">AI-Native DE</p>
+                </div>
+              </motion.div>
+
+              {/* Floating badge — bottom left */}
+              <motion.div
+                className="float-badge badge-available"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.4, duration: 0.5 }}
+              >
+                <span className="avail-dot"></span>
+                <p className="badge-value" style={{ color: '#10b981' }}>Open to Opportunities</p>
+              </motion.div>
+
+              {/* Floating badge — bottom right */}
+              <motion.div
+                className="float-badge badge-tech"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.6, duration: 0.5 }}
+              >
+                <p className="badge-label" style={{ marginBottom: '0.4rem' }}>Core Stack</p>
+                <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
+                  {['Python', 'GCP', 'AWS', 'dbt'].map(t => (
+                    <span key={t} className="stack-pill">{t}</span>
+                  ))}
+                </div>
+              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -240,12 +294,14 @@ function App() {
                 <p style={{ color: 'var(--accent)', fontSize: '0.85rem', marginTop: '0.2rem' }}>1+ Year</p>
               </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.2rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.2rem' }}>
               {[
                 { icon: '⚡', title: 'B2B Realtime Signal Tracker', desc: 'Async FastAPI + aiohttp scraping company websites for tech stacks, social handles & job signals in real time' },
                 { icon: '☁️', title: 'AWS Lambda Tag Identification', desc: 'Detects 1,000+ app fingerprints, extracts social handles & job signals from live websites' },
                 { icon: '🔐', title: 'Contact Discovery API', desc: 'PostgreSQL + BigQuery queries with AES-256-CBC decryption returning enriched contact profiles' },
                 { icon: '📡', title: 'RB2B Webhook Receiver', desc: 'Real-time anonymous B2B visitor de-anonymization inserting into per-tenant BigQuery tables' },
+                { icon: '🎯', title: 'DJ Graffiti — Event Discovery', desc: 'Automated weekly pipeline scraping 1,000s of company sites, classifying events (conferences, webinars, summits) via LLM, delivering structured records to BigQuery every Monday' },
+                { icon: '🔍', title: 'SEO Keywords Finder', desc: 'Async FastAPI on AWS Lambda — scrapes website meta content and generates B2B enrichment keywords & company specialities using OpenAI GPT' },
               ].map((item, i) => (
                 <div key={i} style={{ background: 'rgba(0,255,136,0.04)', padding: '1.2rem', borderRadius: '12px', border: '1px solid rgba(0,255,136,0.15)' }}>
                   <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>{item.icon}</div>

@@ -313,6 +313,102 @@ body {
   50% { opacity: 0.9; }
 }
 
+/* ── Floating Badges ── */
+.float-badge {
+  position: absolute;
+  background: rgba(13, 13, 26, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.7rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  z-index: 10;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+}
+
+.badge-exp {
+  top: -18px;
+  left: -36px;
+  border-color: rgba(99, 102, 241, 0.3);
+  animation: floatY 4s ease-in-out infinite;
+}
+
+.badge-role {
+  top: -18px;
+  right: -36px;
+  border-color: rgba(245, 158, 11, 0.3);
+  animation: floatY 4s ease-in-out infinite 1s;
+}
+
+.badge-available {
+  bottom: -18px;
+  left: -36px;
+  border-color: rgba(16, 185, 129, 0.3);
+  animation: floatY 4s ease-in-out infinite 0.5s;
+}
+
+.badge-tech {
+  bottom: -18px;
+  right: -36px;
+  border-color: rgba(139, 92, 246, 0.3);
+  animation: floatY 4s ease-in-out infinite 1.5s;
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.badge-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--primary);
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.6);
+}
+
+.avail-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.7);
+  animation: blink 2s ease-in-out infinite;
+}
+
+.badge-label {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.badge-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+
+.stack-pill {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
 /* ── Typewriter ── */
 .typewriter-text {
   background: linear-gradient(135deg, #fff 20%, var(--primary) 60%, var(--violet));
