@@ -216,7 +216,7 @@ function App() {
       <section id="experience" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
         <motion.h2 className="section-title" {...fadeIn}>Work Experience</motion.h2>
         <motion.div
-          style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '2.5rem' }}
+          style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '2.5rem' }}
           variants={staggerContainer}
           initial="initial"
           whileInView="animate"
