@@ -137,7 +137,7 @@ function App() {
       </section>
 
       {/* Stats Section */}
-      <section id="stats" style={{ padding: '4rem 5%', background: 'rgba(0, 245, 255, 0.03)' }}>
+      <section id="stats" style={{ padding: '4rem 5%', background: 'rgba(99,102,241,0.03)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <motion.div
           style={{ maxWidth: '1400px', margin: '0 auto' }}
           variants={staggerContainer}
@@ -146,23 +146,18 @@ function App() {
           viewport={{ once: true }}
         >
           <motion.h2 className="section-title" {...fadeIn}>Impact & Achievements</motion.h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', textAlign: 'center' }}>
-            <motion.div variants={fadeIn} style={{ padding: '2rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: '15px', border: '1px solid rgba(0, 245, 255, 0.2)' }}>
-              <h3 style={{ fontSize: '3rem', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>1+</h3>
-              <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Year Experience</p>
-            </motion.div>
-            <motion.div variants={fadeIn} style={{ padding: '2rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: '15px', border: '1px solid rgba(255, 0, 255, 0.2)' }}>
-              <h3 style={{ fontSize: '3rem', background: 'linear-gradient(135deg, var(--secondary), var(--accent))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>50+</h3>
-              <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Technologies Used</p>
-            </motion.div>
-            <motion.div variants={fadeIn} style={{ padding: '2rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: '15px', border: '1px solid rgba(0, 255, 136, 0.2)' }}>
-              <h3 style={{ fontSize: '3rem', background: 'linear-gradient(135deg, var(--accent), var(--primary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>20+</h3>
-              <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Production Services</p>
-            </motion.div>
-            <motion.div variants={fadeIn} style={{ padding: '2rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: '15px', border: '1px solid rgba(168, 85, 247, 0.2)' }}>
-              <h3 style={{ fontSize: '3rem', background: 'linear-gradient(135deg, var(--purple), var(--pink))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>4</h3>
-              <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Personal Projects</p>
-            </motion.div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', textAlign: 'center' }}>
+            {[
+              { num: '1+', label: 'Year Experience', color: '#6366f1', border: 'rgba(99,102,241,0.2)' },
+              { num: '50+', label: 'Technologies Used', color: '#f59e0b', border: 'rgba(245,158,11,0.2)' },
+              { num: '20+', label: 'Production Services', color: '#10b981', border: 'rgba(16,185,129,0.2)' },
+              { num: '4',   label: 'Personal Projects',  color: '#8b5cf6', border: 'rgba(139,92,246,0.2)' },
+            ].map((s, i) => (
+              <motion.div key={i} variants={fadeIn} style={{ padding: '2rem', background: 'rgba(255,255,255,0.02)', borderRadius: '14px', border: `1px solid ${s.border}` }}>
+                <h3 style={{ fontSize: '2.8rem', fontWeight: '800', color: s.color, letterSpacing: '-0.03em' }}>{s.num}</h3>
+                <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.9rem', marginTop: '0.4rem' }}>{s.label}</p>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </section>
@@ -553,6 +548,12 @@ function App() {
       {/* Contact Section */}
       <section id="contact">
         <motion.h2 className="section-title" {...fadeIn}>Get In Touch</motion.h2>
+
+        <div className="contact-cta">
+          <h3>Let's build something great together</h3>
+          <p>Open to exciting opportunities, collaborations, or just a good data conversation. Reach out on any channel.</p>
+        </div>
+
         <motion.div
           className="contact-grid"
           variants={staggerContainer}
