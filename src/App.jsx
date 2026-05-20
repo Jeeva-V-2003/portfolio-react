@@ -158,6 +158,19 @@ function App() {
                 </div>
               </motion.div>
 
+              {/* Badge — top center */}
+              <motion.div className="float-badge badge-status-top"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.2, duration: 0.5, type: 'spring' }}
+              >
+                <span className="avail-dot"></span>
+                <div>
+                  <p className="badge-label">Status</p>
+                  <p className="badge-value" style={{ color: '#10b981' }}>Open to Work</p>
+                </div>
+              </motion.div>
+
               {/* Badge — top right */}
               <motion.div className="float-badge badge-role"
                 initial={{ opacity: 0, x: 30, y: 10 }}
@@ -173,40 +186,11 @@ function App() {
                 </div>
               </motion.div>
 
-              {/* Badge — bottom left */}
-              <motion.div className="float-badge badge-available"
-                initial={{ opacity: 0, x: -30, y: -10 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{ delay: 1.5, duration: 0.5, type: 'spring' }}
-              >
-                <span className="avail-dot"></span>
-                <div>
-                  <p className="badge-label">Status</p>
-                  <p className="badge-value" style={{ color: '#10b981' }}>Open to Work</p>
-                </div>
-              </motion.div>
-
-              {/* Badge — bottom right */}
-              <motion.div className="float-badge badge-tech"
-                initial={{ opacity: 0, x: 30, y: -10 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{ delay: 1.7, duration: 0.5, type: 'spring' }}
-              >
-                <div>
-                  <p className="badge-label" style={{ marginBottom: '0.45rem' }}>Core Stack</p>
-                  <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
-                    {['Python', 'GCP', 'AWS', 'dbt'].map(t => (
-                      <span key={t} className="stack-pill">{t}</span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-
               {/* iCustomer tag at bottom center */}
               <motion.div className="float-badge badge-company"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.9, duration: 0.5, type: 'spring' }}
+                transition={{ delay: 1.5, duration: 0.5, type: 'spring' }}
               >
                 <span style={{ fontSize: '0.9rem' }}>🏢</span>
                 <p className="badge-value" style={{ fontSize: '0.8rem' }}>@ iCustomer</p>

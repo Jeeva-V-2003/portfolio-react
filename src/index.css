@@ -441,6 +441,15 @@ body {
   gap: 0.5rem;
 }
 
+.badge-status-top {
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-color: rgba(16,185,129,0.35);
+  animation: floatYCenter 4s ease-in-out infinite 0.3s;
+  gap: 0.6rem;
+}
+
 @keyframes floatY {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-7px); }
