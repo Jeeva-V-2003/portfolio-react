@@ -248,17 +248,17 @@ function App() {
                 <p style={{ color: 'var(--accent)', fontSize: '0.85rem', marginTop: '0.2rem' }}>Promoted ↑</p>
               </div>
             </div>
-            <div style={{ position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.2rem' }}>
+            <div style={{ position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.2rem' }}>
               {[
-                { icon: '🔥', color: 'var(--primary)', bg: 'rgba(0,245,255,0.05)', border: 'rgba(0,245,255,0.2)', title: 'FIRE Scoring Engine', desc: 'Fit, Intent, Recency, Engagement scoring triggered via RabbitMQ, dbt on BigQuery, persisted to PostgreSQL' },
-                { icon: '🤖', color: 'var(--secondary)', bg: 'rgba(255,0,255,0.05)', border: 'rgba(255,0,255,0.2)', title: 'ICP Scoring Engine', desc: 'Two-agent system (Claude Sonnet + Haiku) parsing PPTX/DOCX/PDF into structured ICP scores 0–100' },
-                { icon: '📊', color: 'var(--accent)', bg: 'rgba(0,255,136,0.05)', border: 'rgba(0,255,136,0.2)', title: 'RFM Segmentation', desc: 'K-Means clustering on 83K+ Shopify orders for Todd Snyder / American Eagle; live FastAPI prediction service' },
-                { icon: '🏗️', color: 'var(--purple)', bg: 'rgba(168,85,247,0.05)', border: 'rgba(168,85,247,0.2)', title: 'Provider Orchestrator', desc: 'Intelligent enrichment routing with cascading fallback across ReverseContact & Pubrio — zero-downtime swaps' },
-                { icon: '❄️', color: 'var(--primary)', bg: 'rgba(0,245,255,0.05)', border: 'rgba(0,245,255,0.2)', title: 'Snowflake Native App', desc: 'iCustomer CDO — Streamlit UI + Snowpark Python ETL for deterministic identity resolution inside Snowflake' },
-                { icon: '🦫', color: 'var(--secondary)', bg: 'rgba(255,0,255,0.05)', border: 'rgba(255,0,255,0.2)', title: 'OneSource Go API', desc: 'chi HTTP router, multi-provider waterfall enrichment, 20+ CLI commands — Apollo, PDL, ReverseContact, TrestleIQ' },
-                { icon: '🔍', color: 'var(--accent)', bg: 'rgba(0,255,136,0.05)', border: 'rgba(0,255,136,0.2)', title: 'Lookalike Engine', desc: 'Ultra-fast lookalike company discovery across 18M+ companies — 580-dim vectors, XGBoost re-ranking, Qdrant vector DB, sub-second response times with MMR diversity filtering' },
-                { icon: '📈', color: 'var(--purple)', bg: 'rgba(168,85,247,0.05)', border: 'rgba(168,85,247,0.2)', title: 'LookML Analytics Suite', desc: 'Authored 20+ LookML views on Looker for Todd Snyder / AEO — cohort retention heatmaps, LTV over time, RFM cluster summaries, fiscal calendar, channel attribution' },
-                { icon: '🧠', color: 'var(--primary)', bg: 'rgba(0,245,255,0.05)', border: 'rgba(0,245,255,0.2)', title: 'Unified Enrichment Agent', desc: 'Production FastAPI service — parallel enrichment of 50 rows simultaneously with SSE streaming, AWS ECS/Fargate deployment, CloudWatch logging, and AI-powered column extraction' },
+                { icon: '🔥', color: '#6366f1', bg: 'rgba(99,102,241,0.07)', border: 'rgba(99,102,241,0.25)', title: 'FIRE Scoring Engine', desc: 'Fit, Intent, Recency, Engagement scoring triggered via RabbitMQ, dbt on BigQuery, persisted to PostgreSQL' },
+                { icon: '🤖', color: '#f59e0b', bg: 'rgba(245,158,11,0.07)', border: 'rgba(245,158,11,0.25)', title: 'ICP Scoring Engine', desc: 'Two-agent system (Claude Sonnet + Haiku) parsing PPTX/DOCX/PDF into structured ICP scores 0–100' },
+                { icon: '📊', color: '#10b981', bg: 'rgba(16,185,129,0.07)', border: 'rgba(16,185,129,0.25)', title: 'RFM Segmentation', desc: 'K-Means clustering on 83K+ Shopify orders for Todd Snyder / American Eagle; live FastAPI prediction service' },
+                { icon: '🏗️', color: '#8b5cf6', bg: 'rgba(139,92,246,0.07)', border: 'rgba(139,92,246,0.25)', title: 'Provider Orchestrator', desc: 'Intelligent enrichment routing with cascading fallback across ReverseContact & Pubrio — zero-downtime swaps' },
+                { icon: '❄️', color: '#3b82f6', bg: 'rgba(59,130,246,0.07)', border: 'rgba(59,130,246,0.25)', title: 'Snowflake Native App', desc: 'iCustomer CDO — Streamlit UI + Snowpark Python ETL for deterministic identity resolution inside Snowflake' },
+                { icon: '🦫', color: '#f43f5e', bg: 'rgba(244,63,94,0.07)', border: 'rgba(244,63,94,0.25)', title: 'OneSource Go API', desc: 'chi HTTP router, multi-provider waterfall enrichment, 20+ CLI commands — Apollo, PDL, ReverseContact, TrestleIQ' },
+                { icon: '🔍', color: '#10b981', bg: 'rgba(16,185,129,0.07)', border: 'rgba(16,185,129,0.25)', title: 'Lookalike Engine', desc: 'Ultra-fast lookalike company discovery across 18M+ companies — 580-dim vectors, XGBoost re-ranking, Qdrant vector DB, sub-second response times with MMR diversity filtering' },
+                { icon: '📈', color: '#6366f1', bg: 'rgba(99,102,241,0.07)', border: 'rgba(99,102,241,0.25)', title: 'LookML Analytics Suite', desc: 'Authored 20+ LookML views on Looker for Todd Snyder / AEO — cohort retention heatmaps, LTV over time, RFM cluster summaries, fiscal calendar, channel attribution' },
+                { icon: '🧠', color: '#f59e0b', bg: 'rgba(245,158,11,0.07)', border: 'rgba(245,158,11,0.25)', title: 'Unified Enrichment Agent', desc: 'Production FastAPI service — parallel enrichment of 50 rows simultaneously with SSE streaming, AWS ECS/Fargate deployment, CloudWatch logging, and AI-powered column extraction' },
               ].map((item, i) => (
                 <div key={i} style={{ background: item.bg, padding: '1.2rem', borderRadius: '12px', border: `1px solid ${item.border}` }}>
                   <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>{item.icon}</div>
@@ -574,27 +574,42 @@ function App() {
           <div className="timeline-item">
             <div className="timeline-dot"></div>
             <div className="timeline-content">
-              <h3>MBA in Human Resource Management</h3>
-              <p className="institution">Bharathidasan University, Tiruchirappalli</p>
-              <p className="duration">2025 – 2027 (Pursuing)</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <div>
+                  <h3>MBA in Human Resource Management</h3>
+                  <p className="institution">Bharathidasan University, Tiruchirappalli</p>
+                </div>
+                <span style={{ fontSize: '0.78rem', color: 'var(--primary)', fontWeight: '600', background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.25)', padding: '0.3rem 0.8rem', borderRadius: '6px', whiteSpace: 'nowrap' }}>2025 – 2027</span>
+              </div>
+              <p className="duration">Pursuing</p>
             </div>
           </div>
 
           <div className="timeline-item">
             <div className="timeline-dot"></div>
             <div className="timeline-content">
-              <h3>Bachelor of Computer Applications (BCA)</h3>
-              <p className="institution">Providence College for Women, Coonoor</p>
-              <p className="duration">2022 – 2025 · GPA: 8.47 / 10.00</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <div>
+                  <h3>Bachelor of Computer Applications (BCA)</h3>
+                  <p className="institution">Providence College for Women, Coonoor</p>
+                </div>
+                <span style={{ fontSize: '0.78rem', color: '#10b981', fontWeight: '600', background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)', padding: '0.3rem 0.8rem', borderRadius: '6px', whiteSpace: 'nowrap' }}>2022 – 2025</span>
+              </div>
+              <p className="duration">GPA: 8.47 / 10.00</p>
             </div>
           </div>
 
           <div className="timeline-item">
             <div className="timeline-dot"></div>
             <div className="timeline-content">
-              <h3>Diploma in Cyber Security (DCS)</h3>
-              <p className="institution">Bharathiar University, Coimbatore</p>
-              <p className="duration">2022 – 2025</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <div>
+                  <h3>Diploma in Cyber Security (DCS)</h3>
+                  <p className="institution">Bharathiar University, Coimbatore</p>
+                </div>
+                <span style={{ fontSize: '0.78rem', color: '#f59e0b', fontWeight: '600', background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.25)', padding: '0.3rem 0.8rem', borderRadius: '6px', whiteSpace: 'nowrap' }}>2022 – 2025</span>
+              </div>
+              <p className="duration">Bharathiar University, Coimbatore</p>
             </div>
           </div>
         </motion.div>
