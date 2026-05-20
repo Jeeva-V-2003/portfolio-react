@@ -548,6 +548,36 @@ section {
   color: var(--accent);
 }
 
+/* Typewriter & Hero greeting */
+.hero-greeting {
+  font-size: 1.1rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.typewriter-text {
+  background: linear-gradient(135deg, #fff, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cursor {
+  display: inline-block;
+  color: var(--primary);
+  font-weight: 100;
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+  -webkit-text-fill-color: var(--primary);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 /* Footer */
 .footer {
   text-align: center;

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Inter:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1200px;
+      height: 630px;
+      background: #0d1117;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 80px;
+    }
+    .left {
+      flex: 1;
+      z-index: 10;
+    }
+    .github-icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 40px;
+    }
+    .github-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: #fff;
+    }
+    .title {
+      font-family: 'Inter', sans-serif;
+      font-size: 64px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    .subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #58a6ff;
+      margin-bottom: 40px;
+    }
+    .stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 50px;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 48px;
+      font-weight: 800;
+      color: #58a6ff;
+      display: block;
+    }
+    .stat-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      color: #8b949e;
+      margin-top: 8px;
+    }
+    .right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .code-window {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 20px;
+      width: 450px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    }
+    .window-header {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+    .code-line {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      margin-bottom: 12px;
+      color: #c9d1d9;
+    }
+    .keyword { color: #ff7b72; }
+    .function { color: #d2a8ff; }
+    .string { color: #a5d6ff; }
+    .comment { color: #8b949e; }
+  </style>
+</head>
+<body>
+  <div class="left">
+    <div class="github-icon">
+      <svg viewBox="0 0 16 16" version="1.1">
+        <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+      </svg>
+    </div>
+    <div class="title">JEEVA VINCENT</div>
+    <div class="subtitle">@Jeeva-V-2003</div>
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-number">7</span>
+        <div class="stat-label">Repositories</div>
+      </div>
+      <div class="stat">
+        <span class="stat-number">Python</span>
+        <div class="stat-label">Primary Lang</div>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="code-window">
+      <div class="window-header">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+      </div>
+      <div class="code-line"><span class="keyword">class</span> <span class="function">DataEngineer</span>:</div>
+      <div class="code-line">    <span class="keyword">def</span> <span class="function">__init__</span>(self):</div>
+      <div class="code-line">        self.name = <span class="string">"Jeeva"</span></div>
+      <div class="code-line">        self.role = <span class="string">"Data Engineer"</span></div>
+      <div class="code-line">        self.skills = [</div>
+      <div class="code-line">            <span class="string">"Python"</span>,</div>
+      <div class="code-line">            <span class="string">"Machine Learning"</span>,</div>
+      <div class="code-line">            <span class="string">"Big Data"</span>,</div>
+      <div class="code-line">            <span class="string">"PostgreSQL"</span></div>
+      <div class="code-line">        ]</div>
+    </div>
+  </div>
+</body>
+</html>
