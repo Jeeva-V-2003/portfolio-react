@@ -1,54 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope, FaDatabase, FaCloud, FaCode, FaBrain, FaServer, FaChartLine, FaRocket, FaTools, FaDownload, FaShieldAlt, FaCogs } from 'react-icons/fa';
-import { SiApachekafka, SiApachespark, SiApacheairflow, SiSnowflake, SiPostgresql, SiFastapi, SiDbt, SiAmazons3, SiGooglecloud, SiDocker, SiGo, SiPython } from 'react-icons/si';
+import { FaGithub, FaLinkedin, FaEnvelope, FaDownload, FaArrowLeft } from 'react-icons/fa';
 import profileImg from './assets/profile.jpg';
+import illuWorkflow    from './assets/illustration-workflow.png';
+import illuDev         from './assets/illustration-developer.png';
+import illuCollab      from './assets/illustration-collaboration.png';
+import illuRocket      from './assets/illustration-rocket.png';
 
-const fadeIn = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 }
-};
+/* ── animation helpers ─────────────────────────────── */
+const fadeUp   = { initial: { opacity: 0, y: 40 },  whileInView: { opacity: 1, y: 0 }, transition: { duration: .6 }, viewport: { once: true } };
+const fadeLeft = { initial: { opacity: 0, x: -50 }, whileInView: { opacity: 1, x: 0 }, transition: { duration: .7 }, viewport: { once: true } };
+const scaleIn  = { initial: { opacity: 0, scale: .88 }, whileInView: { opacity: 1, scale: 1 }, transition: { duration: .6 }, viewport: { once: true } };
 
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
-
-// ── Typewriter hook ───────────────────────────────────────────────────────
-function useTypewriter(words, typingSpeed = 80, deletingSpeed = 40, pauseTime = 2000) {
-  const [displayText, setDisplayText] = useState('');
-  const [wordIndex, setWordIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const current = words[wordIndex % words.length];
-    let timeout;
-
-    if (!isDeleting && displayText === current) {
-      timeout = setTimeout(() => setIsDeleting(true), pauseTime);
-    } else if (isDeleting && displayText === '') {
-      setIsDeleting(false);
-      setWordIndex(i => i + 1);
-    } else {
-      const speed = isDeleting ? deletingSpeed : typingSpeed;
-      timeout = setTimeout(() => {
-        setDisplayText(prev =>
-          isDeleting ? prev.slice(0, -1) : current.slice(0, prev.length + 1)
-        );
-      }, speed);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, wordIndex, words, typingSpeed, deletingSpeed, pauseTime]);
-
-  return displayText;
-}
-
-// ── Custom Cursor ─────────────────────────────────────────────────────────
+/* ── custom cursor ─────────────────────────────────── */
 function CustomCursor() {
   const dot  = useRef(null);
   const ring = useRef(null);
@@ -56,41 +20,35 @@ function CustomCursor() {
   const smooth = useRef({ x: -200, y: -200 });
 
   useEffect(() => {
-    const onMove = (e) => {
+    const onMove = e => {
       mouse.current = { x: e.clientX, y: e.clientY };
-      if (dot.current) {
-        dot.current.style.transform = `translate(${e.clientX}px,${e.clientY}px)`;
-      }
+      if (dot.current) dot.current.style.transform = `translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
     };
     let raf;
     const tick = () => {
-      smooth.current.x += (mouse.current.x - smooth.current.x) * 0.1;
-      smooth.current.y += (mouse.current.y - smooth.current.y) * 0.1;
-      if (ring.current) {
-        ring.current.style.transform = `translate(${smooth.current.x}px,${smooth.current.y}px)`;
-      }
+      smooth.current.x += (mouse.current.x - smooth.current.x) * .09;
+      smooth.current.y += (mouse.current.y - smooth.current.y) * .09;
+      if (ring.current) ring.current.style.transform = `translate(${smooth.current.x}px,${smooth.current.y}px) translate(-50%,-50%)`;
       raf = requestAnimationFrame(tick);
     };
-    const onEnter = () => { if (dot.current) dot.current.style.opacity = '1'; if (ring.current) ring.current.style.opacity = '1'; };
-    const onLeave = () => { if (dot.current) dot.current.style.opacity = '0'; if (ring.current) ring.current.style.opacity = '0'; };
-
+    const show = () => { if (dot.current) dot.current.style.opacity = '1'; if (ring.current) ring.current.style.opacity = '1'; };
+    const hide = () => { if (dot.current) dot.current.style.opacity = '0'; if (ring.current) ring.current.style.opacity = '0'; };
     window.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseenter', onEnter);
-    document.addEventListener('mouseleave', onLeave);
+    document.addEventListener('mouseenter', show);
+    document.addEventListener('mouseleave', hide);
     raf = requestAnimationFrame(tick);
 
-    // Expand ring on interactive elements
-    const interactives = document.querySelectorAll('a, button, [role="button"]');
-    const grow = () => { if (ring.current) ring.current.classList.add('cursor-ring--hover'); };
-    const shrink = () => { if (ring.current) ring.current.classList.remove('cursor-ring--hover'); };
-    interactives.forEach(el => { el.addEventListener('mouseenter', grow); el.addEventListener('mouseleave', shrink); });
+    const grow   = () => ring.current?.classList.add('cursor-ring--hover');
+    const shrink = () => ring.current?.classList.remove('cursor-ring--hover');
+    const els = document.querySelectorAll('a,button,[role="button"]');
+    els.forEach(el => { el.addEventListener('mouseenter', grow); el.addEventListener('mouseleave', shrink); });
 
     return () => {
       window.removeEventListener('mousemove', onMove);
-      document.removeEventListener('mouseenter', onEnter);
-      document.removeEventListener('mouseleave', onLeave);
+      document.removeEventListener('mouseenter', show);
+      document.removeEventListener('mouseleave', hide);
       cancelAnimationFrame(raf);
-      interactives.forEach(el => { el.removeEventListener('mouseenter', grow); el.removeEventListener('mouseleave', shrink); });
+      els.forEach(el => { el.removeEventListener('mouseenter', grow); el.removeEventListener('mouseleave', shrink); });
     };
   }, []);
 
@@ -102,7 +60,7 @@ function CustomCursor() {
   );
 }
 
-// ── Scroll Progress Bar ───────────────────────────────────────────────────
+/* ── scroll progress ───────────────────────────────── */
 function ScrollProgress() {
   const [pct, setPct] = useState(0);
   useEffect(() => {
@@ -116,738 +74,596 @@ function ScrollProgress() {
   return <div className="scroll-progress" style={{ width: `${pct}%` }} />;
 }
 
-// ── Decorative SVG helpers ────────────────────────────────────────────────
-const Sparkle = ({ size = 18, style = {} }) => (
+/* ── decorative SVGs ───────────────────────────────── */
+const Sparkle4 = ({ size = 20, style = {}, opacity = 1 }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
-    style={{ position: 'absolute', width: size, height: size, pointerEvents: 'none', ...style }}>
+    style={{ position:'absolute', width:size, height:size, pointerEvents:'none', opacity, ...style }}>
     <path d="M12 0l1.8 8.4L22 12l-8.2 3.6L12 24l-1.8-8.4L2 12l8.2-3.6L12 0z"/>
   </svg>
 );
-
-const PlusMark = ({ size = 14, style = {} }) => (
+const PlusSvg = ({ size = 14, style = {}, opacity = .18 }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"
-    style={{ position: 'absolute', width: size, height: size, pointerEvents: 'none', ...style }}>
-    <line x1="12" y1="3" x2="12" y2="21"/>
-    <line x1="3"  y1="12" x2="21" y2="12"/>
+    style={{ position:'absolute', width:size, height:size, pointerEvents:'none', opacity, ...style }}>
+    <line x1="12" y1="4" x2="12" y2="20"/><line x1="4" y1="12" x2="20" y2="12"/>
   </svg>
 );
-
-const DotGrid = ({ rows = 5, cols = 5, style = {} }) => {
-  const gap = 14, r = 2, pad = 4;
-  const w = (cols - 1) * gap + pad * 2;
-  const h = (rows - 1) * gap + pad * 2;
+const DotGrid = ({ rows=5, cols=6, gap=14, style={} }) => {
+  const pad=4, w=(cols-1)*gap+pad*2, h=(rows-1)*gap+pad*2;
   return (
     <svg viewBox={`0 0 ${w} ${h}`} aria-hidden="true"
-      style={{ position: 'absolute', width: w, height: h, pointerEvents: 'none', ...style }}>
-      {Array.from({ length: rows * cols }).map((_, i) => {
-        const row = Math.floor(i / cols), col = i % cols;
-        return <circle key={i} cx={col * gap + pad} cy={row * gap + pad} r={r} fill="currentColor" opacity={0.35} />;
+      style={{ position:'absolute', width:w, height:h, pointerEvents:'none', ...style }}>
+      {Array.from({length:rows*cols}).map((_,i)=>{
+        const r=Math.floor(i/cols), c=i%cols;
+        return <circle key={i} cx={c*gap+pad} cy={r*gap+pad} r={2} fill="currentColor" opacity={.28}/>;
       })}
     </svg>
   );
 };
-
-const DashedCircle = ({ size = 120, style = {} }) => (
+const DashedCircle = ({ size=140, style={} }) => (
   <svg viewBox="0 0 120 120" aria-hidden="true"
-    style={{ position: 'absolute', width: size, height: size, pointerEvents: 'none', ...style }}>
-    <circle cx="60" cy="60" r="54" stroke="currentColor" strokeWidth="1.5" strokeDasharray="5 6" fill="none" opacity="0.55"/>
+    style={{ position:'absolute', width:size, height:size, pointerEvents:'none', ...style }}>
+    <circle cx="60" cy="60" r="54" stroke="currentColor" strokeWidth="1.5" strokeDasharray="5 6" fill="none"/>
+  </svg>
+);
+const WavyLine = ({ style={} }) => (
+  <svg viewBox="0 0 120 20" fill="none" aria-hidden="true"
+    style={{ position:'absolute', width:120, height:20, pointerEvents:'none', ...style }}>
+    <path d="M2 10 C 15 2, 25 18, 38 10 C 51 2, 61 18, 74 10 C 87 2, 97 18, 110 10"
+      stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
   </svg>
 );
 
-// ── Marquee items ─────────────────────────────────────────────────────────
-const MARQUEE_ITEMS = [
-  { text: 'AI-NATIVE DATA ENGINEER', color: '#6366f1' },
-  { text: 'OPEN TO WORK',            color: '#10b981' },
-  { text: 'DATA PIPELINE ARCHITECT', color: '#f59e0b' },
-  { text: 'AI SYSTEMS BUILDER',      color: '#8b5cf6' },
-  { text: 'PYTHON  •  GO  •  SQL',   color: '#6366f1' },
-  { text: 'SNOWFLAKE  •  BIGQUERY',  color: '#3b82f6' },
-  { text: 'JEEVA VINCENT',           color: '#f43f5e' },
+/* ── marquee data ─────────────────────────────────── */
+const MARQUEE = [
+  { text:'AI-NATIVE DATA ENGINEER', color:'#8b7d6e' },
+  { text:'OPEN TO WORK',            color:'#6b8c6b' },
+  { text:'DATA PIPELINE ARCHITECT', color:'#8b7d6e' },
+  { text:'AI SYSTEMS BUILDER',      color:'#7d7890' },
+  { text:'PYTHON  ·  GO  ·  SQL',   color:'#8b7d6e' },
+  { text:'SNOWFLAKE  ·  BIGQUERY',  color:'#6b7a8c' },
+  { text:'JEEVA VINCENT',           color:'#8b6b6b' },
 ];
 
-function App() {
-  const typedText = useTypewriter([
-    'AI-Native Data Engineer',
-    'Data Pipeline Architect',
-    'AI Systems Builder',
-  ]);
+/* ── skills list ──────────────────────────────────── */
+const SKILLS = [
+  'Python','Go','SQL','TypeScript','JavaScript',
+  'Apache Kafka','Apache Airflow','Apache Spark','dbt','dlt','RabbitMQ','Airbyte','Meltano',
+  'Anthropic Claude','OpenAI GPT-4','Pydantic AI','XGBoost','scikit-learn','K-Means','RFM Modelling','sentence-transformers','Ollama',
+  'BigQuery','PostgreSQL','Snowflake','DuckDB','Redis','Qdrant','LanceDB','asyncpg',
+  'GCP BigQuery','GCS','Cloud Run','AWS Lambda','AWS S3','AWS Glue','AWS ECR','Docker','Boto3',
+  'FastAPI','NestJS','Express.js','Cobra (Go CLI)','Streamlit','React','Next.js',
+  'LangChain','LangGraph','Zyte API','BrightData','Apollo.io','ReverseContact','Selenium','Playwright','BeautifulSoup',
+  'LookML / Looker','Salesforce (SFDC)','Pandas','NumPy','Plotly','AES-256-CBC',
+];
 
+/* ═══════════════════════════════════════════════════
+   APP
+═══════════════════════════════════════════════════ */
+export default function App() {
   return (
-    <div className="app">
-      {/* ── Interactive layer ── */}
+    <div>
       <CustomCursor />
       <ScrollProgress />
 
-      {/* ── Animated Background ── */}
-      <div className="animated-bg">
-        <div className="gradient-orb orb-1"></div>
-        <div className="gradient-orb orb-2"></div>
-        <div className="gradient-orb orb-3"></div>
-      </div>
-
-      {/* ── Navbar ── */}
-      <motion.nav
-        className="navbar"
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5 }}
+      {/* ── NAV ── */}
+      <motion.header
+        style={{ position:'fixed', top:0, left:0, right:0, zIndex:1000,
+          padding:'1rem 5%', display:'flex', alignItems:'center', justifyContent:'space-between', gap:'1rem' }}
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: .5 }}
       >
-        <div className="nav-content">
-          <div className="logo">Jeeva Vincent</div>
-          <ul className="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li>
-              <a href="/Jeeva_Vincent_Resume.pdf" download className="nav-resume-btn">
-                <FaDownload /> Resume
-              </a>
-            </li>
-          </ul>
+        {/* avatar */}
+        <a href="#home" className="nav-avatar" aria-label="Home">
+          <img src={profileImg} alt="Jeeva Vincent" />
+        </a>
+
+        {/* pill nav */}
+        <nav className="nav-pill">
+          {[['#home','Home'],['#about','About'],['#experience','Experience'],
+            ['#projects','Projects'],['#skills','Skills'],['#education','Education'],['#contact','Contact']].map(([href,label])=>(
+            <a key={href} href={href}>{label}</a>
+          ))}
+        </nav>
+
+        {/* social icons */}
+        <div className="nav-socials">
+          <a href="https://github.com/Jeeva-V-2003" target="_blank" rel="noopener noreferrer" className="nav-social-btn" aria-label="GitHub">
+            <FaGithub size={18}/>
+          </a>
+          <a href="https://www.linkedin.com/in/jeeva280503/" target="_blank" rel="noopener noreferrer" className="nav-social-btn" aria-label="LinkedIn">
+            <FaLinkedin size={18}/>
+          </a>
+          <a href="/Jeeva_Vincent_Resume.pdf" download className="nav-social-btn" aria-label="Resume">
+            <FaDownload size={16}/>
+          </a>
         </div>
-      </motion.nav>
+      </motion.header>
 
-      {/* ── Hero Section ── */}
-      <section id="home" className="hero">
-        {/* Decorative background SVGs */}
-        <DotGrid rows={7} cols={8} style={{ top: '12%', right: '2%',  color: 'rgba(99,102,241,0.18)' }} />
-        <DashedCircle size={220} style={{ bottom: '6%', left: '1.5%', color: 'rgba(16,185,129,0.14)', animation: 'spinRing 32s linear infinite reverse' }} />
-        <Sparkle size={22} style={{ top: '20%', right: '27%', color: 'rgba(245,158,11,0.45)' }} />
-        <Sparkle size={13} style={{ top: '68%', right: '22%', color: 'rgba(99,102,241,0.35)' }} />
-        <Sparkle size={16} style={{ bottom: '18%', left: '38%', color: 'rgba(16,185,129,0.3)' }} />
-        <PlusMark size={18} style={{ top: '28%', left: '2%',   color: 'rgba(255,255,255,0.14)' }} />
-        <PlusMark size={12} style={{ top: '55%', left: '5%',   color: 'rgba(99,102,241,0.2)' }} />
-        <PlusMark size={14} style={{ bottom: '22%', right: '40%', color: 'rgba(16,185,129,0.2)' }} />
+      {/* ═══════════════════════════════
+          HERO
+      ═══════════════════════════════ */}
+      <section id="home" className="noise">
+        {/* decorative SVGs */}
+        <DotGrid rows={6} cols={7} style={{ top:'10%', right:'1%', color:'rgba(26,26,26,.09)' }}/>
+        <DashedCircle size={240} style={{ bottom:'5%', left:'-2%', color:'rgba(26,26,26,.06)' }}/>
+        <Sparkle4 size={18} style={{ top:'22%', right:'28%', color:'rgba(26,26,26,.18)' }}/>
+        <Sparkle4 size={11} style={{ top:'62%', right:'22%', color:'rgba(26,26,26,.12)' }}/>
+        <PlusSvg size={18} style={{ top:'28%', left:'1%',   color:'rgba(26,26,26,.9)' }} opacity={.16}/>
+        <PlusSvg size={12} style={{ bottom:'22%', left:'4%',color:'rgba(26,26,26,.9)' }} opacity={.12}/>
 
-        <div className="hero-content">
-          <motion.div
-            className="hero-text"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <p className="hero-greeting">Jeeva Vincent</p>
-            <h1>
-              <span className="typewriter-text">{typedText}</span>
-              <span className="cursor">|</span>
-            </h1>
-            <p className="tagline">Building Scalable Data Pipelines & Intelligent AI Systems</p>
-            <p className="description">
-              AI-Native Data Engineer at iCustomer — promoted from Junior DE to leading AI-powered scoring engines,
-              agentic enrichment pipelines, and ML-driven segmentation systems on GCP & AWS.
-              Translating complex B2B data challenges into production-grade Python microservices.
-            </p>
-            <div className="cta-buttons">
-              <a href="#projects" className="btn btn-primary">
-                <FaRocket /> View Projects
-              </a>
-              <a href="/Jeeva_Vincent_Resume.pdf" download className="btn btn-resume">
-                <FaDownload /> Download Resume
-              </a>
-              <a href="#contact" className="btn btn-secondary">
-                <FaEnvelope /> Get In Touch
-              </a>
-            </div>
-          </motion.div>
+        <div className="hero-grid">
+          {/* ── left: text ── */}
+          <div style={{ position:'relative' }}>
+            {/* sparkle decorators near HELLO */}
+            <Sparkle4 size={22} style={{ top:8, left:-24, color:'rgba(26,26,26,.65)' }}/>
+            <Sparkle4 size={12} style={{ top:-6, left:'42%', color:'rgba(26,26,26,.45)' }}/>
+            <Sparkle4 size={30} style={{ top:12, right:4, color:'rgba(26,26,26,.55)' }}/>
 
-          <motion.div
-            className="hero-image"
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.2 }}
-          >
-            {/* Photo + rings */}
-            <div className="profile-container">
-              <div className="profile-ring-outer"></div>
-              <div className="profile-ring-inner"></div>
-              <div className="profile-glow profile-glow-1"></div>
-              <div className="profile-glow profile-glow-2"></div>
-              <div className="profile-img-wrap">
-                <img src={profileImg} alt="Jeeva Vincent" className="profile-img" />
+            <motion.div {...fadeUp}>
+              <h1 className="hero-hello">
+                HELLO<span className="hello-faint"> !</span>
+              </h1>
+            </motion.div>
+
+            <motion.div {...fadeUp} transition={{ duration:.6, delay:.1 }}>
+              <p className="hero-name">I am Jeeva Vincent,</p>
+              <div className="hero-title-wrap">
+                <p className="hero-title">AI-Native Data Engineer</p>
+                {/* wavy underline */}
+                <svg className="hero-wavy" viewBox="0 0 320 16" preserveAspectRatio="none"
+                  fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+                  <path d="M4 10 C 60 2, 130 16, 200 7 S 300 2, 316 9"/>
+                  <path d="M14 14 C 80 8, 160 16, 240 10 S 300 12, 314 12" opacity=".5"/>
+                </svg>
               </div>
-              {/* Rotating "OPEN TO WORK" text ring */}
-              <svg className="profile-rotate-badge" viewBox="0 0 410 410" aria-hidden="true">
-                <defs>
-                  <path id="badgePath" d="M205,205 m-185,0 a185,185 0 1,1 370,0 a185,185 0 1,1 -370,0" />
-                </defs>
-                <text fontSize="10.5" fontWeight="700" letterSpacing="7" fill="rgba(99,102,241,0.55)" fontFamily="Inter,sans-serif">
-                  <textPath href="#badgePath">✦ OPEN TO WORK ✦ AI-NATIVE DE ✦ OPEN TO WORK ✦ AI-NATIVE DE ✦ OPEN TO WORK</textPath>
-                </text>
+            </motion.div>
+
+            <motion.p className="hero-desc" {...fadeUp} transition={{ duration:.6, delay:.2 }}>
+              AI-Native Data Engineer at iCustomer — promoted from Junior DE to leading
+              AI-powered scoring engines, agentic enrichment pipelines, and ML-driven
+              segmentation systems on GCP & AWS. Building production-grade systems that
+              translate complex B2B data challenges into real outcomes.
+            </motion.p>
+
+            <motion.div className="hero-tags" {...fadeUp} transition={{ duration:.6, delay:.28 }}>
+              {['B2B AI Systems','Data Pipelines','Scoring Engines','Open to Work'].map(t=>(
+                <span key={t} className="hero-tag">{t}</span>
+              ))}
+            </motion.div>
+
+            <motion.div className="hero-btns" {...fadeUp} transition={{ duration:.6, delay:.36 }}>
+              <a href="#projects" className="btn-primary">See My Work</a>
+              <a href="#contact"  className="btn-outline">Get In Touch</a>
+            </motion.div>
+          </div>
+
+          {/* ── right: photo ── */}
+          <motion.div className="hero-photo-col" {...scaleIn} transition={{ duration:.8, delay:.2 }}>
+            <div className="photo-frame-wrap">
+              {/* decorative cursor arrow top-right */}
+              <svg className="deco-cursor" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M4 1L4 18.5L8.5 14L14 22L17 20.5L11.5 12.5L18 11L4 1Z"/>
               </svg>
-            </div>
 
-            {/* Badge column — right side, flex sibling */}
-            <div className="badge-column">
-              <motion.div className="float-badge badge-side"
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.1, duration: 0.5, type: 'spring' }}
-              >
-                <div className="badge-icon-wrap badge-icon-indigo">
-                  <span style={{ fontSize: '1rem' }}>⏱️</span>
-                </div>
-                <div>
-                  <p className="badge-label">Experience</p>
-                  <p className="badge-value">1+ Year</p>
-                </div>
-              </motion.div>
+              {/* wavy lines flanking photo */}
+              <WavyLine style={{ left:'-3.5rem', top:'44%', color:'rgba(26,26,26,.22)' }}/>
+              <WavyLine style={{ right:'-2.5rem', bottom:'28%', color:'rgba(184,169,154,.55)' }}/>
 
-              <motion.div className="float-badge badge-side"
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.3, duration: 0.5, type: 'spring' }}
-              >
-                <span className="avail-dot"></span>
-                <div>
-                  <p className="badge-label">Status</p>
-                  <p className="badge-value" style={{ color: '#10b981' }}>Open to Work</p>
-                </div>
-              </motion.div>
+              {/* rotating "OPEN TO WORK" badge */}
+              <div className="rotating-badge">
+                <svg className="badge-text-ring" viewBox="0 0 200 200">
+                  <defs>
+                    <path id="bp" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/>
+                  </defs>
+                  <text style={{ fontSize:'20px', letterSpacing:'4px', fontWeight:'700', fontFamily:'Inter,sans-serif', fill:'#1a1a1a' }}>
+                    <textPath href="#bp" startOffset="0">✦ OPEN TO WORK ✦ OPEN TO WORK ✦</textPath>
+                  </text>
+                </svg>
+                {/* arrow icon center */}
+                <svg className="badge-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+              </div>
 
-              <motion.div className="float-badge badge-side"
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.5, duration: 0.5, type: 'spring' }}
-              >
-                <div className="badge-icon-wrap badge-icon-amber">
-                  <span style={{ fontSize: '1rem' }}>🤖</span>
-                </div>
-                <div>
-                  <p className="badge-label">Current Role</p>
-                  <p className="badge-value">AI-Native DE</p>
-                </div>
-              </motion.div>
+              {/* photo */}
+              <div className="photo-frame">
+                <img src={profileImg} alt="Jeeva Vincent" />
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ── Marquee strip ── */}
+      {/* ── MARQUEE ── */}
       <div className="marquee-strip" aria-hidden="true">
         <div className="marquee-inner">
-          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+          {[...MARQUEE,...MARQUEE].map((item,i)=>(
             <span key={i} className="marquee-item">
-              <span className="marquee-star" style={{ color: item.color }}>✦</span>
+              <span className="marquee-star" style={{ color:item.color }}>✦</span>
               <span className="marquee-text">{item.text}</span>
             </span>
           ))}
         </div>
       </div>
 
-      {/* ── Stats Section ── */}
-      <section id="stats" style={{ padding: '4rem 5%', background: 'rgba(99,102,241,0.03)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-        {/* Decorators */}
-        <Sparkle size={16} style={{ top: '15%', right: '4%',  color: 'rgba(245,158,11,0.35)' }} />
-        <PlusMark size={14} style={{ top: '20%', left: '3%',  color: 'rgba(99,102,241,0.2)' }} />
-        <DotGrid rows={3} cols={4} style={{ bottom: '8%', right: '8%', color: 'rgba(99,102,241,0.12)' }} />
+      {/* ── STATS STRIP ── */}
+      <div className="stats-strip">
+        <div className="stats-grid">
+          {[
+            { num:'1+',  label:'Year of Experience' },
+            { num:'50+', label:'Technologies Used' },
+            { num:'20+', label:'Production Services' },
+            { num:'4',   label:'Personal Projects' },
+          ].map((s,i)=>(
+            <motion.div key={i} className="stat-card" {...fadeUp} transition={{ duration:.5, delay:i*.08 }}>
+              <div className="stat-num">{s.num}</div>
+              <div className="stat-label">{s.label}</div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
 
-        <motion.div
-          style={{ width: '100%' }}
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
-          <motion.h2 className="section-title" {...fadeIn}>Impact & Achievements</motion.h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', textAlign: 'center' }}>
+      {/* ═══════════════════════════════
+          ABOUT
+      ═══════════════════════════════ */}
+      <section id="about">
+        {/* decorators */}
+        <Sparkle4 size={18} style={{ top:'8%', right:'12%',  color:'rgba(26,26,26,.12)' }}/>
+        <Sparkle4 size={11} style={{ bottom:'12%', left:'9%', color:'rgba(184,169,154,.5)' }}/>
+        <DotGrid rows={4} cols={3} style={{ left:'-1%', top:'38%', color:'rgba(26,26,26,.07)' }}/>
+        <PlusSvg size={16} style={{ top:'22%', right:'5%', color:'rgba(26,26,26,.9)' }} opacity={.12}/>
+
+        <div className="section-max">
+          <div className="about-grid">
+            <div>
+              <motion.div {...fadeUp}>
+                <div className="section-label"><span>✦</span> About</div>
+                <h2 className="section-heading">More about <em>me.</em></h2>
+              </motion.div>
+
+              <motion.p style={{ fontSize:'1.05rem', color:'var(--fg-muted)', lineHeight:1.8, maxWidth:560, marginBottom:'1.2rem' }} {...fadeUp} transition={{ duration:.6, delay:.1 }}>
+                I build AI systems end-to-end — from raw B2B data to deployed production services.
+                My work sits at the intersection of data engineering and intelligence: scoring engines,
+                enrichment pipelines, vector search systems, and agentic workflows.
+              </motion.p>
+              <motion.p style={{ fontSize:'1.05rem', color:'var(--fg-muted)', lineHeight:1.8, maxWidth:560, marginBottom:'1.8rem' }} {...fadeUp} transition={{ duration:.6, delay:.15 }}>
+                I've built FIRE scoring, RFM segmentation on 83K+ Shopify orders, a Lookalike Engine
+                across 18M+ companies, and migrated OneSource from Python to Go solo in under 3 weeks.
+                I enjoy making complex systems simple and fast.
+              </motion.p>
+
+              <motion.div className="about-highlight-card" {...fadeUp} transition={{ duration:.6, delay:.2 }}>
+                <h4>Currently at iCustomer</h4>
+                <p>
+                  B2B Audience Intelligence Platform — Cambridge, MA (Remote).
+                  Promoted from Junior DE to AI-Native DE, Feb 2026. Leading AI-powered
+                  scoring, segmentation, and enrichment infrastructure.
+                </p>
+              </motion.div>
+
+              <motion.div className="about-skills-grid" {...fadeUp} transition={{ duration:.6, delay:.28 }}>
+                {[
+                  { title:'AI Systems',       body:'Build and deploy ML models — scoring engines, clustering, vector search, LLM agents.' },
+                  { title:'Data Pipelines',   body:'End-to-end ETL/ELT pipelines with Kafka, dbt, RabbitMQ, BigQuery, and Snowflake.' },
+                  { title:'Enrichment APIs',  body:'Multi-provider waterfall enrichment with Apollo, PDL, ReverseContact, TrestleIQ.' },
+                  { title:'Full-Stack Data',  body:'Go APIs, FastAPI microservices, Streamlit UIs — production, not just notebooks.' },
+                ].map((c,i)=>(
+                  <div key={i} className="about-skill-card">
+                    <h5>{c.title}</h5>
+                    <p>{c.body}</p>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* illustration */}
+            <motion.div className="about-illustration" {...fadeLeft} transition={{ duration:.7, delay:.1 }}>
+              <img src={illuWorkflow} alt="workflow illustration" />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════
+          EXPERIENCE
+      ═══════════════════════════════ */}
+      <section id="experience" style={{ background:'rgba(255,255,255,.30)' }}>
+        {/* decorators */}
+        <PlusSvg size={18} style={{ top:'8%', right:'10%', color:'rgba(26,26,26,.9)' }} opacity={.14}/>
+        <DashedCircle size={180} style={{ right:'-3%', bottom:'8%', color:'rgba(26,26,26,.06)' }}/>
+        <Sparkle4 size={14} style={{ bottom:'10%', left:'10%', color:'rgba(184,169,154,.5)' }}/>
+
+        <div className="section-max">
+          {/* top grid: illustration + heading */}
+          <div className="exp-grid">
+            <motion.div className="exp-illustration" {...fadeLeft} transition={{ duration:.7 }}>
+              <img src={illuDev} alt="developer illustration" />
+              <span className="float-badge top-left">Python</span>
+              <span className="float-badge top-right">FastAPI</span>
+              <span className="float-badge mid-left">Go</span>
+              <span className="float-badge bot-right">LangChain</span>
+            </motion.div>
+
+            <div>
+              <motion.div {...fadeUp}>
+                <div className="section-label"><span>✦</span> Experience</div>
+                <h2 className="section-heading">My experiences</h2>
+              </motion.div>
+              <motion.p style={{ fontSize:'1rem', color:'var(--fg-muted)', lineHeight:1.75, maxWidth:440, marginTop:'.5rem' }} {...fadeUp} transition={{ delay:.1 }}>
+                Gained hands-on experience building production B2B data and AI systems,
+                continuously expanding expertise across data engineering and ML.
+              </motion.p>
+              <WavyLine style={{ position:'relative', marginTop:'1.4rem', color:'rgba(26,26,26,.18)' }}/>
+            </div>
+          </div>
+
+          {/* timeline */}
+          <div className="timeline-wrap">
+            {/* AI-Native DE */}
+            <motion.div className="timeline-entry" {...fadeUp} transition={{ delay:.05 }}>
+              <div style={{ textAlign:'right', paddingTop:'.3rem' }} className="tl-left">
+                <span className="tl-date">Feb 2026 – Present</span>
+              </div>
+              <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:0 }}>
+                <div className="tl-dot"/>
+              </div>
+              <div>
+                <div className="exp-card">
+                  <h3>AI-Native Data Engineer — iCustomer</h3>
+                  <p className="company">Promoted ↑ · Cambridge, MA (Remote)</p>
+                  <p className="desc">Leading AI-powered scoring engines, agentic enrichment pipelines, and ML-driven segmentation systems on GCP & AWS. Translating complex B2B data challenges into production-grade Python microservices.</p>
+                  <div className="exp-sub-grid" style={{ marginTop:'1rem' }}>
+                    {[
+                      { icon:'🔥', title:'FIRE Scoring Engine',       desc:'Fit, Intent, Recency, Engagement scoring via RabbitMQ, dbt on BigQuery' },
+                      { icon:'🤖', title:'ICP Scoring Engine',        desc:'Two-agent system (Claude Sonnet + Haiku) parsing docs into ICP scores 0–100' },
+                      { icon:'📊', title:'RFM Segmentation',          desc:'K-Means clustering on 83K+ Shopify orders; live FastAPI prediction service' },
+                      { icon:'🏗️', title:'Provider Orchestrator',     desc:'Intelligent enrichment routing with cascading fallback — zero-downtime swaps' },
+                      { icon:'❄️', title:'Snowflake Native App',       desc:'iCustomer CDO — Streamlit UI + Snowpark Python ETL for identity resolution' },
+                      { icon:'🦫', title:'OneSource Go API',           desc:'chi HTTP router, 20+ CLI commands — Apollo, PDL, ReverseContact, TrestleIQ' },
+                      { icon:'🔍', title:'Lookalike Engine',           desc:'18M+ companies, 580-dim vectors, XGBoost re-ranking, Qdrant — sub-second' },
+                      { icon:'📈', title:'LookML Analytics Suite',    desc:'20+ LookML views — cohort heatmaps, LTV, RFM clusters, fiscal calendar' },
+                      { icon:'🧠', title:'Unified Enrichment Agent',  desc:'50 rows parallel SSE streaming, AWS ECS/Fargate, CloudWatch logging' },
+                    ].map((s,i)=>(
+                      <div key={i} className="exp-sub-card">
+                        <div className="sub-icon">{s.icon}</div>
+                        <h5>{s.title}</h5>
+                        <p>{s.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Junior DE */}
+            <motion.div className="timeline-entry" {...fadeUp} transition={{ delay:.1 }}>
+              <div style={{ textAlign:'right', paddingTop:'.3rem' }} className="tl-left">
+                <span className="tl-date">Jun 2025 – Jan 2026</span>
+              </div>
+              <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
+                <div className="tl-dot"/>
+              </div>
+              <div>
+                <div className="exp-card">
+                  <h3>Junior Data Engineer — iCustomer</h3>
+                  <p className="company">Founding DE · Sole contributor building production microservices</p>
+                  <p className="desc">Built the full data infrastructure from scratch — scrapers, APIs, webhook receivers, and enrichment pipelines powering the core B2B platform.</p>
+                  <div className="exp-sub-grid" style={{ marginTop:'1rem' }}>
+                    {[
+                      { icon:'⚡', title:'B2B Realtime Signal Tracker',  desc:'Async FastAPI + aiohttp scraping company websites for tech stacks & job signals' },
+                      { icon:'☁️', title:'AWS Lambda Tag Identification', desc:'Detects 1,000+ app fingerprints, extracts social handles from live websites' },
+                      { icon:'🔐', title:'Contact Discovery API',         desc:'PostgreSQL + BigQuery queries with AES-256-CBC decryption' },
+                      { icon:'📡', title:'RB2B Webhook Receiver',         desc:'Real-time B2B visitor de-anonymization into per-tenant BigQuery tables' },
+                      { icon:'🎯', title:'DJ Graffiti Event Discovery',   desc:'Weekly LLM pipeline classifying events (conferences, webinars) to BigQuery' },
+                      { icon:'🔍', title:'SEO Keywords Finder',           desc:'FastAPI on AWS Lambda — generates B2B keywords via OpenAI GPT' },
+                    ].map((s,i)=>(
+                      <div key={i} className="exp-sub-card">
+                        <div className="sub-icon">{s.icon}</div>
+                        <h5>{s.title}</h5>
+                        <p>{s.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════
+          PROJECTS
+      ═══════════════════════════════ */}
+      <section id="projects">
+        {/* decorators */}
+        <DotGrid rows={5} cols={4} style={{ right:'-1%', bottom:'5%', color:'rgba(26,26,26,.07)' }}/>
+        <Sparkle4 size={16} style={{ top:'8%', left:'8%', color:'rgba(26,26,26,.14)' }}/>
+        <PlusSvg size={14} style={{ bottom:'12%', right:'8%', color:'rgba(26,26,26,.9)' }} opacity={.13}/>
+
+        <div className="section-max">
+          <motion.div {...fadeUp}>
+            <div className="section-label"><span>✦</span> My Works</div>
+            <h2 className="section-heading">Some of my <em>awesome</em> projects.</h2>
+          </motion.div>
+
+          <div className="projects-layout">
+            {/* row 1 — featured (wide + narrow) */}
+            <div className="project-row featured">
+              <motion.div className="project-card" {...fadeUp} transition={{ delay:.05 }}>
+                <div className="project-img-wrap">
+                  <img src={illuRocket} alt="Tech Intelligence Pipeline"/>
+                  <span className="project-num-badge">01</span>
+                  <span className="project-cat-badge">Kafka · Data</span>
+                </div>
+                <div className="project-body">
+                  <h3>Tech Intelligence Pipeline</h3>
+                  <p>End-to-end market intelligence pipeline ingesting live crypto/stock data, Reddit posts, and news via Kafka, transforming with dbt, storing in DuckDB, and exposing sentiment & trend APIs via FastAPI.</p>
+                  <div className="project-tech">
+                    {['Apache Kafka','Airflow','dbt','DuckDB','FastAPI','Python'].map(t=><span key={t}>{t}</span>)}
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div className="project-card" {...fadeUp} transition={{ delay:.1 }}>
+                <div className="project-img-wrap" style={{ height:180 }}>
+                  <img src={illuWorkflow} alt="Sentinel Shield"/>
+                  <span className="project-num-badge">02</span>
+                  <span className="project-cat-badge">AI · Security</span>
+                </div>
+                <div className="project-body">
+                  <h3>Sentinel Shield — Network Privacy Guard</h3>
+                  <p>Real-time network intrusion detection capturing packets with Scapy, processing streams with Bytewax, analyzing with local Ollama AI, storing embeddings in LanceDB.</p>
+                  <div className="project-tech">
+                    {['Scapy','Bytewax','Ollama','LanceDB','FastAPI','Python'].map(t=><span key={t}>{t}</span>)}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* row 2 — equal 2-col */}
+            <div className="project-row">
+              <motion.div className="project-card" {...fadeUp} transition={{ delay:.12 }}>
+                <div className="project-img-wrap">
+                  <img src={illuDev} alt="Stock Market Pipeline"/>
+                  <span className="project-num-badge">03</span>
+                  <span className="project-cat-badge">Kafka · AWS</span>
+                </div>
+                <div className="project-body">
+                  <h3>Real-Time Stock Market Pipeline</h3>
+                  <p>Kafka-based ETL pipeline streaming stock market data from CSV to JSON, storing in AWS S3, cataloging metadata with Glue, and querying market trends via Athena.</p>
+                  <div className="project-tech">
+                    {['Apache Kafka','AWS S3','AWS Glue','Athena','Python'].map(t=><span key={t}>{t}</span>)}
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div className="project-card" {...fadeUp} transition={{ delay:.16 }}>
+                <div className="project-img-wrap">
+                  <img src={illuCollab} alt="Uber Data Pipeline"/>
+                  <span className="project-num-badge">04</span>
+                  <span className="project-cat-badge">Spark · BigQuery</span>
+                </div>
+                <div className="project-body">
+                  <h3>Uber Data Engineering Pipeline</h3>
+                  <p>Batch processing pipeline analyzing Uber ride data with Spark, orchestrated by Airflow DAGs, generating insights on peak hours, location heatmaps, and revenue trends in BigQuery.</p>
+                  <div className="project-tech">
+                    {['Apache Spark','Airflow','BigQuery','Python','DAGs'].map(t=><span key={t}>{t}</span>)}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════
+          SKILLS / STACK
+      ═══════════════════════════════ */}
+      <section id="skills" style={{ background:'rgba(255,255,255,.30)' }}>
+        {/* decorators */}
+        <DashedCircle size={160} style={{ left:'-2%', top:'8%', color:'rgba(26,26,26,.06)' }}/>
+        <Sparkle4 size={14} style={{ top:'12%', right:'6%', color:'rgba(26,26,26,.13)' }}/>
+        <PlusSvg size={14} style={{ bottom:'14%', right:'18%', color:'rgba(26,26,26,.9)' }} opacity={.12}/>
+
+        <div className="section-max">
+          <motion.div {...fadeUp}>
+            <div className="section-label"><span>✦</span> Technologies &amp; Tools</div>
+            <h2 className="section-heading">The stack I <em>build</em> with.</h2>
+            <p style={{ fontSize:'1rem', color:'var(--fg-muted)', lineHeight:1.75, maxWidth:580, marginTop:'.5rem' }}>
+              A combination of modern data engineering and AI tools for building performant,
+              production-grade intelligent systems.
+            </p>
+          </motion.div>
+
+          <motion.div className="skills-tags" {...fadeUp} transition={{ delay:.12 }}>
+            {SKILLS.map((s,i)=>(
+              <span key={i} className="skill-pill">{s}</span>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════
+          EDUCATION
+      ═══════════════════════════════ */}
+      <section id="education">
+        <Sparkle4 size={14} style={{ top:'10%', right:'8%', color:'rgba(26,26,26,.13)' }}/>
+        <PlusSvg size={14} style={{ bottom:'12%', left:'5%', color:'rgba(26,26,26,.9)' }} opacity={.12}/>
+
+        <div className="section-max">
+          <motion.div {...fadeUp}>
+            <div className="section-label"><span>✦</span> Education</div>
+            <h2 className="section-heading">Academic <em>background.</em></h2>
+          </motion.div>
+
+          <div className="edu-list">
             {[
-              { num: '1+', label: 'Year Experience',    color: '#6366f1', border: 'rgba(99,102,241,0.2)' },
-              { num: '50+', label: 'Technologies Used', color: '#f59e0b', border: 'rgba(245,158,11,0.2)' },
-              { num: '20+', label: 'Production Services',color: '#10b981', border: 'rgba(16,185,129,0.2)' },
-              { num: '4',   label: 'Personal Projects',  color: '#8b5cf6', border: 'rgba(139,92,246,0.2)' },
-            ].map((s, i) => (
-              <motion.div key={i} variants={fadeIn} className="stat-card" style={{ padding: '2rem', background: 'rgba(255,255,255,0.02)', borderRadius: '14px', border: `1px solid ${s.border}` }}>
-                <h3 style={{ fontSize: '2.8rem', fontWeight: '800', color: s.color, letterSpacing: '-0.03em' }}>{s.num}</h3>
-                <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.9rem', marginTop: '0.4rem' }}>{s.label}</p>
+              { degree:'MBA in Human Resource Management', school:'Bharathidasan University, Tiruchirappalli', gpa:'Pursuing', year:'2025 – 2027' },
+              { degree:'Bachelor of Computer Applications (BCA)',    school:'Providence College for Women, Coonoor',        gpa:'GPA: 8.47 / 10.00', year:'2022 – 2025' },
+              { degree:'Diploma in Cyber Security (DCS)',            school:'Bharathiar University, Coimbatore',            gpa:'Completed',         year:'2022 – 2025' },
+            ].map((e,i)=>(
+              <motion.div key={i} className="edu-card" {...fadeUp} transition={{ delay:i*.08 }}>
+                <div>
+                  <h3>{e.degree}</h3>
+                  <p className="edu-school">{e.school}</p>
+                  <p className="edu-gpa">{e.gpa}</p>
+                </div>
+                <span className="edu-year">{e.year}</span>
               </motion.div>
             ))}
           </div>
-        </motion.div>
-      </section>
-
-      {/* ── Experience Section ── */}
-      <section id="experience" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
-        {/* Decorators */}
-        <DotGrid rows={6} cols={7} style={{ top: '3%', right: '1%',  color: 'rgba(99,102,241,0.1)' }} />
-        <PlusMark size={20} style={{ top: '6%', left: '3%',   color: 'rgba(16,185,129,0.18)' }} />
-        <Sparkle size={14} style={{ bottom: '5%', right: '6%', color: 'rgba(245,158,11,0.25)' }} />
-        <DashedCircle size={160} style={{ bottom: '8%', left: '2%', color: 'rgba(139,92,246,0.1)', animation: 'spinRing 28s linear infinite' }} />
-
-        <motion.h2 className="section-title" {...fadeIn}>Work Experience</motion.h2>
-        <motion.div
-          style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '2.5rem' }}
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
-          {/* Role 1: AI-Native DE */}
-          <motion.div
-            variants={fadeIn}
-            className="exp-card"
-            style={{
-              background: 'linear-gradient(135deg, rgba(99,102,241,0.06), rgba(139,92,246,0.04))',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(99,102,241,0.2)',
-              borderRadius: '25px',
-              padding: '3rem',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-          >
-            <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(99,102,241,0.12), transparent)', borderRadius: '50%', filter: 'blur(40px)' }}></div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
-              <div>
-                <h3 style={{ fontSize: '2rem', marginBottom: '0.5rem', background: 'linear-gradient(135deg, #fff, #6366f1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AI-Native Data Engineer</h3>
-                <p style={{ color: '#6366f1', fontSize: '1.3rem', fontWeight: '700' }}>iCustomer</p>
-                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', marginTop: '0.3rem' }}>B2B Audience Intelligence Platform · Cambridge, MA (Remote)</p>
-              </div>
-              <div style={{ background: 'rgba(99,102,241,0.12)', padding: '0.8rem 1.5rem', borderRadius: '20px', border: '1px solid rgba(99,102,241,0.35)', textAlign: 'center' }}>
-                <p style={{ color: '#fff', fontWeight: '700' }}>Feb 2026 – Present</p>
-                <p style={{ color: '#10b981', fontSize: '0.85rem', marginTop: '0.2rem' }}>Promoted ↑</p>
-              </div>
-            </div>
-            <div style={{ position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.2rem' }}>
-              {[
-                { icon: '🔥', color: '#6366f1', bg: 'rgba(99,102,241,0.07)',  border: 'rgba(99,102,241,0.25)',  title: 'FIRE Scoring Engine',       desc: 'Fit, Intent, Recency, Engagement scoring triggered via RabbitMQ, dbt on BigQuery, persisted to PostgreSQL' },
-                { icon: '🤖', color: '#f59e0b', bg: 'rgba(245,158,11,0.07)',  border: 'rgba(245,158,11,0.25)',  title: 'ICP Scoring Engine',        desc: 'Two-agent system (Claude Sonnet + Haiku) parsing PPTX/DOCX/PDF into structured ICP scores 0–100' },
-                { icon: '📊', color: '#10b981', bg: 'rgba(16,185,129,0.07)',  border: 'rgba(16,185,129,0.25)',  title: 'RFM Segmentation',          desc: 'K-Means clustering on 83K+ Shopify orders for Todd Snyder / American Eagle; live FastAPI prediction service' },
-                { icon: '🏗️', color: '#8b5cf6', bg: 'rgba(139,92,246,0.07)', border: 'rgba(139,92,246,0.25)', title: 'Provider Orchestrator',      desc: 'Intelligent enrichment routing with cascading fallback across ReverseContact & Pubrio — zero-downtime swaps' },
-                { icon: '❄️', color: '#3b82f6', bg: 'rgba(59,130,246,0.07)',  border: 'rgba(59,130,246,0.25)',  title: 'Snowflake Native App',       desc: 'iCustomer CDO — Streamlit UI + Snowpark Python ETL for deterministic identity resolution inside Snowflake' },
-                { icon: '🦫', color: '#f43f5e', bg: 'rgba(244,63,94,0.07)',   border: 'rgba(244,63,94,0.25)',   title: 'OneSource Go API',           desc: 'chi HTTP router, multi-provider waterfall enrichment, 20+ CLI commands — Apollo, PDL, ReverseContact, TrestleIQ' },
-                { icon: '🔍', color: '#10b981', bg: 'rgba(16,185,129,0.07)',  border: 'rgba(16,185,129,0.25)',  title: 'Lookalike Engine',           desc: 'Ultra-fast lookalike company discovery across 18M+ companies — 580-dim vectors, XGBoost re-ranking, Qdrant vector DB, sub-second response times with MMR diversity filtering' },
-                { icon: '📈', color: '#6366f1', bg: 'rgba(99,102,241,0.07)',  border: 'rgba(99,102,241,0.25)',  title: 'LookML Analytics Suite',     desc: 'Authored 20+ LookML views on Looker for Todd Snyder / AEO — cohort retention heatmaps, LTV over time, RFM cluster summaries, fiscal calendar, channel attribution' },
-                { icon: '🧠', color: '#f59e0b', bg: 'rgba(245,158,11,0.07)',  border: 'rgba(245,158,11,0.25)',  title: 'Unified Enrichment Agent',   desc: 'Production FastAPI service — parallel enrichment of 50 rows simultaneously with SSE streaming, AWS ECS/Fargate deployment, CloudWatch logging, and AI-powered column extraction' },
-              ].map((item, i) => (
-                <div key={i} className="exp-subcard" style={{ background: item.bg, padding: '1.2rem', borderRadius: '12px', border: `1px solid ${item.border}` }}>
-                  <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>{item.icon}</div>
-                  <h4 style={{ color: item.color, marginBottom: '0.4rem', fontSize: '1rem' }}>{item.title}</h4>
-                  <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.88rem', lineHeight: '1.5' }}>{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Role 2: Junior DE */}
-          <motion.div
-            variants={fadeIn}
-            className="exp-card"
-            style={{
-              background: 'linear-gradient(135deg, rgba(16,185,129,0.05), rgba(59,130,246,0.03))',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(16,185,129,0.2)',
-              borderRadius: '25px',
-              padding: '3rem',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1.5rem' }}>
-              <div>
-                <h3 style={{ fontSize: '2rem', marginBottom: '0.5rem', background: 'linear-gradient(135deg, #fff, #10b981)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Junior Data Engineer</h3>
-                <p style={{ color: '#10b981', fontSize: '1.3rem', fontWeight: '700' }}>iCustomer</p>
-                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', marginTop: '0.3rem' }}>Founding DE — Sole contributor building production microservices</p>
-              </div>
-              <div style={{ background: 'rgba(16,185,129,0.1)', padding: '0.8rem 1.5rem', borderRadius: '20px', border: '1px solid rgba(16,185,129,0.35)', textAlign: 'center' }}>
-                <p style={{ color: '#fff', fontWeight: '700' }}>Jun 2025 – Jan 2026</p>
-                <p style={{ color: '#10b981', fontSize: '0.85rem', marginTop: '0.2rem' }}>1+ Year</p>
-              </div>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.2rem' }}>
-              {[
-                { icon: '⚡', title: 'B2B Realtime Signal Tracker',    desc: 'Async FastAPI + aiohttp scraping company websites for tech stacks, social handles & job signals in real time' },
-                { icon: '☁️', title: 'AWS Lambda Tag Identification',   desc: 'Detects 1,000+ app fingerprints, extracts social handles & job signals from live websites' },
-                { icon: '🔐', title: 'Contact Discovery API',           desc: 'PostgreSQL + BigQuery queries with AES-256-CBC decryption returning enriched contact profiles' },
-                { icon: '📡', title: 'RB2B Webhook Receiver',           desc: 'Real-time anonymous B2B visitor de-anonymization inserting into per-tenant BigQuery tables' },
-                { icon: '🎯', title: 'DJ Graffiti — Event Discovery',   desc: 'Automated weekly pipeline scraping 1,000s of company sites, classifying events (conferences, webinars, summits) via LLM, delivering structured records to BigQuery every Monday' },
-                { icon: '🔍', title: 'SEO Keywords Finder',             desc: 'Async FastAPI on AWS Lambda — scrapes website meta content and generates B2B enrichment keywords & company specialities using OpenAI GPT' },
-              ].map((item, i) => (
-                <div key={i} className="exp-subcard" style={{ background: 'rgba(16,185,129,0.05)', padding: '1.2rem', borderRadius: '12px', border: '1px solid rgba(16,185,129,0.18)' }}>
-                  <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>{item.icon}</div>
-                  <h4 style={{ color: '#10b981', marginBottom: '0.4rem', fontSize: '1rem' }}>{item.title}</h4>
-                  <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.88rem', lineHeight: '1.5' }}>{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* ── Skills Section ── */}
-      <section id="skills">
-        {/* Decorators */}
-        <Sparkle size={24} style={{ top: '8%', right: '3%',  color: 'rgba(245,158,11,0.3)' }} />
-        <Sparkle size={14} style={{ top: '50%', left: '1%', color: 'rgba(99,102,241,0.25)' }} />
-        <DashedCircle size={160} style={{ bottom: '4%', left: '2%', color: 'rgba(139,92,246,0.12)', animation: 'spinRing 26s linear infinite' }} />
-        <DotGrid rows={4} cols={5} style={{ top: '5%', left: '2%', color: 'rgba(16,185,129,0.12)' }} />
-        <PlusMark size={16} style={{ bottom: '15%', right: '5%', color: 'rgba(245,158,11,0.2)' }} />
-
-        <motion.h2 className="section-title" {...fadeIn}>Technical Expertise</motion.h2>
-        <motion.div
-          className="skills-grid"
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
-          <motion.div className="skill-card" variants={fadeIn}>
-            <div className="skill-icon"><FaCode /></div>
-            <h3>Languages</h3>
-            <div className="skill-tags">
-              <span className="skill-tag">Python</span>
-              <span className="skill-tag">Go</span>
-              <span className="skill-tag">SQL</span>
-              <span className="skill-tag">TypeScript</span>
-              <span className="skill-tag">JavaScript</span>
-            </div>
-          </motion.div>
-
-          <motion.div className="skill-card" variants={fadeIn}>
-            <div className="skill-icon"><FaDatabase /></div>
-            <h3>Data Engineering</h3>
-            <div className="skill-tags">
-              <span className="skill-tag">Apache Kafka</span>
-              <span className="skill-tag">Apache Spark</span>
-              <span className="skill-tag">Apache Airflow</span>
-              <span className="skill-tag">dbt</span>
-              <span className="skill-tag">dlt</span>
-              <span className="skill-tag">Meltano (ELT)</span>
-              <span className="skill-tag">Airbyte</span>
-              <span className="skill-tag">RabbitMQ</span>
-              <span className="skill-tag">Pyarrow</span>
-              <span className="skill-tag">ETL / ELT Pipelines</span>
-            </div>
-          </motion.div>
-
-          <motion.div className="skill-card" variants={fadeIn}>
-            <div className="skill-icon"><FaBrain /></div>
-            <h3>AI / ML</h3>
-            <div className="skill-tags">
-              <span className="skill-tag">Anthropic Claude</span>
-              <span className="skill-tag">OpenAI GPT-4</span>
-              <span className="skill-tag">Pydantic AI</span>
-              <span className="skill-tag">LLM Prompt Engineering</span>
-              <span className="skill-tag">K-Means Clustering</span>
-              <span className="skill-tag">RFM Modelling</span>
-              <span className="skill-tag">XGBoost</span>
-              <span className="skill-tag">scikit-learn</span>
-              <span className="skill-tag">sentence-transformers</span>
-              <span className="skill-tag">Ollama</span>
-            </div>
-          </motion.div>
-
-          <motion.div className="skill-card" variants={fadeIn}>
-            <div className="skill-icon"><FaServer /></div>
-            <h3>Databases & Warehouses</h3>
-            <div className="skill-tags">
-              <span className="skill-tag">BigQuery</span>
-              <span className="skill-tag">PostgreSQL</span>
-              <span className="skill-tag">Snowflake</span>
-              <span className="skill-tag">DuckDB</span>
-              <span className="skill-tag">Redis</span>
-              <span className="skill-tag">Qdrant (Vector DB)</span>
-              <span className="skill-tag">LanceDB</span>
-              <span className="skill-tag">SQLAlchemy</span>
-              <span className="skill-tag">asyncpg</span>
-            </div>
-          </motion.div>
-
-          <motion.div className="skill-card" variants={fadeIn}>
-            <div className="skill-icon"><FaCloud /></div>
-            <h3>Cloud & DevOps</h3>
-            <div className="skill-tags">
-              <span className="skill-tag">GCP BigQuery</span>
-              <span className="skill-tag">GCS</span>
-              <span className="skill-tag">Cloud Run</span>
-              <span className="skill-tag">AWS Lambda</span>
-              <span className="skill-tag">AWS S3</span>
-              <span className="skill-tag">AWS Glue</span>
-              <span className="skill-tag">AWS Athena</span>
-              <span className="skill-tag">AWS ECR</span>
-              <span className="skill-tag">Docker</span>
-              <span className="skill-tag">Boto3</span>
-            </div>
-          </motion.div>
-
-          <motion.div className="skill-card" variants={fadeIn}>
-            <div className="skill-icon"><FaTools /></div>
-            <h3>Backend Frameworks</h3>
-            <div className="skill-tags">
-              <span className="skill-tag">FastAPI</span>
-              <span className="skill-tag">NestJS</span>
-              <span className="skill-tag">Express.js</span>
-              <span className="skill-tag">Cobra (Go CLI)</span>
-              <span className="skill-tag">Mangum</span>
-              <span className="skill-tag">React</span>
-              <span className="skill-tag">Next.js</span>
-              <span className="skill-tag">Streamlit</span>
-            </div>
-          </motion.div>
-
-          <motion.div className="skill-card" variants={fadeIn}>
-            <div className="skill-icon"><FaChartLine /></div>
-            <h3>Data Enrichment & APIs</h3>
-            <div className="skill-tags">
-              <span className="skill-tag">Zyte API</span>
-              <span className="skill-tag">BrightData SERP</span>
-              <span className="skill-tag">BuiltWith / Wappalyzer</span>
-              <span className="skill-tag">Apollo.io</span>
-              <span className="skill-tag">ReverseContact</span>
-              <span className="skill-tag">Lusha</span>
-              <span className="skill-tag">Dropcontact</span>
-              <span className="skill-tag">ZeroBounce</span>
-            </div>
-          </motion.div>
-
-          <motion.div className="skill-card" variants={fadeIn}>
-            <div className="skill-icon"><FaShieldAlt /></div>
-            <h3>Scraping & Automation</h3>
-            <div className="skill-tags">
-              <span className="skill-tag">Selenium</span>
-              <span className="skill-tag">Playwright</span>
-              <span className="skill-tag">BeautifulSoup</span>
-              <span className="skill-tag">aiohttp</span>
-              <span className="skill-tag">httpx</span>
-              <span className="skill-tag">Scapy</span>
-              <span className="skill-tag">Bytewax</span>
-              <span className="skill-tag">lxml</span>
-            </div>
-          </motion.div>
-
-          <motion.div className="skill-card" variants={fadeIn}>
-            <div className="skill-icon"><FaCogs /></div>
-            <h3>Analytics & Platforms</h3>
-            <div className="skill-tags">
-              <span className="skill-tag">LookML / Looker</span>
-              <span className="skill-tag">Salesforce (SFDC)</span>
-              <span className="skill-tag">Plotly</span>
-              <span className="skill-tag">Pandas</span>
-              <span className="skill-tag">NumPy</span>
-              <span className="skill-tag">Matplotlib</span>
-              <span className="skill-tag">JWT / OAuth 2.0</span>
-              <span className="skill-tag">AES-256-CBC</span>
-            </div>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* ── Projects Section ── */}
-      <section id="projects">
-        {/* Decorators */}
-        <DotGrid rows={5} cols={5} style={{ top: '6%', left: '2%',   color: 'rgba(139,92,246,0.14)' }} />
-        <Sparkle size={18} style={{ top: '10%', right: '4%',  color: 'rgba(99,102,241,0.35)' }} />
-        <PlusMark size={16} style={{ bottom: '8%', right: '7%', color: 'rgba(245,158,11,0.22)' }} />
-        <Sparkle size={12} style={{ bottom: '12%', left: '6%', color: 'rgba(16,185,129,0.25)' }} />
-
-        <motion.h2 className="section-title" {...fadeIn}>Personal Projects</motion.h2>
-        <motion.div
-          className="projects-grid"
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
-          <motion.div className="project-card" variants={fadeIn}>
-            <div className="project-icon"><SiApachekafka /></div>
-            <h3>Tech Intelligence Pipeline</h3>
-            <p>
-              End-to-end market intelligence pipeline ingesting live crypto/stock data, Reddit posts, and news articles
-              via Kafka producers, transforming with dbt, storing in DuckDB, and exposing sentiment & trend APIs via FastAPI.
-            </p>
-            <div className="project-tech">
-              <span className="tech-tag">Apache Kafka</span>
-              <span className="tech-tag">Apache Airflow</span>
-              <span className="tech-tag">dbt</span>
-              <span className="tech-tag">DuckDB</span>
-              <span className="tech-tag">FastAPI</span>
-              <span className="tech-tag">Python</span>
-            </div>
-            <div className="project-links">
-              <a href="https://github.com/Jeeva-V-2003" target="_blank" rel="noopener noreferrer" className="project-link">
-                <FaGithub /> View Code
-              </a>
-            </div>
-          </motion.div>
-
-          <motion.div className="project-card" variants={fadeIn}>
-            <div className="project-icon"><FaShieldAlt /></div>
-            <h3>Sentinel Shield — Network Privacy Guard</h3>
-            <p>
-              Real-time network intrusion detection system capturing packets with Scapy, processing streams with Bytewax,
-              analyzing traffic with a local AI model (Ollama), storing embeddings in LanceDB, and sending instant alerts.
-            </p>
-            <div className="project-tech">
-              <span className="tech-tag">Python</span>
-              <span className="tech-tag">Scapy</span>
-              <span className="tech-tag">Bytewax</span>
-              <span className="tech-tag">Ollama (LLM)</span>
-              <span className="tech-tag">LanceDB</span>
-              <span className="tech-tag">FastAPI</span>
-            </div>
-            <div className="project-links">
-              <a href="https://github.com/Jeeva-V-2003" target="_blank" rel="noopener noreferrer" className="project-link">
-                <FaGithub /> View Code
-              </a>
-            </div>
-          </motion.div>
-
-          <motion.div className="project-card" variants={fadeIn}>
-            <div className="project-icon"><SiAmazons3 /></div>
-            <h3>Real-Time Stock Market Pipeline</h3>
-            <p>
-              Kafka-based ETL pipeline streaming stock market data from CSV to JSON, storing in AWS S3,
-              cataloging metadata with AWS Glue, and querying market trends via Athena with serverless SQL.
-            </p>
-            <div className="project-tech">
-              <span className="tech-tag">Apache Kafka</span>
-              <span className="tech-tag">AWS S3</span>
-              <span className="tech-tag">AWS Glue</span>
-              <span className="tech-tag">AWS Athena</span>
-              <span className="tech-tag">Python</span>
-            </div>
-            <div className="project-links">
-              <a href="https://github.com/Jeeva-V-2003" target="_blank" rel="noopener noreferrer" className="project-link">
-                <FaGithub /> View Code
-              </a>
-            </div>
-          </motion.div>
-
-          <motion.div className="project-card" variants={fadeIn}>
-            <div className="project-icon"><SiApachespark /></div>
-            <h3>Uber Data Engineering Pipeline</h3>
-            <p>
-              Batch processing pipeline analyzing Uber ride data with Spark, orchestrated by Airflow DAGs,
-              generating insights on peak hours, location heatmaps, and revenue trends in BigQuery.
-            </p>
-            <div className="project-tech">
-              <span className="tech-tag">Apache Spark</span>
-              <span className="tech-tag">Apache Airflow</span>
-              <span className="tech-tag">BigQuery</span>
-              <span className="tech-tag">Python</span>
-              <span className="tech-tag">DAG</span>
-            </div>
-            <div className="project-links">
-              <a href="https://github.com/Jeeva-V-2003" target="_blank" rel="noopener noreferrer" className="project-link">
-                <FaGithub /> View Code
-              </a>
-            </div>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* ── Education Section ── */}
-      <section id="education">
-        {/* Decorators */}
-        <Sparkle size={16} style={{ top: '12%', right: '5%', color: 'rgba(16,185,129,0.25)' }} />
-        <PlusMark size={14} style={{ bottom: '15%', left: '4%', color: 'rgba(99,102,241,0.18)' }} />
-        <DotGrid rows={3} cols={4} style={{ bottom: '8%', right: '4%', color: 'rgba(245,158,11,0.12)' }} />
-
-        <motion.h2 className="section-title" {...fadeIn}>Education</motion.h2>
-        <motion.div
-          className="timeline"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          <div className="timeline-item">
-            <div className="timeline-dot"></div>
-            <div className="timeline-content">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
-                <div>
-                  <h3>MBA in Human Resource Management</h3>
-                  <p className="institution">Bharathidasan University, Tiruchirappalli</p>
-                  <p className="duration">Pursuing</p>
-                </div>
-                <span style={{ fontSize: '0.78rem', color: '#6366f1', fontWeight: '700', background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.25)', padding: '0.3rem 0.8rem', borderRadius: '6px', whiteSpace: 'nowrap' }}>2025 – 2027</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="timeline-item">
-            <div className="timeline-dot"></div>
-            <div className="timeline-content">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
-                <div>
-                  <h3>Bachelor of Computer Applications (BCA)</h3>
-                  <p className="institution">Providence College for Women, Coonoor</p>
-                  <p className="duration">GPA: 8.47 / 10.00</p>
-                </div>
-                <span style={{ fontSize: '0.78rem', color: '#10b981', fontWeight: '700', background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)', padding: '0.3rem 0.8rem', borderRadius: '6px', whiteSpace: 'nowrap' }}>2022 – 2025</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="timeline-item">
-            <div className="timeline-dot"></div>
-            <div className="timeline-content">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
-                <div>
-                  <h3>Diploma in Cyber Security (DCS)</h3>
-                  <p className="institution">Bharathiar University, Coimbatore</p>
-                  <p className="duration">Completed</p>
-                </div>
-                <span style={{ fontSize: '0.78rem', color: '#f59e0b', fontWeight: '700', background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.25)', padding: '0.3rem 0.8rem', borderRadius: '6px', whiteSpace: 'nowrap' }}>2022 – 2025</span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ── Contact Section ── */}
-      <section id="contact">
-        {/* Decorators */}
-        <DashedCircle size={200} style={{ top: '3%', right: '1%', color: 'rgba(16,185,129,0.1)', animation: 'spinRing 36s linear infinite' }} />
-        <Sparkle size={20} style={{ bottom: '18%', left: '4%', color: 'rgba(99,102,241,0.28)' }} />
-        <PlusMark size={16} style={{ top: '15%', left: '6%',   color: 'rgba(245,158,11,0.18)' }} />
-        <DotGrid rows={4} cols={4} style={{ bottom: '10%', right: '5%', color: 'rgba(139,92,246,0.12)' }} />
-
-        <motion.h2 className="section-title" {...fadeIn}>Get In Touch</motion.h2>
-
-        <div className="contact-cta">
-          <h3>Let's build something great together</h3>
-          <p>Open to exciting opportunities, collaborations, or just a good data conversation. Reach out on any channel.</p>
         </div>
-
-        <motion.div
-          className="contact-grid"
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
-          <motion.div className="contact-card" variants={fadeIn}>
-            <div className="contact-icon"><FaEnvelope /></div>
-            <h4>Email</h4>
-            <a href="mailto:jeevavincent.2003@gmail.com">jeevavincent.2003@gmail.com</a>
-          </motion.div>
-
-          <motion.div className="contact-card" variants={fadeIn}>
-            <div className="contact-icon"><FaLinkedin /></div>
-            <h4>LinkedIn</h4>
-            <a href="https://www.linkedin.com/in/jeeva280503/" target="_blank" rel="noopener noreferrer">
-              linkedin.com/in/jeeva280503
-            </a>
-          </motion.div>
-
-          <motion.div className="contact-card" variants={fadeIn}>
-            <div className="contact-icon"><FaGithub /></div>
-            <h4>GitHub</h4>
-            <a href="https://github.com/Jeeva-V-2003" target="_blank" rel="noopener noreferrer">
-              github.com/Jeeva-V-2003
-            </a>
-          </motion.div>
-        </motion.div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="footer">
-        <p>&copy; 2026 Jeeva Vincent &mdash; AI-Native Data Engineer. All rights reserved.</p>
-      </footer>
+      {/* ═══════════════════════════════
+          CONTACT
+      ═══════════════════════════════ */}
+      <section id="contact" className="noise">
+        {/* decorators */}
+        <DashedCircle size={200} style={{ left:'2%', top:'5%', color:'rgba(26,26,26,.06)' }}/>
+        <DashedCircle size={160} style={{ right:'-2%', top:'-3%', color:'rgba(184,169,154,.2)' }}/>
+        <Sparkle4 size={20} style={{ bottom:'20%', left:'18%', color:'rgba(26,26,26,.14)' }}/>
+        <PlusSvg size={14} style={{ top:'18%', right:'8%', color:'rgba(26,26,26,.9)' }} opacity={.13}/>
+        <Sparkle4 size={11} style={{ top:'14%', right:'28%', color:'rgba(26,26,26,.15)' }}/>
+
+        <div className="section-max" style={{ textAlign:'center' }}>
+          <motion.div className="contact-illustration" {...scaleIn} transition={{ duration:.6 }}>
+            <img src={illuCollab} alt="collaboration"/>
+          </motion.div>
+
+          <motion.div {...fadeUp} transition={{ delay:.05 }}>
+            <div className="section-label" style={{ justifyContent:'center' }}><span>✦</span> Contact</div>
+          </motion.div>
+
+          <motion.h2 className="contact-heading" {...fadeUp} transition={{ delay:.1 }}>
+            Let's build something<br/><em>extraordinary.</em>
+          </motion.h2>
+
+          <motion.p className="contact-sub" {...fadeUp} transition={{ delay:.15 }}>
+            If you're working on something interesting in AI, data engineering, or B2B intelligence, let's talk.
+          </motion.p>
+
+          <motion.div className="contact-actions" {...fadeUp} transition={{ delay:.2 }}>
+            <a href="mailto:jeevavincent.2003@gmail.com" className="contact-email-btn">
+              jeevavincent.2003@gmail.com <span>→</span>
+            </a>
+            <a href="/Jeeva_Vincent_Resume.pdf" download className="contact-resume-btn">
+              <FaDownload size={14}/> Download Resume
+            </a>
+          </motion.div>
+
+          <motion.div className="contact-links" {...fadeUp} transition={{ delay:.25 }}>
+            <a href="https://github.com/Jeeva-V-2003" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/jeeva280503/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="mailto:jeevavincent.2003@gmail.com">Email</a>
+          </motion.div>
+
+          <motion.footer className="footer" style={{ marginTop:'3rem', border:'none' }} {...fadeUp} transition={{ delay:.3 }}>
+            © 2026 Jeeva Vincent — AI-Native Data Engineer. Crafted with care.
+          </motion.footer>
+        </div>
+      </section>
     </div>
   );
 }
-
-export default App;
