@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaEnvelope, FaDatabase, FaCloud, FaCode, FaBrain, FaServer, FaChartLine, FaRocket, FaTools, FaDownload, FaShieldAlt, FaCogs } from 'react-icons/fa';
 import { SiApachekafka, SiApachespark, SiApacheairflow, SiSnowflake, SiPostgresql, SiFastapi, SiDbt, SiAmazons3, SiGooglecloud, SiDocker, SiGo, SiPython } from 'react-icons/si';
@@ -18,7 +18,7 @@ const staggerContainer = {
   }
 };
 
-// Typewriter hook
+// ── Typewriter hook ───────────────────────────────────────────────────────
 function useTypewriter(words, typingSpeed = 80, deletingSpeed = 40, pauseTime = 2000) {
   const [displayText, setDisplayText] = useState('');
   const [wordIndex, setWordIndex] = useState(0);
@@ -48,6 +48,123 @@ function useTypewriter(words, typingSpeed = 80, deletingSpeed = 40, pauseTime = 
   return displayText;
 }
 
+// ── Custom Cursor ─────────────────────────────────────────────────────────
+function CustomCursor() {
+  const dot  = useRef(null);
+  const ring = useRef(null);
+  const mouse  = useRef({ x: -200, y: -200 });
+  const smooth = useRef({ x: -200, y: -200 });
+
+  useEffect(() => {
+    const onMove = (e) => {
+      mouse.current = { x: e.clientX, y: e.clientY };
+      if (dot.current) {
+        dot.current.style.transform = `translate(${e.clientX}px,${e.clientY}px)`;
+      }
+    };
+    let raf;
+    const tick = () => {
+      smooth.current.x += (mouse.current.x - smooth.current.x) * 0.1;
+      smooth.current.y += (mouse.current.y - smooth.current.y) * 0.1;
+      if (ring.current) {
+        ring.current.style.transform = `translate(${smooth.current.x}px,${smooth.current.y}px)`;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    const onEnter = () => { if (dot.current) dot.current.style.opacity = '1'; if (ring.current) ring.current.style.opacity = '1'; };
+    const onLeave = () => { if (dot.current) dot.current.style.opacity = '0'; if (ring.current) ring.current.style.opacity = '0'; };
+
+    window.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseenter', onEnter);
+    document.addEventListener('mouseleave', onLeave);
+    raf = requestAnimationFrame(tick);
+
+    // Expand ring on interactive elements
+    const interactives = document.querySelectorAll('a, button, [role="button"]');
+    const grow = () => { if (ring.current) ring.current.classList.add('cursor-ring--hover'); };
+    const shrink = () => { if (ring.current) ring.current.classList.remove('cursor-ring--hover'); };
+    interactives.forEach(el => { el.addEventListener('mouseenter', grow); el.addEventListener('mouseleave', shrink); });
+
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseenter', onEnter);
+      document.removeEventListener('mouseleave', onLeave);
+      cancelAnimationFrame(raf);
+      interactives.forEach(el => { el.removeEventListener('mouseenter', grow); el.removeEventListener('mouseleave', shrink); });
+    };
+  }, []);
+
+  return (
+    <>
+      <div ref={dot}  className="cursor-dot"  />
+      <div ref={ring} className="cursor-ring" />
+    </>
+  );
+}
+
+// ── Scroll Progress Bar ───────────────────────────────────────────────────
+function ScrollProgress() {
+  const [pct, setPct] = useState(0);
+  useEffect(() => {
+    const fn = () => {
+      const tot = document.documentElement.scrollHeight - window.innerHeight;
+      setPct(tot > 0 ? (window.scrollY / tot) * 100 : 0);
+    };
+    window.addEventListener('scroll', fn, { passive: true });
+    return () => window.removeEventListener('scroll', fn);
+  }, []);
+  return <div className="scroll-progress" style={{ width: `${pct}%` }} />;
+}
+
+// ── Decorative SVG helpers ────────────────────────────────────────────────
+const Sparkle = ({ size = 18, style = {} }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
+    style={{ position: 'absolute', width: size, height: size, pointerEvents: 'none', ...style }}>
+    <path d="M12 0l1.8 8.4L22 12l-8.2 3.6L12 24l-1.8-8.4L2 12l8.2-3.6L12 0z"/>
+  </svg>
+);
+
+const PlusMark = ({ size = 14, style = {} }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"
+    style={{ position: 'absolute', width: size, height: size, pointerEvents: 'none', ...style }}>
+    <line x1="12" y1="3" x2="12" y2="21"/>
+    <line x1="3"  y1="12" x2="21" y2="12"/>
+  </svg>
+);
+
+const DotGrid = ({ rows = 5, cols = 5, style = {} }) => {
+  const gap = 14, r = 2, pad = 4;
+  const w = (cols - 1) * gap + pad * 2;
+  const h = (rows - 1) * gap + pad * 2;
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} aria-hidden="true"
+      style={{ position: 'absolute', width: w, height: h, pointerEvents: 'none', ...style }}>
+      {Array.from({ length: rows * cols }).map((_, i) => {
+        const row = Math.floor(i / cols), col = i % cols;
+        return <circle key={i} cx={col * gap + pad} cy={row * gap + pad} r={r} fill="currentColor" opacity={0.35} />;
+      })}
+    </svg>
+  );
+};
+
+const DashedCircle = ({ size = 120, style = {} }) => (
+  <svg viewBox="0 0 120 120" aria-hidden="true"
+    style={{ position: 'absolute', width: size, height: size, pointerEvents: 'none', ...style }}>
+    <circle cx="60" cy="60" r="54" stroke="currentColor" strokeWidth="1.5" strokeDasharray="5 6" fill="none" opacity="0.55"/>
+  </svg>
+);
+
+// ── Marquee items ─────────────────────────────────────────────────────────
+const MARQUEE_ITEMS = [
+  { text: 'AI-NATIVE DATA ENGINEER', color: '#6366f1' },
+  { text: 'OPEN TO WORK',            color: '#10b981' },
+  { text: 'DATA PIPELINE ARCHITECT', color: '#f59e0b' },
+  { text: 'AI SYSTEMS BUILDER',      color: '#8b5cf6' },
+  { text: 'PYTHON  •  GO  •  SQL',   color: '#6366f1' },
+  { text: 'SNOWFLAKE  •  BIGQUERY',  color: '#3b82f6' },
+  { text: 'JEEVA VINCENT',           color: '#f43f5e' },
+];
+
 function App() {
   const typedText = useTypewriter([
     'AI-Native Data Engineer',
@@ -57,14 +174,18 @@ function App() {
 
   return (
     <div className="app">
-      {/* Animated Background */}
+      {/* ── Interactive layer ── */}
+      <CustomCursor />
+      <ScrollProgress />
+
+      {/* ── Animated Background ── */}
       <div className="animated-bg">
         <div className="gradient-orb orb-1"></div>
         <div className="gradient-orb orb-2"></div>
         <div className="gradient-orb orb-3"></div>
       </div>
 
-      {/* Navbar */}
+      {/* ── Navbar ── */}
       <motion.nav
         className="navbar"
         initial={{ y: -100 }}
@@ -89,8 +210,18 @@ function App() {
         </div>
       </motion.nav>
 
-      {/* Hero Section */}
+      {/* ── Hero Section ── */}
       <section id="home" className="hero">
+        {/* Decorative background SVGs */}
+        <DotGrid rows={7} cols={8} style={{ top: '12%', right: '2%',  color: 'rgba(99,102,241,0.18)' }} />
+        <DashedCircle size={220} style={{ bottom: '6%', left: '1.5%', color: 'rgba(16,185,129,0.14)', animation: 'spinRing 32s linear infinite reverse' }} />
+        <Sparkle size={22} style={{ top: '20%', right: '27%', color: 'rgba(245,158,11,0.45)' }} />
+        <Sparkle size={13} style={{ top: '68%', right: '22%', color: 'rgba(99,102,241,0.35)' }} />
+        <Sparkle size={16} style={{ bottom: '18%', left: '38%', color: 'rgba(16,185,129,0.3)' }} />
+        <PlusMark size={18} style={{ top: '28%', left: '2%',   color: 'rgba(255,255,255,0.14)' }} />
+        <PlusMark size={12} style={{ top: '55%', left: '5%',   color: 'rgba(99,102,241,0.2)' }} />
+        <PlusMark size={14} style={{ bottom: '22%', right: '40%', color: 'rgba(16,185,129,0.2)' }} />
+
         <div className="hero-content">
           <motion.div
             className="hero-text"
@@ -128,7 +259,7 @@ function App() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, delay: 0.2 }}
           >
-            {/* Photo */}
+            {/* Photo + rings */}
             <div className="profile-container">
               <div className="profile-ring-outer"></div>
               <div className="profile-ring-inner"></div>
@@ -137,9 +268,18 @@ function App() {
               <div className="profile-img-wrap">
                 <img src={profileImg} alt="Jeeva Vincent" className="profile-img" />
               </div>
+              {/* Rotating "OPEN TO WORK" text ring */}
+              <svg className="profile-rotate-badge" viewBox="0 0 410 410" aria-hidden="true">
+                <defs>
+                  <path id="badgePath" d="M205,205 m-185,0 a185,185 0 1,1 370,0 a185,185 0 1,1 -370,0" />
+                </defs>
+                <text fontSize="10.5" fontWeight="700" letterSpacing="7" fill="rgba(99,102,241,0.55)" fontFamily="Inter,sans-serif">
+                  <textPath href="#badgePath">✦ OPEN TO WORK ✦ AI-NATIVE DE ✦ OPEN TO WORK ✦ AI-NATIVE DE ✦ OPEN TO WORK</textPath>
+                </text>
+              </svg>
             </div>
 
-            {/* Badge column — right side, clear of photo */}
+            {/* Badge column — right side, flex sibling */}
             <div className="badge-column">
               <motion.div className="float-badge badge-side"
                 initial={{ opacity: 0, x: 30 }}
@@ -181,13 +321,29 @@ function App() {
                 </div>
               </motion.div>
             </div>
-
           </motion.div>
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* ── Marquee strip ── */}
+      <div className="marquee-strip" aria-hidden="true">
+        <div className="marquee-inner">
+          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            <span key={i} className="marquee-item">
+              <span className="marquee-star" style={{ color: item.color }}>✦</span>
+              <span className="marquee-text">{item.text}</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Stats Section ── */}
       <section id="stats" style={{ padding: '4rem 5%', background: 'rgba(99,102,241,0.03)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        {/* Decorators */}
+        <Sparkle size={16} style={{ top: '15%', right: '4%',  color: 'rgba(245,158,11,0.35)' }} />
+        <PlusMark size={14} style={{ top: '20%', left: '3%',  color: 'rgba(99,102,241,0.2)' }} />
+        <DotGrid rows={3} cols={4} style={{ bottom: '8%', right: '8%', color: 'rgba(99,102,241,0.12)' }} />
+
         <motion.div
           style={{ width: '100%' }}
           variants={staggerContainer}
@@ -198,12 +354,12 @@ function App() {
           <motion.h2 className="section-title" {...fadeIn}>Impact & Achievements</motion.h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', textAlign: 'center' }}>
             {[
-              { num: '1+', label: 'Year Experience', color: '#6366f1', border: 'rgba(99,102,241,0.2)' },
+              { num: '1+', label: 'Year Experience',    color: '#6366f1', border: 'rgba(99,102,241,0.2)' },
               { num: '50+', label: 'Technologies Used', color: '#f59e0b', border: 'rgba(245,158,11,0.2)' },
-              { num: '20+', label: 'Production Services', color: '#10b981', border: 'rgba(16,185,129,0.2)' },
+              { num: '20+', label: 'Production Services',color: '#10b981', border: 'rgba(16,185,129,0.2)' },
               { num: '4',   label: 'Personal Projects',  color: '#8b5cf6', border: 'rgba(139,92,246,0.2)' },
             ].map((s, i) => (
-              <motion.div key={i} variants={fadeIn} style={{ padding: '2rem', background: 'rgba(255,255,255,0.02)', borderRadius: '14px', border: `1px solid ${s.border}` }}>
+              <motion.div key={i} variants={fadeIn} className="stat-card" style={{ padding: '2rem', background: 'rgba(255,255,255,0.02)', borderRadius: '14px', border: `1px solid ${s.border}` }}>
                 <h3 style={{ fontSize: '2.8rem', fontWeight: '800', color: s.color, letterSpacing: '-0.03em' }}>{s.num}</h3>
                 <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.9rem', marginTop: '0.4rem' }}>{s.label}</p>
               </motion.div>
@@ -212,8 +368,14 @@ function App() {
         </motion.div>
       </section>
 
-      {/* Experience Section */}
+      {/* ── Experience Section ── */}
       <section id="experience" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
+        {/* Decorators */}
+        <DotGrid rows={6} cols={7} style={{ top: '3%', right: '1%',  color: 'rgba(99,102,241,0.1)' }} />
+        <PlusMark size={20} style={{ top: '6%', left: '3%',   color: 'rgba(16,185,129,0.18)' }} />
+        <Sparkle size={14} style={{ bottom: '5%', right: '6%', color: 'rgba(245,158,11,0.25)' }} />
+        <DashedCircle size={160} style={{ bottom: '8%', left: '2%', color: 'rgba(139,92,246,0.1)', animation: 'spinRing 28s linear infinite' }} />
+
         <motion.h2 className="section-title" {...fadeIn}>Work Experience</motion.h2>
         <motion.div
           style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '2.5rem' }}
@@ -225,42 +387,42 @@ function App() {
           {/* Role 1: AI-Native DE */}
           <motion.div
             variants={fadeIn}
+            className="exp-card"
             style={{
-              background: 'linear-gradient(135deg, rgba(0, 245, 255, 0.05), rgba(255, 0, 255, 0.05))',
+              background: 'linear-gradient(135deg, rgba(99,102,241,0.06), rgba(139,92,246,0.04))',
               backdropFilter: 'blur(20px)',
-              border: '2px solid transparent',
-              borderImage: 'linear-gradient(135deg, var(--primary), var(--secondary)) 1',
+              border: '1px solid rgba(99,102,241,0.2)',
               borderRadius: '25px',
               padding: '3rem',
               position: 'relative',
-              overflow: 'hidden'
+              overflow: 'hidden',
             }}
           >
-            <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(0, 245, 255, 0.1), transparent)', borderRadius: '50%', filter: 'blur(40px)' }}></div>
+            <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(99,102,241,0.12), transparent)', borderRadius: '50%', filter: 'blur(40px)' }}></div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
               <div>
-                <h3 style={{ fontSize: '2rem', marginBottom: '0.5rem', background: 'linear-gradient(135deg, #fff, var(--primary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AI-Native Data Engineer</h3>
-                <p style={{ color: 'var(--primary)', fontSize: '1.3rem', fontWeight: '700' }}>iCustomer</p>
+                <h3 style={{ fontSize: '2rem', marginBottom: '0.5rem', background: 'linear-gradient(135deg, #fff, #6366f1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AI-Native Data Engineer</h3>
+                <p style={{ color: '#6366f1', fontSize: '1.3rem', fontWeight: '700' }}>iCustomer</p>
                 <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', marginTop: '0.3rem' }}>B2B Audience Intelligence Platform · Cambridge, MA (Remote)</p>
               </div>
-              <div style={{ background: 'linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(255, 0, 255, 0.2))', padding: '0.8rem 1.5rem', borderRadius: '20px', border: '2px solid var(--primary)', textAlign: 'center' }}>
+              <div style={{ background: 'rgba(99,102,241,0.12)', padding: '0.8rem 1.5rem', borderRadius: '20px', border: '1px solid rgba(99,102,241,0.35)', textAlign: 'center' }}>
                 <p style={{ color: '#fff', fontWeight: '700' }}>Feb 2026 – Present</p>
-                <p style={{ color: 'var(--accent)', fontSize: '0.85rem', marginTop: '0.2rem' }}>Promoted ↑</p>
+                <p style={{ color: '#10b981', fontSize: '0.85rem', marginTop: '0.2rem' }}>Promoted ↑</p>
               </div>
             </div>
             <div style={{ position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.2rem' }}>
               {[
-                { icon: '🔥', color: '#6366f1', bg: 'rgba(99,102,241,0.07)', border: 'rgba(99,102,241,0.25)', title: 'FIRE Scoring Engine', desc: 'Fit, Intent, Recency, Engagement scoring triggered via RabbitMQ, dbt on BigQuery, persisted to PostgreSQL' },
-                { icon: '🤖', color: '#f59e0b', bg: 'rgba(245,158,11,0.07)', border: 'rgba(245,158,11,0.25)', title: 'ICP Scoring Engine', desc: 'Two-agent system (Claude Sonnet + Haiku) parsing PPTX/DOCX/PDF into structured ICP scores 0–100' },
-                { icon: '📊', color: '#10b981', bg: 'rgba(16,185,129,0.07)', border: 'rgba(16,185,129,0.25)', title: 'RFM Segmentation', desc: 'K-Means clustering on 83K+ Shopify orders for Todd Snyder / American Eagle; live FastAPI prediction service' },
-                { icon: '🏗️', color: '#8b5cf6', bg: 'rgba(139,92,246,0.07)', border: 'rgba(139,92,246,0.25)', title: 'Provider Orchestrator', desc: 'Intelligent enrichment routing with cascading fallback across ReverseContact & Pubrio — zero-downtime swaps' },
-                { icon: '❄️', color: '#3b82f6', bg: 'rgba(59,130,246,0.07)', border: 'rgba(59,130,246,0.25)', title: 'Snowflake Native App', desc: 'iCustomer CDO — Streamlit UI + Snowpark Python ETL for deterministic identity resolution inside Snowflake' },
-                { icon: '🦫', color: '#f43f5e', bg: 'rgba(244,63,94,0.07)', border: 'rgba(244,63,94,0.25)', title: 'OneSource Go API', desc: 'chi HTTP router, multi-provider waterfall enrichment, 20+ CLI commands — Apollo, PDL, ReverseContact, TrestleIQ' },
-                { icon: '🔍', color: '#10b981', bg: 'rgba(16,185,129,0.07)', border: 'rgba(16,185,129,0.25)', title: 'Lookalike Engine', desc: 'Ultra-fast lookalike company discovery across 18M+ companies — 580-dim vectors, XGBoost re-ranking, Qdrant vector DB, sub-second response times with MMR diversity filtering' },
-                { icon: '📈', color: '#6366f1', bg: 'rgba(99,102,241,0.07)', border: 'rgba(99,102,241,0.25)', title: 'LookML Analytics Suite', desc: 'Authored 20+ LookML views on Looker for Todd Snyder / AEO — cohort retention heatmaps, LTV over time, RFM cluster summaries, fiscal calendar, channel attribution' },
-                { icon: '🧠', color: '#f59e0b', bg: 'rgba(245,158,11,0.07)', border: 'rgba(245,158,11,0.25)', title: 'Unified Enrichment Agent', desc: 'Production FastAPI service — parallel enrichment of 50 rows simultaneously with SSE streaming, AWS ECS/Fargate deployment, CloudWatch logging, and AI-powered column extraction' },
+                { icon: '🔥', color: '#6366f1', bg: 'rgba(99,102,241,0.07)',  border: 'rgba(99,102,241,0.25)',  title: 'FIRE Scoring Engine',       desc: 'Fit, Intent, Recency, Engagement scoring triggered via RabbitMQ, dbt on BigQuery, persisted to PostgreSQL' },
+                { icon: '🤖', color: '#f59e0b', bg: 'rgba(245,158,11,0.07)',  border: 'rgba(245,158,11,0.25)',  title: 'ICP Scoring Engine',        desc: 'Two-agent system (Claude Sonnet + Haiku) parsing PPTX/DOCX/PDF into structured ICP scores 0–100' },
+                { icon: '📊', color: '#10b981', bg: 'rgba(16,185,129,0.07)',  border: 'rgba(16,185,129,0.25)',  title: 'RFM Segmentation',          desc: 'K-Means clustering on 83K+ Shopify orders for Todd Snyder / American Eagle; live FastAPI prediction service' },
+                { icon: '🏗️', color: '#8b5cf6', bg: 'rgba(139,92,246,0.07)', border: 'rgba(139,92,246,0.25)', title: 'Provider Orchestrator',      desc: 'Intelligent enrichment routing with cascading fallback across ReverseContact & Pubrio — zero-downtime swaps' },
+                { icon: '❄️', color: '#3b82f6', bg: 'rgba(59,130,246,0.07)',  border: 'rgba(59,130,246,0.25)',  title: 'Snowflake Native App',       desc: 'iCustomer CDO — Streamlit UI + Snowpark Python ETL for deterministic identity resolution inside Snowflake' },
+                { icon: '🦫', color: '#f43f5e', bg: 'rgba(244,63,94,0.07)',   border: 'rgba(244,63,94,0.25)',   title: 'OneSource Go API',           desc: 'chi HTTP router, multi-provider waterfall enrichment, 20+ CLI commands — Apollo, PDL, ReverseContact, TrestleIQ' },
+                { icon: '🔍', color: '#10b981', bg: 'rgba(16,185,129,0.07)',  border: 'rgba(16,185,129,0.25)',  title: 'Lookalike Engine',           desc: 'Ultra-fast lookalike company discovery across 18M+ companies — 580-dim vectors, XGBoost re-ranking, Qdrant vector DB, sub-second response times with MMR diversity filtering' },
+                { icon: '📈', color: '#6366f1', bg: 'rgba(99,102,241,0.07)',  border: 'rgba(99,102,241,0.25)',  title: 'LookML Analytics Suite',     desc: 'Authored 20+ LookML views on Looker for Todd Snyder / AEO — cohort retention heatmaps, LTV over time, RFM cluster summaries, fiscal calendar, channel attribution' },
+                { icon: '🧠', color: '#f59e0b', bg: 'rgba(245,158,11,0.07)',  border: 'rgba(245,158,11,0.25)',  title: 'Unified Enrichment Agent',   desc: 'Production FastAPI service — parallel enrichment of 50 rows simultaneously with SSE streaming, AWS ECS/Fargate deployment, CloudWatch logging, and AI-powered column extraction' },
               ].map((item, i) => (
-                <div key={i} style={{ background: item.bg, padding: '1.2rem', borderRadius: '12px', border: `1px solid ${item.border}` }}>
+                <div key={i} className="exp-subcard" style={{ background: item.bg, padding: '1.2rem', borderRadius: '12px', border: `1px solid ${item.border}` }}>
                   <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>{item.icon}</div>
                   <h4 style={{ color: item.color, marginBottom: '0.4rem', fontSize: '1rem' }}>{item.title}</h4>
                   <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.88rem', lineHeight: '1.5' }}>{item.desc}</p>
@@ -272,39 +434,40 @@ function App() {
           {/* Role 2: Junior DE */}
           <motion.div
             variants={fadeIn}
+            className="exp-card"
             style={{
-              background: 'linear-gradient(135deg, rgba(0,255,136,0.04), rgba(0,245,255,0.04))',
+              background: 'linear-gradient(135deg, rgba(16,185,129,0.05), rgba(59,130,246,0.03))',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(0,255,136,0.3)',
+              border: '1px solid rgba(16,185,129,0.2)',
               borderRadius: '25px',
               padding: '3rem',
               position: 'relative',
-              overflow: 'hidden'
+              overflow: 'hidden',
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1.5rem' }}>
               <div>
-                <h3 style={{ fontSize: '2rem', marginBottom: '0.5rem', background: 'linear-gradient(135deg, #fff, var(--accent))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Junior Data Engineer</h3>
-                <p style={{ color: 'var(--accent)', fontSize: '1.3rem', fontWeight: '700' }}>iCustomer</p>
+                <h3 style={{ fontSize: '2rem', marginBottom: '0.5rem', background: 'linear-gradient(135deg, #fff, #10b981)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Junior Data Engineer</h3>
+                <p style={{ color: '#10b981', fontSize: '1.3rem', fontWeight: '700' }}>iCustomer</p>
                 <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', marginTop: '0.3rem' }}>Founding DE — Sole contributor building production microservices</p>
               </div>
-              <div style={{ background: 'rgba(0,255,136,0.1)', padding: '0.8rem 1.5rem', borderRadius: '20px', border: '2px solid var(--accent)', textAlign: 'center' }}>
+              <div style={{ background: 'rgba(16,185,129,0.1)', padding: '0.8rem 1.5rem', borderRadius: '20px', border: '1px solid rgba(16,185,129,0.35)', textAlign: 'center' }}>
                 <p style={{ color: '#fff', fontWeight: '700' }}>Jun 2025 – Jan 2026</p>
-                <p style={{ color: 'var(--accent)', fontSize: '0.85rem', marginTop: '0.2rem' }}>1+ Year</p>
+                <p style={{ color: '#10b981', fontSize: '0.85rem', marginTop: '0.2rem' }}>1+ Year</p>
               </div>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.2rem' }}>
               {[
-                { icon: '⚡', title: 'B2B Realtime Signal Tracker', desc: 'Async FastAPI + aiohttp scraping company websites for tech stacks, social handles & job signals in real time' },
-                { icon: '☁️', title: 'AWS Lambda Tag Identification', desc: 'Detects 1,000+ app fingerprints, extracts social handles & job signals from live websites' },
-                { icon: '🔐', title: 'Contact Discovery API', desc: 'PostgreSQL + BigQuery queries with AES-256-CBC decryption returning enriched contact profiles' },
-                { icon: '📡', title: 'RB2B Webhook Receiver', desc: 'Real-time anonymous B2B visitor de-anonymization inserting into per-tenant BigQuery tables' },
-                { icon: '🎯', title: 'DJ Graffiti — Event Discovery', desc: 'Automated weekly pipeline scraping 1,000s of company sites, classifying events (conferences, webinars, summits) via LLM, delivering structured records to BigQuery every Monday' },
-                { icon: '🔍', title: 'SEO Keywords Finder', desc: 'Async FastAPI on AWS Lambda — scrapes website meta content and generates B2B enrichment keywords & company specialities using OpenAI GPT' },
+                { icon: '⚡', title: 'B2B Realtime Signal Tracker',    desc: 'Async FastAPI + aiohttp scraping company websites for tech stacks, social handles & job signals in real time' },
+                { icon: '☁️', title: 'AWS Lambda Tag Identification',   desc: 'Detects 1,000+ app fingerprints, extracts social handles & job signals from live websites' },
+                { icon: '🔐', title: 'Contact Discovery API',           desc: 'PostgreSQL + BigQuery queries with AES-256-CBC decryption returning enriched contact profiles' },
+                { icon: '📡', title: 'RB2B Webhook Receiver',           desc: 'Real-time anonymous B2B visitor de-anonymization inserting into per-tenant BigQuery tables' },
+                { icon: '🎯', title: 'DJ Graffiti — Event Discovery',   desc: 'Automated weekly pipeline scraping 1,000s of company sites, classifying events (conferences, webinars, summits) via LLM, delivering structured records to BigQuery every Monday' },
+                { icon: '🔍', title: 'SEO Keywords Finder',             desc: 'Async FastAPI on AWS Lambda — scrapes website meta content and generates B2B enrichment keywords & company specialities using OpenAI GPT' },
               ].map((item, i) => (
-                <div key={i} style={{ background: 'rgba(0,255,136,0.04)', padding: '1.2rem', borderRadius: '12px', border: '1px solid rgba(0,255,136,0.15)' }}>
+                <div key={i} className="exp-subcard" style={{ background: 'rgba(16,185,129,0.05)', padding: '1.2rem', borderRadius: '12px', border: '1px solid rgba(16,185,129,0.18)' }}>
                   <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>{item.icon}</div>
-                  <h4 style={{ color: 'var(--accent)', marginBottom: '0.4rem', fontSize: '1rem' }}>{item.title}</h4>
+                  <h4 style={{ color: '#10b981', marginBottom: '0.4rem', fontSize: '1rem' }}>{item.title}</h4>
                   <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.88rem', lineHeight: '1.5' }}>{item.desc}</p>
                 </div>
               ))}
@@ -313,8 +476,15 @@ function App() {
         </motion.div>
       </section>
 
-      {/* Skills Section */}
+      {/* ── Skills Section ── */}
       <section id="skills">
+        {/* Decorators */}
+        <Sparkle size={24} style={{ top: '8%', right: '3%',  color: 'rgba(245,158,11,0.3)' }} />
+        <Sparkle size={14} style={{ top: '50%', left: '1%', color: 'rgba(99,102,241,0.25)' }} />
+        <DashedCircle size={160} style={{ bottom: '4%', left: '2%', color: 'rgba(139,92,246,0.12)', animation: 'spinRing 26s linear infinite' }} />
+        <DotGrid rows={4} cols={5} style={{ top: '5%', left: '2%', color: 'rgba(16,185,129,0.12)' }} />
+        <PlusMark size={16} style={{ bottom: '15%', right: '5%', color: 'rgba(245,158,11,0.2)' }} />
+
         <motion.h2 className="section-title" {...fadeIn}>Technical Expertise</motion.h2>
         <motion.div
           className="skills-grid"
@@ -464,8 +634,14 @@ function App() {
         </motion.div>
       </section>
 
-      {/* Projects Section */}
+      {/* ── Projects Section ── */}
       <section id="projects">
+        {/* Decorators */}
+        <DotGrid rows={5} cols={5} style={{ top: '6%', left: '2%',   color: 'rgba(139,92,246,0.14)' }} />
+        <Sparkle size={18} style={{ top: '10%', right: '4%',  color: 'rgba(99,102,241,0.35)' }} />
+        <PlusMark size={16} style={{ bottom: '8%', right: '7%', color: 'rgba(245,158,11,0.22)' }} />
+        <Sparkle size={12} style={{ bottom: '12%', left: '6%', color: 'rgba(16,185,129,0.25)' }} />
+
         <motion.h2 className="section-title" {...fadeIn}>Personal Projects</motion.h2>
         <motion.div
           className="projects-grid"
@@ -562,8 +738,13 @@ function App() {
         </motion.div>
       </section>
 
-      {/* Education Section */}
+      {/* ── Education Section ── */}
       <section id="education">
+        {/* Decorators */}
+        <Sparkle size={16} style={{ top: '12%', right: '5%', color: 'rgba(16,185,129,0.25)' }} />
+        <PlusMark size={14} style={{ bottom: '15%', left: '4%', color: 'rgba(99,102,241,0.18)' }} />
+        <DotGrid rows={3} cols={4} style={{ bottom: '8%', right: '4%', color: 'rgba(245,158,11,0.12)' }} />
+
         <motion.h2 className="section-title" {...fadeIn}>Education</motion.h2>
         <motion.div
           className="timeline"
@@ -615,8 +796,14 @@ function App() {
         </motion.div>
       </section>
 
-      {/* Contact Section */}
+      {/* ── Contact Section ── */}
       <section id="contact">
+        {/* Decorators */}
+        <DashedCircle size={200} style={{ top: '3%', right: '1%', color: 'rgba(16,185,129,0.1)', animation: 'spinRing 36s linear infinite' }} />
+        <Sparkle size={20} style={{ bottom: '18%', left: '4%', color: 'rgba(99,102,241,0.28)' }} />
+        <PlusMark size={16} style={{ top: '15%', left: '6%',   color: 'rgba(245,158,11,0.18)' }} />
+        <DotGrid rows={4} cols={4} style={{ bottom: '10%', right: '5%', color: 'rgba(139,92,246,0.12)' }} />
+
         <motion.h2 className="section-title" {...fadeIn}>Get In Touch</motion.h2>
 
         <div className="contact-cta">
@@ -655,7 +842,7 @@ function App() {
         </motion.div>
       </section>
 
-      {/* Footer */}
+      {/* ── Footer ── */}
       <footer className="footer">
         <p>&copy; 2026 Jeeva Vincent &mdash; AI-Native Data Engineer. All rights reserved.</p>
       </footer>
