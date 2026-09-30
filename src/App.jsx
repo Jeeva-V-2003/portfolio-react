@@ -100,7 +100,7 @@ const DashCircle = ({ size=140, style={} }) => (
 
 /* ── marquee ───────────────────────────────── */
 const MARQUEE = [
-  { text:'AI-NATIVE DATA ENGINEER', c:'#6366f1' },
+  { text:'FULL STACK AI ENGINEER',  c:'#6366f1' },
   { text:'OPEN TO WORK',            c:'#059669' },
   { text:'DATA PIPELINE ARCHITECT', c:'#8b7d6e' },
   { text:'AI SYSTEMS BUILDER',      c:'#7c3aed' },
@@ -180,7 +180,7 @@ export default function App() {
             <motion.div {...up} transition={{ duration:.6, delay:.1 }}>
               <p className="hero-name">I am Jeeva Vincent,</p>
               <div className="hero-title-wrap">
-                <p className="hero-title">AI-Native Data Engineer</p>
+                <p className="hero-title">Full Stack AI Engineer</p>
                 <svg className="hero-wavy" viewBox="0 0 320 16" preserveAspectRatio="none"
                   fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
                   <path d="M4 10 C 60 2, 130 16, 200 7 S 300 2, 316 9"/>
@@ -190,10 +190,10 @@ export default function App() {
             </motion.div>
 
             <motion.p className="hero-desc" {...up} transition={{ duration:.6, delay:.18 }}>
-              AI-Native Data Engineer at iCustomer — promoted from Junior DE to leading
-              AI-powered scoring engines, agentic enrichment pipelines, and ML-driven
-              segmentation systems on GCP & AWS. Building production-grade systems that
-              translate complex B2B data challenges into real outcomes.
+              Full Stack AI Engineer at iCustomer — promoted twice, from Junior DE to
+              AI-Native DE to Full Stack AI. Building agentic systems, data pipelines,
+              and full-stack platforms on GCP & AWS that translate complex B2B data
+              challenges into real outcomes.
             </motion.p>
 
             <motion.div className="hero-tags" {...up} transition={{ duration:.6, delay:.26 }}>
@@ -310,8 +310,8 @@ export default function App() {
               <motion.div className="about-highlight-card" {...up} transition={{ delay:.2 }}>
                 <h4>Currently at iCustomer</h4>
                 <p>
-                  B2B Audience Intelligence Platform — Cambridge, MA (Remote). Promoted Feb 2026.
-                  Leading AI-powered scoring, segmentation, and enrichment infrastructure.
+                  B2B Audience Intelligence Platform — Cambridge, MA (Hybrid). Promoted to Full Stack AI Engineer Jul 2026.
+                  Leading the iConnector platform and full-stack AI features across pipelines, dashboards, and agents.
                 </p>
               </motion.div>
 
@@ -372,10 +372,41 @@ export default function App() {
 
           {/* ── timeline ── */}
           <div className="timeline-wrap">
-            {/* AI-Native DE */}
+            {/* Full Stack AI */}
             <motion.div className="timeline-entry" {...up} transition={{ delay:.05 }}>
               <div style={{ textAlign:'right', paddingTop:'.3rem' }} className="tl-left">
-                <span className="tl-date">Feb 2026 – Present</span>
+                <span className="tl-date">Jul 2026 – Present</span>
+              </div>
+              <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
+                <div className="tl-dot"/>
+              </div>
+              <div>
+                <div className="exp-card">
+                  <h3>Full Stack AI Engineer — iCustomer</h3>
+                  <p className="company">Promoted ↑ · Cambridge, MA (Hybrid)</p>
+                  <p className="desc">Owning full-stack AI features end to end — Python/FastAPI pipeline backends, React/Next.js dashboards, and AI agent integrations.</p>
+                  <div className="exp-sub-grid">
+                    {[
+                      { i:'🔌', t:'iConnector Platform',      d:'Universal sync & activation — PyPI + npm, 43 connectors via Airbyte CDK' },
+                      { i:'🤖', t:'Agentic AI Systems',       d:'Claude & GPT-4 agents for B2B data processing, scoring, enrichment' },
+                      { i:'🖥️', t:'Full-Stack Features',      d:'FastAPI backends to React / Next.js dashboards' },
+                      { i:'☁️', t:'Multi-Tenant SaaS Infra',  d:'Cloud Run, BigQuery, PostgreSQL, Redis, BullMQ job queues' },
+                    ].map((s,i)=>(
+                      <div key={i} className="exp-sub-card">
+                        <div className="sub-icon">{s.i}</div>
+                        <h5>{s.t}</h5>
+                        <p>{s.d}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* AI-Native DE */}
+            <motion.div className="timeline-entry" {...up} transition={{ delay:.08 }}>
+              <div style={{ textAlign:'right', paddingTop:'.3rem' }} className="tl-left">
+                <span className="tl-date">Feb 2026 – Jun 2026</span>
               </div>
               <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
                 <div className="tl-dot"/>
@@ -383,7 +414,7 @@ export default function App() {
               <div>
                 <div className="exp-card">
                   <h3>AI-Native Data Engineer — iCustomer</h3>
-                  <p className="company">Promoted ↑ · Cambridge, MA (Remote)</p>
+                  <p className="company">Promoted ↑ · Cambridge, MA (Hybrid)</p>
                   <p className="desc">Leading AI-powered scoring engines, agentic enrichment pipelines, and ML-driven segmentation systems on GCP & AWS.</p>
                   <div className="exp-sub-grid">
                     {[
@@ -626,7 +657,7 @@ export default function App() {
           </motion.div>
 
           <motion.footer className="footer" style={{ marginTop:'3rem', border:'none' }} {...up} transition={{ delay:.34 }}>
-            © 2026 Jeeva Vincent — AI-Native Data Engineer. Crafted with care.
+            © 2026 Jeeva Vincent — Full Stack AI Engineer. Crafted with care.
           </motion.footer>
         </div>
       </section>
