@@ -100,7 +100,7 @@ const DashCircle = ({ size=140, style={} }) => (
 
 /* ── marquee ───────────────────────────────── */
 const MARQUEE = [
-  { text:'FULL STACK AI ENGINEER',  c:'#6366f1' },
+  { text:'AI-NATIVE DATA ENGINEER', c:'#6366f1' },
   { text:'OPEN TO WORK',            c:'#059669' },
   { text:'DATA PIPELINE ARCHITECT', c:'#8b7d6e' },
   { text:'AI SYSTEMS BUILDER',      c:'#7c3aed' },
@@ -180,7 +180,7 @@ export default function App() {
             <motion.div {...up} transition={{ duration:.6, delay:.1 }}>
               <p className="hero-name">I am Jeeva Vincent,</p>
               <div className="hero-title-wrap">
-                <p className="hero-title">Full Stack AI Engineer</p>
+                <p className="hero-title">AI-Native Data Engineer</p>
                 <svg className="hero-wavy" viewBox="0 0 320 16" preserveAspectRatio="none"
                   fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
                   <path d="M4 10 C 60 2, 130 16, 200 7 S 300 2, 316 9"/>
@@ -190,10 +190,10 @@ export default function App() {
             </motion.div>
 
             <motion.p className="hero-desc" {...up} transition={{ duration:.6, delay:.18 }}>
-              Full Stack AI Engineer at iCustomer — promoted twice, from Junior DE to
-              AI-Native DE to Full Stack AI. Building agentic systems, data pipelines,
-              and full-stack platforms on GCP & AWS that translate complex B2B data
-              challenges into real outcomes.
+              AI-Native Data Engineer at iCustomer — promoted twice from Junior DE, now
+              owning AI systems end to end: agentic enrichment, scoring engines, and
+              ML-driven segmentation on GCP & AWS. Building production-grade systems that
+              translate complex B2B data challenges into real outcomes.
             </motion.p>
 
             <motion.div className="hero-tags" {...up} transition={{ duration:.6, delay:.26 }}>
@@ -310,8 +310,8 @@ export default function App() {
               <motion.div className="about-highlight-card" {...up} transition={{ delay:.2 }}>
                 <h4>Currently at iCustomer</h4>
                 <p>
-                  B2B Audience Intelligence Platform — Cambridge, MA (Hybrid). Promoted to Full Stack AI Engineer Jul 2026.
-                  Leading the iConnector platform and full-stack AI features across pipelines, dashboards, and agents.
+                  B2B Audience Intelligence Platform — Cambridge, MA (Hybrid). Promoted twice — Full Stack AI Engineer since Jul 2026.
+                  Owning AI systems end to end: the iConnector platform, agentic scoring, and enrichment infrastructure.
                 </p>
               </motion.div>
 
@@ -373,7 +373,7 @@ export default function App() {
           {/* ── timeline ── */}
           <div className="timeline-wrap">
             {/* Full Stack AI */}
-            <motion.div className="timeline-entry" {...up} transition={{ delay:.05 }}>
+            <motion.div className="timeline-entry exp-current" {...up} transition={{ delay:.05 }}>
               <div style={{ textAlign:'right', paddingTop:'.3rem' }} className="tl-left">
                 <span className="tl-date">Jul 2026 – Present</span>
               </div>
@@ -382,20 +382,37 @@ export default function App() {
               </div>
               <div>
                 <div className="exp-card">
+                  <span className="current-badge"><span className="live-dot"/>Current role</span>
                   <h3>Full Stack AI Engineer — iCustomer</h3>
                   <p className="company">Promoted ↑ · Cambridge, MA (Hybrid)</p>
-                  <p className="desc">Owning full-stack AI features end to end — Python/FastAPI pipeline backends, React/Next.js dashboards, and AI agent integrations.</p>
-                  <div className="exp-sub-grid">
+                  <p className="desc">Owning AI systems end to end — from data ingestion and LLM agents to scoring, enrichment, and production rollout across the iCustomer platform.</p>
+
+                  <div className="current-stats">
                     {[
-                      { i:'🔌', t:'iConnector Platform',      d:'Universal sync & activation — PyPI + npm, 43 connectors via Airbyte CDK' },
-                      { i:'🤖', t:'Agentic AI Systems',       d:'Claude & GPT-4 agents for B2B data processing, scoring, enrichment' },
-                      { i:'🖥️', t:'Full-Stack Features',      d:'FastAPI backends to React / Next.js dashboards' },
-                      { i:'☁️', t:'Multi-Tenant SaaS Infra',  d:'Cloud Run, BigQuery, PostgreSQL, Redis, BullMQ job queues' },
+                      { n:'43',        l:'Data connectors' },
+                      { n:'Claude + GPT-4', l:'Agentic stack' },
+                      { n:'GCP + AWS', l:'Multi-tenant infra' },
                     ].map((s,i)=>(
-                      <div key={i} className="exp-sub-card">
-                        <div className="sub-icon">{s.i}</div>
-                        <h5>{s.t}</h5>
-                        <p>{s.d}</p>
+                      <div key={i} className="current-stat">
+                        <span className="cs-num">{s.n}</span>
+                        <span className="cs-label">{s.l}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="current-grid">
+                    {[
+                      { i:'🔌', c:'indigo',  t:'iConnector Platform',        d:'Universal data sync & activation — 43 connectors incl. HubSpot, Salesforce, Klaviyo, LinkedIn & Meta Ads on the Airbyte CDK, shipped as PyPI + npm packages.' },
+                      { i:'🤖', c:'violet',  t:'Agentic AI Systems',         d:'Designing and deploying Claude & GPT-4 agents for intelligent B2B data processing, scoring, and enrichment at scale.' },
+                      { i:'🧠', c:'amber',   t:'End-to-End AI Ownership',    d:'Taking AI capabilities from raw data and model design through APIs and agent integrations to production.' },
+                      { i:'☁️', c:'emerald', t:'AI Data Infrastructure',     d:'Multi-tenant SaaS data layer on GCP & AWS — Cloud Run, BigQuery, PostgreSQL, Redis, and job queues.' },
+                    ].map((s,i)=>(
+                      <div key={i} className={`current-item ci-${s.c}`}>
+                        <div className="ci-icon">{s.i}</div>
+                        <div>
+                          <h5>{s.t}</h5>
+                          <p>{s.d}</p>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -657,7 +674,7 @@ export default function App() {
           </motion.div>
 
           <motion.footer className="footer" style={{ marginTop:'3rem', border:'none' }} {...up} transition={{ delay:.34 }}>
-            © 2026 Jeeva Vincent — Full Stack AI Engineer. Crafted with care.
+            © 2026 Jeeva Vincent — AI-Native Data Engineer. Crafted with care.
           </motion.footer>
         </div>
       </section>
